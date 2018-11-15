@@ -1,0 +1,21 @@
+<!--pages/login1/login1.wxml-->
+<view class="container">
+  <view class="big-img-container">
+    <image class="big-img" src="/imgs/login1.png" mode = "aspectFit"></image>
+  </view>
+
+  <view class="login">
+    <button class = "login-button-1"   hover-class="select1" bindtap='userPwdLogin'>
+      <view class = "small-img-container">
+        <image class = "small-img-1"  src="/imgs/login2.png" mode='aspectFit'></image>
+      </view>
+      <text class = "login-text">手机快捷登录</text>
+    </button>
+    <button class = "login-button-2"  hover-class="select2" bindtap = "wxLogin">
+      <view class = "small-img-container">
+        <image class = "small-img-2" src="/imgs/login3.png" mode="aspectFit"></image>
+      </view>
+      <text class = "login-text">微信授权登录</text>
+    </button>
+  </view>
+</view>

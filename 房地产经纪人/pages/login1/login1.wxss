@@ -1,0 +1,73 @@
+/* 总框架 */
+.container{
+  margin: 0rpx;
+  padding: 0rpx;
+}
+
+.big-img-container{
+  width:100%;
+  text-align: center;
+  margin-top:150rpx;
+}
+
+.big-img{
+  width: 500rpx;
+}
+
+.login{
+  text-align: center;
+}
+
+.login-button-1{
+  width:500rpx;
+  height:90rpx;
+  margin-top:50rpx;
+  border-radius: 45rpx;
+  color:white;
+  background: #388ff8;
+}
+
+.login-button-2{
+  width:500rpx;
+  height:90rpx;
+  margin-top:50rpx;
+  border-radius: 45rpx;
+  color:white;
+   background: #00ca0e;
+}
+
+.small-img-container{
+  margin-left:38rpx;
+  display: float;
+  float:left;
+  width:100rpx;
+  height:90rpx;
+  vertical-align: middle;
+}
+
+.small-img-1{
+  width:40rpx;
+  height:40rpx;
+  margin-top:25rpx;
+}
+
+.small-img-2{
+  width:40rpx;
+  height:40rpx;
+  margin-top:25rpx;
+}
+
+.login-text{
+  display: float;
+  float:left;
+  font-size:35rpx;
+  letter-spacing:7rpx;
+}
+
+.select1{
+  background: rgb(5, 144, 243);
+}
+
+.select2{
+  background: #004405;
+}
