@@ -71,7 +71,6 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, self){
 
   circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
   myFavorite = midShiti.favorite;
-  console.log(sliderShitiArray)
 
   if (px != 1 && px != shitiArray.length) {//如果不是第一题也不是最后一题
     sliderShitiArray[0] = midShiti;
@@ -89,8 +88,6 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, self){
       myCurrent: 1
     })
   }
-
-  console.log(sliderShitiArray)
 
   self.setData({
     z_id: options.z_id, //点击组件的id编号
@@ -217,8 +214,6 @@ function wrongOnload(options, px, circular, myFavorite, res, username, acode, re
   let shitiArray = res.data.shiti;
   let all_nums = res.data.all_nums;
   let pageall = res.data.pageall;
-
-  console.log(shitiArray)
 
   common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
 

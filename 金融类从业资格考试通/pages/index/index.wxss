@@ -7,7 +7,7 @@
   text-align: right;
   padding-right: 20rpx;
   border-bottom: 1px #cecece solid;
-  box-shadow: rgb(211, 206, 206) 3rpx 3rpx 8rpx 1rpx ;
+  box-shadow: rgb(211, 206, 206) 3rpx 3rpx 8rpx 1rpx;
 }
 
 .mulu {
@@ -17,13 +17,13 @@
   letter-spacing: 6rpx;
 }
 
-.dingwei{
+.dingwei {
   display: float;
-  float:left;
-  width:50rpx;
-  height:50rpx;
-  margin-top:20rpx;
-  margin-left:40rpx;
+  float: left;
+  width: 50rpx;
+  height: 50rpx;
+  margin-top: 20rpx;
+  margin-left: 40rpx;
 }
 
 .index-top {
@@ -61,6 +61,46 @@
   float: right;
   width: 42%;
   height: 450rpx;
+  text-align: center;
+}
+
+.wave{
+  position: absolute;
+  top:172rpx;
+  left:250rpx;
+  width: 250rpx;
+  height: 250rpx;
+  border-radius: 250rpx;
+  background: linear-gradient(to right, #ea2f22, #fb6a16);
+  color: white;
+  z-index: -1;
+  text-align:center;
+  animation: scaleout 1.3s infinite ease-in-out;
+}
+
+.center-block {
+  width: 250rpx;
+  height: 250rpx;
+  border-radius: 250rpx;
+  background: linear-gradient(to right, #ea2f22, #fb6a16);
+  margin: 80rpx auto;
+  color: white;
+}
+
+.center-text {
+  display: float;
+  float: left;
+  width: 100%;
+}
+
+@keyframes scaleout {
+  0% {
+    transform: scale(1.0);
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
 }
 
 .t_text {
@@ -112,34 +152,32 @@
   margin-top: 670rpx;
 }
 
-
 .block {
   width: 100%;
-  font-size:30rpx;
-  height:80rpx;
+  font-size: 30rpx;
+  height: 80rpx;
   line-height: 80rpx;
 }
 
-.zhang-icon,.title,.answer_number{
+.zhang-icon, .title, .answer_number {
   display: float;
-  float:left;
+  float: left;
 }
 
-.answer_number{
-  float:right;
+.answer_number {
+  float: right;
 }
-
 
 .zhang-icon {
   width: 40rpx;
   height: 40rpx;
-  margin-top:20rpx;
-  margin-left:20rpx;
+  margin-top: 20rpx;
+  margin-left: 20rpx;
 }
 
-.title{
-  margin-left:25rpx;
-  width:530rpx;
+.title {
+  margin-left: 25rpx;
+  width: 530rpx;
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -148,7 +186,7 @@
 .answer_number {
   width: 110rpx;
   font-size: 25rpx;
-  margin-right:20rpx;
+  margin-right: 20rpx;
   text-align: right;
 }
 
@@ -159,13 +197,12 @@
   clear: both;
 }
 
-
 .jie_block {
   width: 100%;
-  height:70rpx;
+  height: 70rpx;
   line-height: 70rpx;
-  font-size:30rpx;
-  color:rgb(73, 73, 73);
+  font-size: 30rpx;
+  color: rgb(73, 73, 73);
 }
 
 .jie_title {
@@ -180,9 +217,7 @@
 }
 
 .select {
-  background-color:	rgb(226, 226, 226);
+  background-color: rgb(226, 226, 226);
 }
-
-
 
 /********************章节后面的数字统计*******************/

@@ -24,7 +24,7 @@
   margin-top:50rpx;
   border-radius: 45rpx;
   color:white;
-  background: #eb864c;
+  background: #fea918;
 }
 
 .login-button-2{
@@ -33,7 +33,7 @@
   margin-top:50rpx;
   border-radius: 45rpx;
   color:white;
-   background: #ecbd22;
+   background: #01ca0e;
 }
 
 .small-img-container{

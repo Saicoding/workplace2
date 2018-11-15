@@ -37,7 +37,7 @@ Page({
         'angle': 0,
         'isFold': true,
         'height':380,
-        'src': '/imgs/blue-rate.png',
+        'src': '/imgs/orange-rate.png',
         'jie': [{
             'title': '房地产交易制度政策',
             'kmid': 257
@@ -62,7 +62,7 @@ Page({
         'height': 200,
         'isFold': true,
         'angle': 0,
-        'src': '/imgs/orange-rate.png',
+        'src': '/imgs/blue-rate.png',
         'jie': [{
             'title': '经纪操作实务',
             'kmid': 263

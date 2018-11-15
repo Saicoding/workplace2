@@ -29,12 +29,16 @@
       </view>
     </view>
     <view class='t_center' bindtap="GOkaoqianmiji">
-      <view style="margin-top:0rpx;">
-        <image style="width:100%;height:400rpx;" src="/imgs/miji.jpg" mode="aspectFit"></image>
+      <view class="center-block">
+        <view class="center-text" style="margin-top:70rpx;font-size:40rpx;letter-spacing:2rpx;">考点解析</view>
+        <view class="center-text" style="margin-top:20rpx;font-size:25rpx;">敲黑板/画重点</view>
       </view>
     </view>
   </view>
-
+  <view class="wave">
+      <view class="center-text" style="margin-top:70rpx;font-size:40rpx;letter-spacing:2rpx;">考点解析</view>
+      <view class="center-text" style="margin-top:20rpx;font-size:25rpx;">敲黑板/画重点</view>
+  </view>
   <view class='shiti_zhangjie'>
     章节目录
   </view>
@@ -61,7 +65,7 @@
       </view>
 
       <view class="jie" animation="{{!item.isFolder?item.spreadData:item.folderData}}">
-        <block wx:for="{{item.zhangjie_child}}" wx:for-item="items"  wx:for-index="jieIdx" wx:key="navItems">
+        <block wx:for="{{item.zhangjie_child}}" wx:for-item="items" wx:for-index="jieIdx" wx:key="navItems">
           <view data-itemIdx="{{itemIdx}}" data-jieIdx="{{jieIdx}}" id='{{items.id}}' bindtap="GOzuoti" class='jie_block' hover-start-time="100" hover-class="select">
             <view class="jie_title" style="color:{{items.isAnswerAll?'#9D9D9D':'black'}}">{{items.title}}</view>
             <view class="answer_number">
@@ -75,4 +79,4 @@
   </scroll-view>
 </view>
 
-<waterWave id = "waterWave"></waterWave>
+<waterWave id="waterWave"></waterWave>

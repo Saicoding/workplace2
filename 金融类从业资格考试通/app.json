@@ -23,39 +23,37 @@
     "pages/mine/message/message",
     "pages/subscriber/subscriber",
     "pages/mine/about/about",
-    "pages/video/videoIndex/videoIndex",
-    "pages/mine/set/set",
-    "pages/video/videoDetail/videoDetail"
+    "pages/mine/set/set"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6B401",
+    "navigationBarBackgroundColor": "#f7711c",
     "navigationBarTitleText": "金融类从业资格考试通",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
-    "selectedColor": "#f2b306",
+    "selectedColor": "#f7711d",
     "color": "#333",
     "list": [
       {
         "pagePath": "pages/index/index",
-        "selectedColor": "#f2b306",
+        "selectedColor": "#f7711d",
         "iconPath": "/imgs/menu_ico1.png",
         "selectedIconPath": "/imgs/menu_ico1_sel.png",
         "color": "#f5ba20",
         "text": "证券"
       },
       {
-        "pagePath": "pages/video/videoIndex/videoIndex",
-        "selectedColor": "#f2b306",
+        "pagePath": "pages/index/index",
+        "selectedColor": "#f7711d",
         "iconPath": "/imgs/menu_ico2.png",
         "selectedIconPath": "/imgs/menu_ico2_sel.png",
         "color": "#333",
         "text": "基金"
       },
       {
-        "pagePath": "pages/esoterica/esoterica",
-        "selectedColor": "#f2b306",
+        "pagePath": "pages/index/index",
+        "selectedColor": "#f7711d",
         "iconPath": "/imgs/menu_ico3.png",
         "selectedIconPath": "/imgs/menu_ico3_sel.png",
         "color": "#333",
@@ -65,7 +63,7 @@
         "pagePath": "pages/mine/mineIndex/mineIndex",
         "iconPath": "/imgs/menu_ico4.png",
         "selectedIconPath": "/imgs/menu_ico4_sel.png",
-        "selectedColor": "#f2b306",
+        "selectedColor": "#f7711d",
         "color": "#333",
         "text": "我的"
       }

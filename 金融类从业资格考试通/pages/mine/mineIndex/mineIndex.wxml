@@ -55,7 +55,7 @@
       <view class="block" >
         <image class="left-img" src="/imgs/my_error.jpg" mode="aspectFit" style="width:40rpx;height:40rpx;margin-top:30rpx;margin-left:9rpx;"></image>
         <view class="mytext" bindtap="GOabout">
-          关于房地产经纪人考试通
+          关于金融类从业资格考试通
         </view>
       </view>
       </view>
