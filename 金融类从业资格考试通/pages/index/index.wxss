@@ -64,7 +64,7 @@
   text-align: center;
 }
 
-.wave{
+.wave1{
   position: absolute;
   top:172rpx;
   left:250rpx;
@@ -75,7 +75,22 @@
   color: white;
   z-index: -1;
   text-align:center;
-  animation: scaleout 1.3s infinite ease-in-out;
+  animation: scaleout1 2s infinite ease-in-out;
+}
+
+.wave2{
+  position: absolute;
+  top:172rpx;
+  left:250rpx;
+  width: 250rpx;
+  height: 250rpx;
+  border-radius: 250rpx;
+  background: linear-gradient(to right, #ea2f22, #fb6a16);
+  color: white;
+  z-index: -1;
+  text-align:center;
+  animation: scaleout2 2s infinite ease-in-out;
+  animation-delay: 1s;
 }
 
 .center-block {
@@ -93,7 +108,17 @@
   width: 100%;
 }
 
-@keyframes scaleout {
+@keyframes scaleout1 {
+  0% {
+    transform: scale(1.0);
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+@keyframes scaleout2 {
   0% {
     transform: scale(1.0);
   }
