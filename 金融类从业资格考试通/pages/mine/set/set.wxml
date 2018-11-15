@@ -1,0 +1,23 @@
+<!--pages/mine/set/set.wxml-->
+<view class="mycontainer">
+  <view class="block" style="border-top:1rpx solid #ebebeb;" bindtap='clearStorage' hover-stay-time='100' hover-class='select'>
+    <view class="mytext">
+      清除缓存
+    </view>
+    <image class="right-img" src="/imgs/right-rate.png" mode="aspectFit" style=" transform:rotate({{jjrAngle}}deg);"></image>
+  </view>
+
+  <view class="block"  hover-stay-time='100' hover-class='select'>
+    <view class="mytext" style="width:600rpx;">
+      开启非wifi播放提醒
+    </view>
+    <switch class="switch" checked ="{{isOn}}" bindchange="switchChange" />
+
+  </view>
+
+  <view class="block" style="text-align:center;padding-left:0rpx;margin-top:18rpx;" bindtap='goOut' hover-stay-time='100' hover-class='select'>
+    退出登录
+  </view>
+</view>
+
+<loginOut id="loginOut" windowHeight="{{windowHeight}}" bindtapConfirm="_tapConfirm"></loginOut>

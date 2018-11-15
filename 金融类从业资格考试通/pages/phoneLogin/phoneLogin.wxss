@@ -1,0 +1,72 @@
+/* pages/phoneLogin/phoneLogin.wxss */
+
+.mycontainer{
+  padding:80rpx 40rpx 0rpx 40rpx;
+}
+
+.phoneNum,.phoneNUm-input,.code,.code-input{
+  width:100%;
+  height:70rpx;
+}
+
+.phoneNum{
+  border-bottom: 1px solid #f4f4f4;
+  padding-bottom: 20rpx;
+  margin-top:50rpx;
+}
+
+.phoneNUm-input{
+  font-size:30rpx;
+}
+
+.code{
+  border-bottom: 1px solid #f4f4f4;
+  padding-bottom: 20rpx;
+  margin-top:40rpx;
+}
+
+.code-input{
+  display: float;
+  float:left;
+  font-size:30rpx;
+  width:68%;
+}
+
+.identify-code{
+  display: float;
+  float:left;
+  color: #fff;
+  background: #388ff8;
+  border:#c6c6c6;
+  border-radius: 5rpx;
+  width:32%;
+  height:58rpx;
+  line-height: 58rpx;
+  text-align: center;
+  font-size: 30rpx;
+  margin-top:10rpx;
+  
+}
+
+.prompt{
+  font-size:24rpx;
+  color:#d1d1d1;
+  margin-top:18rpx;
+  letter-spacing: 4rpx;
+}
+
+.confirm-btn{
+  background: #388ff8;
+  height:80rpx;
+  margin:80rpx auto;
+  border-radius: 80rpx;
+  color:white;
+  line-height: 80rpx;
+  font-size:32rpx;
+  width: 60%;
+
+}
+
+.select{
+  background: #0371f7;
+}

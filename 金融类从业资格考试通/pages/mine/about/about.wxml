@@ -1,0 +1,11 @@
+<!--pages/mine/about/about.wxml-->
+<view class = "mycontainer">
+  <image src="/imgs/logo.png" mode="aspectFit" class="logo"></image>
+  <view class = "title">房地产经纪人考试通</view>
+  <view class = "content" style = "  line-height:{{35*1.8}}rpx;">
+    国家对房地产经纪专业人员实行职业资格制度，纳入全国专业技术人员职业资格制度统一规划。凡从事房地产经纪活动的人员，必须取得房地产经纪人员相应职业资格证书并经注册生效。未取得资格证书的人员，一律不得从事房地产经纪活动， 考取房地产经纪人证书已成为行业准入门槛和刚性需求。
+  </view>
+  <view class = "content" style = "  line-height:{{35*1.8}}rpx;margin-top:20rpx;">
+     房地产经纪人考试通隶属于秦皇岛中仕科技开发有限公司。公司为市政府重点扶持单位，是人社局定点职业培训机构。美国ACI国际认证协会、人社部国家人才流动中心高级人才库评测委员会授权合作单位。
+  </view>
+</view>

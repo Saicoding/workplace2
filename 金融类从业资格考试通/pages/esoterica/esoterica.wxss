@@ -1,0 +1,118 @@
+.index-top {
+  position: fixed;
+  top: 0;
+  width: 750rpx;
+  z-index: 999;
+  background-color: #fff;
+}
+
+.loading-img{
+  width: 750rpx;
+  height:458rpx;
+  margin:0 auto;
+}
+
+.changeType {
+  height: 90rpx;
+  line-height: 90rpx;
+  font-size: 30rpx;
+  text-align: right;
+  padding-right: 20rpx;
+  border-bottom: 1px #cecece solid;
+  box-shadow: rgb(211, 206, 206) 3rpx 3rpx 8rpx 1rpx ;
+}
+
+.mulu {
+  text-align: left;
+  float: left;
+  margin-left: 20rpx;
+  letter-spacing: 6rpx;
+}
+
+.dingwei{
+  display: float;
+  float:left;
+  width:50rpx;
+  height:50rpx;
+  margin-top:20rpx;
+  margin-left:40rpx;
+}
+
+.content{
+  padding:10rpx 40rpx 30rpx 60rpx;
+  margin-top:100rpx;
+}
+
+.block{
+  clear:both;
+  width: 100%;
+  height:100rpx;
+  line-height: 100rpx;
+}
+
+.text{
+  display: float;
+  float:left;
+  width:88%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.list{
+  display: float;
+  float:left;
+  margin-left:-30rpx;
+  margin-top:19rpx; 
+}
+
+.circle-in{
+  width:100%;
+  height:100%;
+  border-radius: 100%;
+}
+
+.circle-out{
+  display: float;
+  float:left;
+  background: white;
+  width:49rpx;
+  height:49rpx;
+  border-radius: 49rpx;
+  border:3.5rpx solid #c9c9c9;
+  padding: 4.5rpx;
+}
+
+.line{
+  border-left:3.5rpx solid #b9b9b9;
+}
+
+.white-top{
+  width:40rpx;
+  height:20rpx;
+  display: float;
+  float:left;
+  background: white;
+  margin-left:-50rpx;
+  margin-top:-17rpx;
+}
+
+.white-down{
+  display: float;
+  float:left;
+  width:40rpx;
+  height:40rpx;
+  background: white;
+  margin-left:-50rpx;
+  margin-top:60.5rpx;
+}
+
+.text{
+  font-size:32rpx;
+  padding-left:40rpx;
+  color:black;
+}
+
+.select{
+  background: rgb(230, 229, 229);
+}

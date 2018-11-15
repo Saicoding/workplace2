@@ -1,0 +1,67 @@
+<!--pages/video/videoDetail/videoDetail.wxml-->
+
+<video bindtap="tooglePlay" id="myVideo" controls initial-time="{{videos[px-1].lastViewLength}}" poster="{{img}}" class="video" src="{{videos[px-1].videoUrl}}" bindended="end" bindtimeupdate="timeupdate" bindwaiting="waiting" custom-cache="false" bindplay="play"
+  bindpause="pause" enable-progress-gesture show-center-play-btn="{{false}}" autoplay="{{autoplay}}">
+  <cover-view class ="unBuy" wx:if="{{buy==0}}">
+    <cover-view class = "unBuy-text">您尚未购买</cover-view>
+  </cover-view>
+  <cover-view wx:if="{{!isWifi && !useFlux}}" class="wifi">
+    <cover-view class="wifi-text1">您正在使用移动网络</cover-view>
+    <cover-view class="wifi-text2">继续观看会耗费通用流量</cover-view>
+    <cover-view bindtap='continueWatch' class="wifi-button">继续观看</cover-view>
+  </cover-view>
+  <cover-view wx:if="{{!isPlaying }}" bindtap="tooglePlay">
+    <cover-image class="video-icon" src="/imgs/play-icon.png" />
+  </cover-view>
+</video>
+<image wx:if="{{!loaded}}" class="loading-img" src="/imgs/timg.gif" mode="aspectFit"></image>
+<view hidden="{{!loaded}}" class="content">
+  <!-- 视频 -->
+  <view class="up-block">
+    <view class='kc_money'>
+      <span style="font-size:25rpx;">¥</span>{{kc_money}}</view>
+    <view class="{{tag[0].class}}">{{tag[0].tag}}</view>
+    <view class="{{tag[1].class}}">{{tag[1].tag}}</view>
+    <view wx:if="{{buy==0}}" data-product="{{myproduct}}" bindtap='goPay' class="youhui">套餐更优惠</view>
+    <view wx:if="{{buy==1}}" class="purchased">已购买</view>
+  </view>
+
+  <view class="mybar">
+    <view class="title-block1">
+      <view data-product="introduction" bindtap='changeOption' class="title1" style="color:{{product == 'introduction'?'#1aa0f4':'black'}}">简介</view>
+      <view data-product="option" bindtap='changeOption' class="title2" style="color:{{product == 'option'?'#1aa0f4':'black'}}">目录</view>
+    </view>
+    <view class="blockMove" animation="{{moveData}}"></view>
+  </view>
+
+  <!-- 目录列表 scroll-top = "{{scroll}}" -->
+  <scroll-view scroll-y style="height:{{buy==0?windowHeight-700:windowHeight-620}}rpx;" scroll-with-animation>
+    <!-- 简介信息 -->
+    <view hidden="{{product != 'introduction'}}" class="info">
+      {{info}}
+    </view>
+
+    <!-- 目录信息 -->
+    <view hidden="{{product != 'option'}}" class="option">
+      <view wx:for="{{videos}}" wx:for-item='video' wx:key='v'>
+        <view data-index="{{index}}" class="video-block" hover-class='select' bindtap='changeVideo'>
+          <canvas class="myCanvas" canvas-id='myCanvas{{index}}'></canvas>
+          <view class="title-block">
+            <view class="title">{{video.title}}</view>
+            <view class="view-time">{{video.time}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- bottom -->
+  <view wx:if="{{buy==0}}" data-product="{{videos[px-1].id}}" class="bottom" bindtap='buy'>
+    <view class="bottom-price">¥{{kc_money}}</view>
+    <view class="bottom-buy">购买此课</view>
+  </view>
+</view>
+
+
+<!-- 支付详细信息 -->
+<payDetail windowHeight="{{windowHeight}}" id="payDetail" bindsubmit="_submit"></payDetail>

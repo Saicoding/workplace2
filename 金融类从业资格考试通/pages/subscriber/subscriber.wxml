@@ -1,0 +1,5 @@
+<!--pages/subscriber/subscriber.wxml-->
+<view style = "font-size:33rpx; padding:20rpx 20rpx 20rpx 20rpx;text-indent:66rpx;line-height:(50*1.8)rpx">
+  <rich-text nodes="{{content}}">
+  </rich-text>
+</view>
