@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "waterWave": "/components/waterWave/waterWave",
+    "tabbar": "/components/tabbar/tabBar"
+  }
+}

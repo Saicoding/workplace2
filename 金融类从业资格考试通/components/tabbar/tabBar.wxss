@@ -1,0 +1,29 @@
+.menu-item{  
+  width: 32%;  
+  float: left;  
+  text-align: center;  
+  padding-top: 0rpx;  
+}  
+.menu-item2{  
+  width: 24%;  
+  float: left;  
+  text-align: center;  
+  padding-top: 8rpx;  
+}  
+.img{  
+  width: 60rpx;  
+  height: 60rpx;  
+  display: block;  
+  margin:0 auto;  
+}  
+.clear{  
+  clear: both;  
+}  
+.tab-bar{  
+  position: fixed;  
+  width: 100%;  
+  padding:0rpx 15rpx 10rpx 15rpx;
+}  
+.tabbar_text{
+  font-size: 23rpx;
+}

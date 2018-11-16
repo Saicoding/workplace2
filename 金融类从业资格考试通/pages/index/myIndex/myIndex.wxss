@@ -71,7 +71,6 @@
   width: 250rpx;
   height: 250rpx;
   border-radius: 250rpx;
-  background: linear-gradient(to right, #eec900, #eeb422);
   color: white;
   z-index: -1;
   text-align:center;
@@ -85,7 +84,6 @@
   width: 250rpx;
   height: 250rpx;
   border-radius: 250rpx;
-  background: linear-gradient(to right, #eec900, #ffc722);
   color: white;
   z-index: -1;
   text-align:center;
@@ -97,7 +95,6 @@
   width: 250rpx;
   height: 250rpx;
   border-radius: 250rpx;
-  background: linear-gradient(to right, #eec900, #ffc722);
   margin: 80rpx auto;
   color: white;
 }
