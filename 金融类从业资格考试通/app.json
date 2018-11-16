@@ -23,7 +23,9 @@
     "pages/mine/message/message",
     "pages/subscriber/subscriber",
     "pages/mine/about/about",
-    "pages/mine/set/set"
+    "pages/mine/set/set",
+    "pages/index/fund/fund",
+    "pages/index/futures/futures"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -44,7 +46,7 @@
         "text": "证券"
       },
       {
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/index/fund/fund",
         "selectedColor": "#f7711d",
         "iconPath": "/imgs/menu_ico2.png",
         "selectedIconPath": "/imgs/menu_ico2_sel.png",
@@ -52,7 +54,7 @@
         "text": "基金"
       },
       {
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/index/futures/futures",
         "selectedColor": "#f7711d",
         "iconPath": "/imgs/menu_ico3.png",
         "selectedIconPath": "/imgs/menu_ico3_sel.png",
