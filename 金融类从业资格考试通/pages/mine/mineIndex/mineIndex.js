@@ -80,9 +80,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function() {
-    wx.setTabBarStyle({
-      selectedColor: "#fd6131"
-    })
     //获取是否有登录权限
     let self = this;
 

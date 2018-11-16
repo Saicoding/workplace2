@@ -24,9 +24,24 @@ Page({
   onLoad: function(options) {
     let myType = wx.getStorageSync('myType');
     if (myType != "") {
-      wx.redirectTo({
-        url: '/pages/index/myIndex/myIndex?type='+myType,
-      })
+      switch(myType){
+        case "zq":
+          wx.switchTab({
+            url: '/pages/index/bund/bund',
+          })
+        break;
+        case "jj":
+          wx.switchTab({
+            url: '/pages/index/fund/fund',
+          })
+          break;
+        case "qh":
+          wx.switchTab({
+            url: '/pages/index/future/future',
+          })
+          break;
+      }
+
     }
   },
 

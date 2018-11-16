@@ -19,76 +19,37 @@ Page({
     folder_object: [], //展开字节的对象,用于判断点击的章之前有多少个字节被展开
     loaded: false, //是否已经载入一次,用于答题时点击返回按钮,首页再次展现后更新做题数目
     zhangjie: "", //章节信息
-    z_id: 0 //题库id
+    z_id: 0, //题库id
+    line_graden: " background: linear-gradient(to right, #ea2f22, #ff8f08);"
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    switch(options.type){
-      case "zq":
-        wx.setNavigationBarColor({//设置窗口颜色
-          frontColor: "#ffffff",
-          backgroundColor: "#fd6131",
-        })
-        wx.setNavigationBarTitle({
-          title: '证券从业资格考试通',
-        })
-        wx.setTabBarStyle({
-          selectedColor: "#fd6131"
-        })
-        this.setData({
-          line_graden:" background: linear-gradient(to right, #ea2f22, #ff8f08);",
-          dingwei_img:"/imgs/zq_dingwei.png"
-        })
-        app.editTabBar1();
-      break;
-      case "jj":
-        wx.setNavigationBarColor({//设置窗口颜色
-          frontColor: "#ffffff",
-          backgroundColor: "#ffc722",
-        })
-        wx.setNavigationBarTitle({
-          title: '基金从业资格考试通',
-        })
-        wx.setTabBarStyle({
-          selectedColor: "#ffc722"
-        })
-        this.setData({
-          line_graden: "background: linear-gradient(to right, #eec900, #ffc722);",
-          dingwei_img: "/imgs/jj_dingwei.png"
-        })
-        app.editTabBar2();
-        break;
-      case "qh":
-        wx.setNavigationBarColor({//设置窗口颜色
-          frontColor: "#ffffff",
-          backgroundColor: "#C71585",
-        })
+  onLoad: function() {
 
-        wx.setNavigationBarTitle({
-          title: '期货从业资格考试通',
-        })
-        wx.setTabBarStyle({
-          selectedColor: "#C71585"
-        })
-        this.setData({
-          line_graden: "background: linear-gradient(to right, #CD3278, #C71585);",
-          dingwei_img: "/imgs/qh_dingwei.png"
-        })
-        app.editTabBar3();
-        break;
-    }
     let self = this;
+
+    wx.setNavigationBarColor({ //设置窗口颜色
+      frontColor: "#ffffff",
+      backgroundColor: "#fd6131",
+    })
+
+    wx.setNavigationBarTitle({
+      title: '证券从业资格考试通',
+    })
+
+    wx.setTabBarStyle({
+      selectedColor: "#fd6131"
+    })
+
+    let typesid = self.data.typesid
 
     let user = wx.getStorageSync('user');
     this.setWindowWidthHeightScrollHeight(); //获取窗口高度 宽度 并计算章节滚动条的高度
 
     app.post(API_URL, "action=SelectZj&typesid=274").then((res) => {
       this.setZhangjie(res.data.list); //得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
-
-      console.log("action=SelectZj_l&z_id=" + self.data.zhangjie_id)
 
       app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id, true, true, "请稍后").then((res) => { //得到上一步设置的题库下的所有章节
 
@@ -100,11 +61,11 @@ Page({
         // 得到存储答题状态
         wx.getStorage({
           key: 'user',
-          success: function (res) {
+          success: function(res) {
             let user = res.data;
             wx.getStorage({
               key: "zq" + self.data.zhangjie_id + user.username,
-              success: function (res) {
+              success: function(res) {
                 //将每个节的已经作答的本地存储映射到组件中    
                 for (let i = 0; i < zhangjie.length; i++) {
                   let zhang_answer_num = 0; //章的总作答数
@@ -134,7 +95,7 @@ Page({
                   zhangjie: zhangjie
                 })
               },
-              fail: function () { //如果没有本地存储就初始化
+              fail: function() { //如果没有本地存储就初始化
                 wx.setStorage({
                   key: "zq" + self.data.zhangjie_id + user.username,
                   data: answer_nums_array
@@ -143,7 +104,7 @@ Page({
             })
           },
 
-          fail: function () {
+          fail: function() {
             //将每个节的已经作答的本地存储映射到组件中          
             for (let i = 0; i < zhangjie.length; i++) {
               let zhang_answer_num = 0; //章的总作答数
@@ -185,7 +146,7 @@ Page({
 
   },
   /* 更改题库 */
-  bindPickerChange: function (e) {
+  bindPickerChange: function(e) {
     var self = this
     self.foldAll();
     self.setData({
@@ -224,11 +185,11 @@ Page({
       // 得到存储答题状态
       wx.getStorage({
         key: 'user',
-        success: function (res) {
+        success: function(res) {
           let user = res.data;
           wx.getStorage({
             key: "zq" + self.data.zhangjie_id + user.username,
-            success: function (res) {
+            success: function(res) {
               //将每个节的已经作答的本地存储映射到组件中          
               for (let i = 0; i < zhangjie.length; i++) {
                 let zhang_answer_num = 0; //章的总作答数
@@ -247,7 +208,7 @@ Page({
                 zhangjie: zhangjie
               })
             },
-            fail: function () { //如果没有本地存储就初始化
+            fail: function() { //如果没有本地存储就初始化
               wx.setStorage({
                 key: "zq" + self.data.zhangjie_id + user.username,
                 data: answer_nums_array
@@ -272,7 +233,7 @@ Page({
   /**
    * 当点击章节
    */
-  onTapZhangjie: function (e) {
+  onTapZhangjie: function(e) {
     //判断点击展开后 字节的高度+
     let self = this;
     let index = e.currentTarget.dataset.itemidx; //选择章节的index
@@ -301,7 +262,7 @@ Page({
   /**
    * 关闭所有展开
    */
-  foldAll: function () {
+  foldAll: function() {
     let self = this;
     let zhangjie = self.data.zhangjie //取得章节对象
     for (let i = 0; i < zhangjie.length; i++) {
@@ -335,7 +296,7 @@ Page({
   /**
    * 实现展开折叠效果
    */
-  step: function (index, num, windowWidth) {
+  step: function(index, num, windowWidth) {
     let self = this;
     let isFolder = self.data.zhangjie[index].isFolder; //取得现在是什么状态
     let zhangjie = self.data.zhangjie //取得章节对象
@@ -385,8 +346,7 @@ Page({
         timingFunction: "ease-out"
       })
 
-      foldAnimation.height(0, height + "rpx").step(function () {
-      })
+      foldAnimation.height(0, height + "rpx").step(function() {})
       //把折叠对象从折叠对象数组中去除
       for (let i = 0; i < folder_object.length; i++) {
         if (folder_object[i].index == index) {
@@ -409,7 +369,7 @@ Page({
   /**
    * 做题 
    */
-  GOzuoti: function (e) {
+  GOzuoti: function(e) {
     if (buttonClicked) return;
     buttonClicked = true;
     let self = this;
@@ -441,7 +401,7 @@ Page({
     //获取是否有登录权限
     wx.getStorage({
       key: 'user',
-      success: function (res) { //如果已经登陆过
+      success: function(res) { //如果已经登陆过
         let user = res.data;
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
@@ -450,7 +410,7 @@ Page({
         //验证重复登录:  参数:1.url1  没转码的url  2.url 转码的url 3.true 代码验证如果是重复登录是否跳转到要导向的页面
         validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true) //验证重复登录
       },
-      fail: function (res) { //如果没有username就跳转到登录界面
+      fail: function(res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
           url: '/pages/login1/login1?url=' + url + "&ifGoPage=true",
         })
@@ -461,7 +421,7 @@ Page({
   /**
    * 导航到我的错题页面
    */
-  GOAnswerWrong: function (e) {
+  GOAnswerWrong: function(e) {
     this.waterWave.containerTap(e);
     if (buttonClicked) return;
     buttonClicked = true;
@@ -472,14 +432,14 @@ Page({
     //获取是否有登录权限
     wx.getStorage({
       key: 'user',
-      success: function (res) { //如果已经登陆过
+      success: function(res) { //如果已经登陆过
         let user = res.data;
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
         validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true)
       },
-      fail: function (res) { //如果没有username就跳转到登录界面
+      fail: function(res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
           url: '/pages/login1/login1?url=' + url + "&ifGoPage=true",
         })
@@ -490,7 +450,7 @@ Page({
   /**
    * 导航到收藏练习
    */
-  GOMarkExercise: function (e) {
+  GOMarkExercise: function(e) {
     this.waterWave.containerTap(e);
     if (buttonClicked) return;
     buttonClicked = true;
@@ -501,14 +461,14 @@ Page({
     //获取是否有登录权限
     wx.getStorage({
       key: 'user',
-      success: function (res) { //如果已经登陆过
+      success: function(res) { //如果已经登陆过
         let user = res.data;
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
         validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true)
       },
-      fail: function (res) { //如果没有username就跳转到登录界面
+      fail: function(res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
           url: '/pages/login1/login1?url=' + url + "&ifGoPage=true",
         })
@@ -519,7 +479,7 @@ Page({
   /**
    * 导航到模拟考试
    */
-  GOkaoqianmiji: function (e) {
+  GOkaoqianmiji: function(e) {
     this.waterWave.containerTap(e);
     if (buttonClicked) return;
     buttonClicked = true;
@@ -531,14 +491,14 @@ Page({
     //获取是否有登录权限
     wx.getStorage({
       key: 'user',
-      success: function (res) { //如果已经登陆过
+      success: function(res) { //如果已经登陆过
         let user = res.data;
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
         validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true)
       },
-      fail: function (res) { //如果没有username就跳转到登录界面
+      fail: function(res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
           url: '/pages/login1/login1?url=' + url + "&ifGoPage=true",
         })
@@ -549,7 +509,7 @@ Page({
   /**
    * 导航到模拟真题
    */
-  GOModelReal: function (e) {
+  GOModelReal: function(e) {
     this.waterWave.containerTap(e);
     if (buttonClicked) return;
     buttonClicked = true;
@@ -567,14 +527,26 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
     this.waterWave = this.selectComponent("#waterWave");
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
+    wx.setNavigationBarColor({ //设置窗口颜色
+      frontColor: "#ffffff",
+      backgroundColor: "#fd6131",
+    })
+
+    wx.setNavigationBarTitle({
+      title: '证券从业资格考试通',
+    })
+
+    wx.setTabBarStyle({
+      selectedColor: "#fd6131"
+    })
 
     let self = this;
     buttonClicked = false;
@@ -584,11 +556,11 @@ Page({
     // 得到存储答题状态
     wx.getStorage({
       key: 'user',
-      success: function (res) {
+      success: function(res) {
         let user = res.data;
         wx.getStorage({
           key: "zq" + self.data.zhangjie_id + user.username,
-          success: function (res) {
+          success: function(res) {
 
             //将每个节的已经作答的本地存储映射到组件中          
             for (let i = 0; i < zhangjie.length; i++) {
@@ -619,7 +591,7 @@ Page({
             })
           },
 
-          fail: function () {
+          fail: function() {
             //将每个节的已经作答的本地存储映射到组件中          
             for (let i = 0; i < zhangjie.length; i++) {
               let zhang_answer_num = 0; //章的总作答数
@@ -664,7 +636,7 @@ Page({
         })
       },
 
-      fail: function (res) {
+      fail: function(res) {
         //将每个节的已经作答的本地存储映射到组件中          
         for (let i = 0; i < zhangjie.length; i++) {
           let zhang_answer_num = 0; //章的总作答数
@@ -688,48 +660,13 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  },
-
-  /**
    * 获取窗口高度 宽度 并计算章节滚动条的高度
    */
-  setWindowWidthHeightScrollHeight: function () {
+  setWindowWidthHeightScrollHeight: function() {
     let windowWidth = wx.getSystemInfoSync().windowWidth; //获取窗口宽度(px)
     let windowHeight = wx.getSystemInfoSync().windowHeight; //获取窗口高度(px)
     windowHeight = (windowHeight * (750 / windowWidth)); //转换窗口高度(rpx)
-    let scrollHeight = windowHeight - 720 //计算滚动框高度(rpx) 
+    let scrollHeight = windowHeight - 680 //计算滚动框高度(rpx) 
 
     this.setData({
       windowWidth: windowWidth, //窗口宽度
@@ -741,7 +678,7 @@ Page({
   /**
    * 得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
    */
-  setZhangjie: function (res) {
+  setZhangjie: function(res) {
     let z_id = 0;
     let index = 0;
     let tiku = wx.getStorageSync("zq_tiku_id");
@@ -763,7 +700,7 @@ Page({
   /**
    * 初始化章节信息
    */
-  initZhangjie: function (zhangjie, answer_nums_array) { //初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
+  initZhangjie: function(zhangjie, answer_nums_array) { //初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
     for (let i = 0; i < zhangjie.length; i++) {
       zhangjie[i].height = 0; //设置点击展开初始高度
       zhangjie[i].isFolder = true; //设置展开初始值
@@ -783,5 +720,5 @@ Page({
         zhangjie[i].hasChild = false;
       }
     }
-  }
+  },
 })

@@ -24,12 +24,52 @@
     "pages/subscriber/subscriber",
     "pages/mine/about/about",
     "pages/mine/set/set",
-    "pages/index/myIndex/myIndex"
+    "pages/index/bund/bund",
+    "pages/index/fund/fund",
+    "pages/index/future/future"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fd6131",
     "navigationBarTitleText": "金融类从业资格考试通",
     "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "selectedColor": "#333",
+    "color": "#333",
+    "list": [
+      {
+        "pagePath": "pages/index/bund/bund",
+        "selectedColor": "#fd6131",
+        "iconPath": "/imgs/menu_ico1.png",
+        "selectedIconPath": "/imgs/menu_ico1_sel.png",
+        "color": "#333",
+        "text": "证券"
+      },
+      {
+        "pagePath": "pages/index/fund/fund",
+        "selectedColor": "#ffc722",
+        "iconPath": "/imgs/menu_ico2.png",
+        "selectedIconPath": "/imgs/menu_ico2_sel.png",
+        "color": "#333",
+        "text": "基金"
+      },
+      {
+        "pagePath": "pages/index/future/future",
+        "selectedColor": "#C71585",
+        "iconPath": "/imgs/menu_ico3.png",
+        "selectedIconPath": "/imgs/menu_ico3_sel.png",
+        "color": "#333",
+        "text": "期货"
+      },
+      {
+        "pagePath": "pages/mine/mineIndex/mineIndex",
+        "iconPath": "/imgs/menu_ico4.png",
+        "selectedIconPath": "/imgs/menu_ico4_sel.png",
+        "selectedColor": "#fd6131",
+        "color": "#333",
+        "text": "我的"
+      }
+    ]
   }
 }

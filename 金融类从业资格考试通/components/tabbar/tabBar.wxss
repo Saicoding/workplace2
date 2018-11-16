@@ -23,6 +23,7 @@
   position: fixed;  
   width: 100%;  
   padding:0rpx 15rpx 10rpx 15rpx;
+  background:#fbf9fa;
 }  
 .tabbar_text{
   font-size: 23rpx;
