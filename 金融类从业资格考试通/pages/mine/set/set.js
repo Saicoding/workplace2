@@ -105,13 +105,4 @@ Page({
       url: '/pages/login1/login1?url=' + url + "&ifGoPage=false",
     })
   },
-
-  /**
-   * 开启wifi提醒
-   */
-  switchChange:function(e){
-    let isOn = e.detail.value?0:1;
-    console.log(isOn)
-    wx.setStorageSync('turnonWifiPrompt', isOn);
-  }
 })

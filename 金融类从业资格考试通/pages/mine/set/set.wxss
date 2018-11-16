@@ -35,15 +35,6 @@ page{
   margin-top:25rpx;
 }
 
-.switch{
-  display: float;
-  float:left;
-}
-
-.wx-switch-input{width:83rpx !important;height:47rpx !important;}
-.wx-switch-input::before{width:85rpx !important;height: 47rpx !important;}
-.wx-switch-input::after{width: 43rpx !important;height: 43rpx !important;}
-
 .select{
    background: rgb(230, 229, 229);
 }
