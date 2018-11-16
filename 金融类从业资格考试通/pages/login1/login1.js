@@ -1,8 +1,7 @@
 const app = getApp();
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 let WXBizDataCrypt = require('../../utils/cryptojs/RdWXBizDataCrypt.js');
-let appId = "wxf90a298a65cfaca8";
-let secret = "4bb3fe58d349718b6832c04bf462d832";
+let appId = "wx1264a65218ad1fab";
 
 // pages/login1/login1.js
 Page({

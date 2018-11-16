@@ -71,7 +71,7 @@
   width: 250rpx;
   height: 250rpx;
   border-radius: 250rpx;
-  background: linear-gradient(to right, #ea2f22, #fb6a16);
+  background: linear-gradient(to right, #CD3278, #C71585);
   color: white;
   z-index: -1;
   text-align:center;
@@ -85,7 +85,7 @@
   width: 250rpx;
   height: 250rpx;
   border-radius: 250rpx;
-  background: linear-gradient(to right, #ea2f22, #fb6a16);
+  background: linear-gradient(to right, #CD3278, #C71585);
   color: white;
   z-index: -1;
   text-align:center;
@@ -97,7 +97,7 @@
   width: 250rpx;
   height: 250rpx;
   border-radius: 250rpx;
-  background: linear-gradient(to right, #ea2f22, #fb6a16);
+  background: linear-gradient(to right, #CD3278, #C71585);
   margin: 80rpx auto;
   color: white;
 }

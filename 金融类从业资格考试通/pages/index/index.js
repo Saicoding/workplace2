@@ -4,7 +4,7 @@
  * 说明 : 该页是首页
  * 
  */
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 const app = getApp(); //获取app对象
 let validate = require('../../common/validate.js');
 let buttonClicked = false;
@@ -31,16 +31,22 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    
     let self = this;
 
     let user = wx.getStorageSync('user');
     this.setWindowWidthHeightScrollHeight(); //获取窗口高度 宽度 并计算章节滚动条的高度
+    wx.setTabBarStyle({
+      selectedColor: "#fd6131"
+    })
 
-    app.post(API_URL, "action=SelectZj").then((res) => {
-      console.log(res)
+    app.post(API_URL, "action=SelectZj&typesid=274").then((res) => {
       this.setZhangjie(res.data.list); //得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
 
+      console.log("action=SelectZj_l&z_id=" + self.data.zhangjie_id)
+
       app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id, true, true, "请稍后").then((res) => { //得到上一步设置的题库下的所有章节
+
         let zhangjie = res.data.list //得到所有章节
         let answer_nums_array = [] //答题数目array
         this.initZhangjie(zhangjie, answer_nums_array) //初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
@@ -52,7 +58,7 @@ Page({
           success: function(res) {
             let user = res.data;
             wx.getStorage({
-              key: "shiti" + self.data.zhangjie_id + user.username,
+              key: "zq" + self.data.zhangjie_id + user.username,
               success: function(res) {
                 //将每个节的已经作答的本地存储映射到组件中    
                 for (let i = 0; i < zhangjie.length; i++) {
@@ -85,7 +91,7 @@ Page({
               },
               fail: function() { //如果没有本地存储就初始化
                 wx.setStorage({
-                  key: "shiti" + self.data.zhangjie_id + user.username,
+                  key: "zq" + self.data.zhangjie_id + user.username,
                   data: answer_nums_array
                 })
               }
@@ -176,7 +182,7 @@ Page({
         success: function(res) {
           let user = res.data;
           wx.getStorage({
-            key: "shiti" + self.data.zhangjie_id + user.username,
+            key: "zq" + self.data.zhangjie_id + user.username,
             success: function(res) {
               //将每个节的已经作答的本地存储映射到组件中          
               for (let i = 0; i < zhangjie.length; i++) {
@@ -198,13 +204,13 @@ Page({
             },
             fail: function() { //如果没有本地存储就初始化
               wx.setStorage({
-                key: "shiti" + self.data.zhangjie_id + user.username,
+                key: "zq" + self.data.zhangjie_id + user.username,
                 data: answer_nums_array
               })
             }
           })
 
-          wx.setStorageSync("tiku_id" + user.username, {
+          wx.setStorageSync("zq_tiku_id" + user.username, {
             "id": self.data.array[e.detail.value].id,
             "index": self.data.index
           });
@@ -524,6 +530,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    wx.setTabBarStyle({
+      selectedColor: "#fd6131"
+    })
     let self = this;
     buttonClicked = false;
     let zhangjie = self.data.zhangjie;
@@ -535,7 +544,7 @@ Page({
       success: function(res) {
         let user = res.data;
         wx.getStorage({
-          key: "shiti" + self.data.zhangjie_id + user.username,
+          key: "zq" + self.data.zhangjie_id + user.username,
           success: function(res) {
 
             //将每个节的已经作答的本地存储映射到组件中          
@@ -601,7 +610,7 @@ Page({
             }
 
             wx.setStorage({
-              key: "shiti" + self.data.zhangjie_id + user.username,
+              key: "zq" + self.data.zhangjie_id + user.username,
               data: answer_nums_array
             })
             //因为是在同步内部，最后需要更新章节信息，不更新数据不会改变
@@ -692,7 +701,7 @@ Page({
   setZhangjie: function(res) {
     let z_id = 0;
     let index = 0;
-    let tiku = wx.getStorageSync("tiku_id");
+    let tiku = wx.getStorageSync("zq_tiku_id");
     if (tiku == "") {
       z_id = res[0].id;
       index = 0;

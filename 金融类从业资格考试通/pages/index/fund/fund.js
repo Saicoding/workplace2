@@ -4,7 +4,7 @@
  * 说明 : 该页是首页
  * 
  */
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 const app = getApp(); //获取app对象
 let validate = require('../../../common/validate.js');
 let buttonClicked = false;
@@ -34,12 +34,20 @@ Page({
     let self = this;
 
     let user = wx.getStorageSync('user');
+
+    wx.setNavigationBarColor({//设置窗口颜色
+      frontColor:"#ffffff",
+      backgroundColor:"#ffc722",
+    })
+
+    wx.setTabBarStyle({
+      selectedColor:"#ffc722"
+    })
+
     this.setWindowWidthHeightScrollHeight(); //获取窗口高度 宽度 并计算章节滚动条的高度
 
-    app.post(API_URL, "action=SelectZj").then((res) => {
-      console.log(res)
+    app.post(API_URL, "action=SelectZj&typesid=277").then((res) => {
       this.setZhangjie(res.data.list); //得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
-
       app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id, true, true, "请稍后").then((res) => { //得到上一步设置的题库下的所有章节
         let zhangjie = res.data.list //得到所有章节
         let answer_nums_array = [] //答题数目array
@@ -524,6 +532,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    wx.setNavigationBarColor({//设置窗口颜色
+      frontColor: "#ffffff",
+      backgroundColor: "#ffc722",
+    })
+    wx.setTabBarStyle({
+      selectedColor: "#ffc722"
+    })
     let self = this;
     buttonClicked = false;
     let zhangjie = self.data.zhangjie;

@@ -4,7 +4,7 @@
  * 说明 : 该页是首页
  * 
  */
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 const app = getApp(); //获取app对象
 let validate = require('../../../common/validate.js');
 let buttonClicked = false;
@@ -33,10 +33,19 @@ Page({
   onLoad: function (options) {
     let self = this;
 
+    wx.setNavigationBarColor({//设置窗口颜色
+      frontColor: "#ffffff",
+      backgroundColor: "#C71585",
+    })
+
+    wx.setTabBarStyle({
+      selectedColor: "#C71585"
+    })
+
     let user = wx.getStorageSync('user');
     this.setWindowWidthHeightScrollHeight(); //获取窗口高度 宽度 并计算章节滚动条的高度
 
-    app.post(API_URL, "action=SelectZj").then((res) => {
+    app.post(API_URL, "action=SelectZj&typesid=281").then((res) => {
       console.log(res)
       this.setZhangjie(res.data.list); //得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
 
@@ -525,6 +534,14 @@ Page({
    */
   onShow: function () {
     let self = this;
+    wx.setNavigationBarColor({//设置窗口颜色
+      frontColor: "#ffffff",
+      backgroundColor: "#C71585",
+    })
+
+    wx.setTabBarStyle({
+      selectedColor: "#C71585"
+    })
     buttonClicked = false;
     let zhangjie = self.data.zhangjie;
     if (!self.data.loaded) return //如果没有完成首次载入就什么都不作

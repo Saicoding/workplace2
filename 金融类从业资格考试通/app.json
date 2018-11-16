@@ -29,25 +29,25 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#f7711c",
+    "navigationBarBackgroundColor": "#fd6131",
     "navigationBarTitleText": "金融类从业资格考试通",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
-    "selectedColor": "#f7711d",
+    "selectedColor": "#fd6131",
     "color": "#333",
     "list": [
       {
         "pagePath": "pages/index/index",
-        "selectedColor": "#f7711d",
+        "selectedColor": "#fd6131",
         "iconPath": "/imgs/menu_ico1.png",
         "selectedIconPath": "/imgs/menu_ico1_sel.png",
-        "color": "#f5ba20",
+        "color": "#333",
         "text": "证券"
       },
       {
         "pagePath": "pages/index/fund/fund",
-        "selectedColor": "#f7711d",
+        "selectedColor": "#ffdd22",
         "iconPath": "/imgs/menu_ico2.png",
         "selectedIconPath": "/imgs/menu_ico2_sel.png",
         "color": "#333",
@@ -55,7 +55,7 @@
       },
       {
         "pagePath": "pages/index/futures/futures",
-        "selectedColor": "#f7711d",
+        "selectedColor": "#ea3e1a",
         "iconPath": "/imgs/menu_ico3.png",
         "selectedIconPath": "/imgs/menu_ico3_sel.png",
         "color": "#333",

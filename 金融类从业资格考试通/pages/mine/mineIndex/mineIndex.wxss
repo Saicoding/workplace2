@@ -3,7 +3,7 @@
 }
 
 .up{
-  background: #f7711c;
+  background: #fd6131;
   width:100%;
   height:280rpx;
   color:white;
