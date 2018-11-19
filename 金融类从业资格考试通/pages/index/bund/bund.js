@@ -376,6 +376,7 @@ Page({
     let z_id = e.currentTarget.id;
     let zhangIdx = e.currentTarget.dataset.itemidx; //点击的章index
     let jieIdx = e.currentTarget.dataset.jieidx; //点击的节index
+    let category = "zq"
 
     let zhangjie = self.data.zhangjie; //章节
     let zhangjie_id = self.data.zhangjie_id; //当前题库的id，用来作为本地存储的key值
@@ -396,21 +397,17 @@ Page({
       nums = zhangjie[zhangIdx].nums;
     }
 
-    let url = encodeURIComponent('/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title);
-    let url1 = '/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title
+    let url = encodeURIComponent('/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title + "&category=" + category);
+    let url1 = '/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title + "&category=" + category
     //获取是否有登录权限
     wx.getStorage({
       key: 'user',
-      success: function(res) { //如果已经登陆过
-        let user = res.data;
-        let zcode = user.zcode;
-        let LoginRandom = user.Login_random;
-        let pwd = user.pwd
-
-        //验证重复登录:  参数:1.url1  没转码的url  2.url 转码的url 3.true 代码验证如果是重复登录是否跳转到要导向的页面
-        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true) //验证重复登录
+      success: function (res) { //如果已经登陆过
+        wx.navigateTo({
+          url: url1,
+        })
       },
-      fail: function(res) { //如果没有username就跳转到登录界面
+      fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
           url: '/pages/login1/login1?url=' + url + "&ifGoPage=true",
         })

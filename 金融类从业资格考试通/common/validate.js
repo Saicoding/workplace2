@@ -1,4 +1,4 @@
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 const app = getApp();
 
 /**

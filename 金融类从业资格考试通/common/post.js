@@ -6,13 +6,17 @@ let animate = require('animate.js')
  */
 function zuotiOnload(options, px, circular, myFavorite, res, user, self){
   let shitiArray = res.data.shiti;
-  console.log(shitiArray)
+  let all_nums = res.data.all_nums;
+  let pageall = res.data.pageall;
+
   let username = user.username;
   let acode = user.acode;
 
   common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
 
-  common.initMarkAnswer(shitiArray.length, self); //初始化答题板数组
+  common.initMarkAnswer(all_nums, self); //初始化答题板数组
+
+  common.initShitiArray(shitiArray, all_nums);
 
   //得到swiper数组
   let preShiti = undefined;//前一题

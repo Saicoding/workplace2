@@ -1,5 +1,5 @@
 // pages/tiku/zuoti/index.js
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 let common = require('../../../common/shiti.js');
 let animate = require('../../../common/animate.js')
 let easeOutAnimation = animate.easeOutAnimation();
@@ -30,14 +30,15 @@ Page({
     markAnswerItems: [], //设置一个空数组
 
     isModelReal: false, //是不是真题或者押题
-    isSubmit: false ,//是否已提交答卷
-    circular: true,//默认slwiper可以循环滚动
-    myFavorite:0,//默认收藏按钮是0
+    isSubmit: false, //是否已提交答卷
+    circular: true, //默认slwiper可以循环滚动
+    myFavorite: 0, //默认收藏按钮是0
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    console.log(options)
     wx.setNavigationBarTitle({
       title: options.title
     }) //设置标题
@@ -45,37 +46,37 @@ Page({
     let self = this;
 
     let user = wx.getStorageSync('user');
+
+    let LoginRandom = user.Login_random == undefined ? "" : user.Login_random;
+    let zcode = user.zcode == undefined ? "" : user.zcode;
     let username = user.username;
-    let acode  = user.acode;
+
     let circular = false;
     let myFavorite = 0;
 
     //根据章是否有字节来定制最后一次访问的key
-    let last_view_key = 'last_view' + options.zhangjie_id + options.zhangIdx + (options.jieIdx != "undefined" ? options.jieIdx : "")+user.username;
+    let last_view_key = 'last_view' + options.zhangjie_id + options.zhangIdx + (options.jieIdx != "undefined" ? options.jieIdx : "") + user.username;
 
     let last_view = wx.getStorageSync(last_view_key); //得到最后一次的题目
     let px = last_view.px; //最后一次浏览的题的编号
     if (px == undefined) {
       px = 1 //如果没有这个px说明这个章节首次访问
-      circular:false
+      circular: false
     }
-    // console.log("action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode)
-    // app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, false, false, "").then((res) => {
-      
-    //   post.zuotiOnload(options, px, circular,myFavorite,res, user, self) //对数据进行处理和初始化
-    //   isFold = false;
-    // }).catch((errMsg) => {
-    //   wx.hideLoading();
-    // });
 
-    let res = {
-      data:{
-        shiti:data.getShiti(1)
+    app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + options.z_id + "&zcode=" + zcode + "&page=1", false, false, "").then((res) => {
+      let myres = {
+        "data": {
+          "shiti": data.getShiti(1),
+          "all_nums":200,
+          "pageall":20
+        }
       }
-    }
- 
-    post.zuotiOnload(options, px, circular, myFavorite, res, user, self) //对数据进行处理和初始化
-    isFold = false;
+      post.zuotiOnload(options, px, circular, myFavorite, myres, user, self) //对数据进行处理和初始化
+      isFold = false;
+    }).catch((errMsg) => {
+      wx.hideLoading();
+    });
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -99,9 +100,9 @@ Page({
   },
 
   /**
-  * 切换问题的动画
-  */
-  _toogleAnimation: function () {
+   * 切换问题的动画
+   */
+  _toogleAnimation: function() {
     let self = this;
 
     let px = self.data.px; //当前px
@@ -115,7 +116,7 @@ Page({
     let height = self.data.height;
     let sliderShiti = sliderShitiArray[lastSliderIndex]; //当前滑块试题
 
-    if (!shiti.isAnswer&&!shiti.confirm) return;
+    if (!shiti.isAnswer && !shiti.confirm) return;
 
     if (isFold) {
       question.setData({
@@ -133,7 +134,7 @@ Page({
       isFold = true;
     }
   },
- 
+
   /**
    * slider改变事件
    */
@@ -162,36 +163,36 @@ Page({
     })
 
     //判断滑动方向
-    if ((lastSliderIndex == 0 && current == 1) || (lastSliderIndex == 1 && current == 2) || (lastSliderIndex == 2 && current == 0)){//左滑
+    if ((lastSliderIndex == 0 && current == 1) || (lastSliderIndex == 1 && current == 2) || (lastSliderIndex == 2 && current == 0)) { //左滑
       direction = "左滑";
     } else {
       direction = "右滑";
     }
 
-    if(direction == "左滑"){
+    if (direction == "左滑") {
       px++;
-    }else{
+    } else {
       px--;
     }
 
-    let preShiti = undefined;//前一题
-    let nextShiti = undefined;//后一题
-    let midShiti = shitiArray[px - 1];//中间题
+    let preShiti = undefined; //前一题
+    let nextShiti = undefined; //后一题
+    let midShiti = shitiArray[px - 1]; //中间题
     myFavorite = midShiti.favorite;
 
     //每次滑动结束后初始化前一题和后一题
-    if(direction == "左滑"){
-      if(px < shitiArray.length){//如果还有下一题
+    if (direction == "左滑") {
+      if (px < shitiArray.length) { //如果还有下一题
         nextShiti = shitiArray[px];
         common.initShiti(nextShiti, self); //初始化试题对象
 
         //先处理是否是已经回答的题    
         common.processDoneAnswer(nextShiti.done_daan, nextShiti, self);
       }
-      preShiti = shitiArray[px - 2];//肯定会有上一题
-    }else{//右滑
-      if(px > 1){//如果还有上一题
-        preShiti = shitiArray[px-2];
+      preShiti = shitiArray[px - 2]; //肯定会有上一题
+    } else { //右滑
+      if (px > 1) { //如果还有上一题
+        preShiti = shitiArray[px - 2];
         common.initShiti(preShiti, self); //初始化试题对象
         common.processDoneAnswer(preShiti.done_daan, preShiti, self);
       }
@@ -202,7 +203,7 @@ Page({
 
 
     //滑动结束后,更新滑动试题数组
-    let sliderShitiArray=[];
+    let sliderShitiArray = [];
 
     if (px != 1 && px != shitiArray.length) {
       if (current == 1) {
@@ -235,15 +236,15 @@ Page({
       })
     }
 
-    
-    circular = px == 1 || px == shitiArray.length ? false : true//如果滑动后编号是1,或者最后一个就禁止循环滑动
- 
+
+    circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
+
     self.setData({ //每滑动一下,更新试题
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray,
       circular: circular,
-      lastSliderIndex:current,
-      xiaotiCurrent: 0,//没滑动一道题都将材料题小题的滑动框index置为0
+      lastSliderIndex: current,
+      xiaotiCurrent: 0, //没滑动一道题都将材料题小题的滑动框index置为0
       myFavorite: myFavorite,
       px: px,
       checked: false
@@ -254,8 +255,8 @@ Page({
     if (midShiti.TX == 99) {
       let str = "#q" + px;
 
-      let questionStr = midShiti.question;//问题的str
-      let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+      let questionStr = midShiti.question; //问题的str
+      let height = common.getQuestionHeight(questionStr); //根据问题长度，计算应该多高显示
 
       height = height >= 400 ? 400 : height;
 
@@ -263,7 +264,7 @@ Page({
 
       animate.blockSpreadAnimation(90, height, question);
 
-      question.setData({//每切换到材料题就把占位框复位
+      question.setData({ //每切换到材料题就把占位框复位
         style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"   
       })
 
@@ -282,12 +283,12 @@ Page({
     let px = self.data.px;
     let done_daan = "";
     let shitiArray = self.data.shitiArray;
-    
+
     let sliderShitiArray = self.data.sliderShitiArray;
-    let current = self.data.lastSliderIndex//当前滑动编号
+    let current = self.data.lastSliderIndex //当前滑动编号
     let currentShiti = sliderShitiArray[current];
 
-    let shiti = shitiArray[px-1]; //本试题对象
+    let shiti = shitiArray[px - 1]; //本试题对象
 
     done_daan = shiti.TX == 1 ? e.detail.done_daan : shiti.selectAnswer; //根据单选还是多选得到done_daan
 
@@ -330,10 +331,10 @@ Page({
     let shitiArray = self.data.shitiArray;
 
     let sliderShitiArray = self.data.sliderShitiArray;
-    let current = self.data.lastSliderIndex//当前滑动编号
+    let current = self.data.lastSliderIndex //当前滑动编号
     let currentShiti = sliderShitiArray[current];
 
-    let shiti = shitiArray[px-1];
+    let shiti = shitiArray[px - 1];
     //初始化多选的checked值
     // common.initMultiSelectChecked(shiti);
     common.initMultiSelectChecked(currentShiti);
@@ -387,10 +388,10 @@ Page({
     let done_daan = e.detail.done_daan.sort();
     let shitiArray = self.data.shitiArray;
     let shitiPX = self.data.px;
-    let shiti = shitiArray[shitiPX-1]; //本试题对象
+    let shiti = shitiArray[shitiPX - 1]; //本试题对象
 
     let sliderShitiArray = self.data.sliderShitiArray;
-    let current = self.data.lastSliderIndex//当前滑动编号
+    let current = self.data.lastSliderIndex //当前滑动编号
     let currentShiti = sliderShitiArray[current];
     let currentXiaoti = currentShiti.xiaoti
 
@@ -419,14 +420,14 @@ Page({
     let self = this;
     let px = e.currentTarget.dataset.px;
 
-    let shitiPX= self.data.px;//试题的px
+    let shitiPX = self.data.px; //试题的px
     let shitiArray = self.data.shitiArray
-    let shiti = shitiArray[shitiPX-1]; //本试题对象
+    let shiti = shitiArray[shitiPX - 1]; //本试题对象
     let done_daan = "";
     let xiaoti = shiti.xiaoti;
 
     let sliderShitiArray = self.data.sliderShitiArray;
-    let current = self.data.lastSliderIndex//当前滑动编号
+    let current = self.data.lastSliderIndex //当前滑动编号
     let currentShiti = sliderShitiArray[current];
     let currentXiaoti = currentShiti.xiaoti
 
@@ -486,7 +487,7 @@ Page({
    * 切换纠错面板
    */
 
-  _toggleErrorRecovery:function(e){
+  _toggleErrorRecovery: function(e) {
     this.markAnswer.hideDialog();
     this.errorRecovery.toogleDialog();
   },
@@ -520,9 +521,9 @@ Page({
     let myFavorite = self.data.myFavorite;
     let px = self.data.px;
     let shitiArray = self.data.shitiArray;
-    let shiti = shitiArray[px-1];
+    let shiti = shitiArray[px - 1];
 
-    shiti.favorite = shiti.favorite == 0?1:0;
+    shiti.favorite = shiti.favorite == 0 ? 1 : 0;
 
     this.setData({
       myFavorite: shiti.favorite,
@@ -538,37 +539,37 @@ Page({
   _tapEvent: function(e) {
     let self = this;
     let px = e.detail.px;
- 
+
     let zhangIdx = self.data.zhangIdx;
     let jieIdx = self.data.jieIdx;
     let shitiArray = self.data.shitiArray;
     let doneAnswerArray = self.data.doneAnswerArray;
-    let current = self.data.lastSliderIndex;//当前swiper的index
+    let current = self.data.lastSliderIndex; //当前swiper的index
     let circular = self.data.circular;
     let myFavorite = 0;
     isFold = false;
 
     //得到swiper数组
-    let preShiti = undefined;//前一题
-    let nextShiti = undefined;//后一题
-    let midShiti = shitiArray[px - 1];//中间题
+    let preShiti = undefined; //前一题
+    let nextShiti = undefined; //后一题
+    let midShiti = shitiArray[px - 1]; //中间题
     myFavorite = midShiti.favorite;
 
     let sliderShitiArray = [];
 
-   
+
 
     common.initShiti(midShiti, self); //初始化试题对象
     common.processDoneAnswer(midShiti.done_daan, midShiti, self);
-    
-    if (px != 1 && px != shitiArray.length) {//如果不是第一题也是不是最后一题
+
+    if (px != 1 && px != shitiArray.length) { //如果不是第一题也是不是最后一题
       preShiti = shitiArray[px - 2];
       common.initShiti(preShiti, self); //初始化试题对象
       common.processDoneAnswer(preShiti.done_daan, preShiti, self);
       nextShiti = shitiArray[px];
       common.initShiti(nextShiti, self); //初始化试题对象
       common.processDoneAnswer(nextShiti.done_daan, nextShiti, self);
-    } else if (px == 1) {//如果是第一题
+    } else if (px == 1) { //如果是第一题
       nextShiti = shitiArray[px];
       common.initShiti(nextShiti, self); //初始化试题对象
       common.processDoneAnswer(nextShiti.done_daan, nextShiti, self);
@@ -617,7 +618,7 @@ Page({
     self.setData({
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray,
-      px:px,
+      px: px,
       circular: circular,
       myFavorite: myFavorite,
       xiaotiCurrent: 0,
@@ -631,14 +632,14 @@ Page({
     //如果是材料题就判断是否动画
     if (midShiti.TX == 99) {
       let str = "#q" + px;
-      let questionStr = midShiti.question;//问题的str
-      let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+      let questionStr = midShiti.question; //问题的str
+      let height = common.getQuestionHeight(questionStr); //根据问题长度，计算应该多高显示
 
       height = height >= 400 ? 400 : height;
 
       let question = self.selectComponent(str);
 
-      animate.blockSpreadAnimation(90, height, question);//占位框动画
+      animate.blockSpreadAnimation(90, height, question); //占位框动画
 
       question.setData({
         style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"
@@ -652,7 +653,7 @@ Page({
   /**
    * 纠错提交后
    */
-  _submit:function(e){
+  _submit: function(e) {
     let self = this;
 
     let user = wx.getStorageSync('user');
@@ -661,10 +662,10 @@ Page({
     let reason = e.detail.reason;
     let px = self.data.px;
     let shitiArray = self.data.shitiArray;
-    let shiti = shitiArray[px-1];
+    let shiti = shitiArray[px - 1];
     let stid = shiti.id
 
-    app.post(API_URL, "action=JiuCuo&LoginRandom=" + LoginRandom+"&zcode="+zcode+"&stid="+stid+"&reason="+reason,true,false,"提交中").then((res)=>{
+    app.post(API_URL, "action=JiuCuo&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&stid=" + stid + "&reason=" + reason, true, false, "提交中").then((res) => {
       self.errorRecovery.hideDialog();
     })
   }

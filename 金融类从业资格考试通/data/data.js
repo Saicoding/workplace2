@@ -11,6 +11,7 @@ function createShitiArray() {
       B: '\\u' + (Math.round(Math.random() * 20901) + 19968).toString(10),
       C: '\\u' + (Math.round(Math.random() * 20901) + 19968).toString(10),
       D: '\\u' + (Math.round(Math.random() * 20901) + 19968).toString(10),
+      E: '\\u' + (Math.round(Math.random() * 20901) + 19968).toString(10),
       answer: "D",
       jiexi: '\\u' + (Math.round(Math.random() * 20901) + 19968).toString(36),
       xiaoti: []

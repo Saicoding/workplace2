@@ -57,7 +57,7 @@
     </swiper-item>
   </block>
 </swiper>
-
+<view>{{!isLoaded}}</view>
 <view wx:if="{{!isLoaded}}" >
   <image class="loading-img" src="/imgs/timg.gif"  style="margin-top:{{windowHeight/2-400}}rpx;"></image>
 </view>
