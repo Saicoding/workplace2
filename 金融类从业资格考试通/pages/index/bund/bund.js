@@ -64,7 +64,7 @@ Page({
           success: function(res) {
             let user = res.data;
             wx.getStorage({
-              key: "zq" + self.data.zhangjie_id + user.username,
+              key: "zqshiti" + self.data.zhangjie_id + user.username,
               success: function(res) {
                 //将每个节的已经作答的本地存储映射到组件中    
                 for (let i = 0; i < zhangjie.length; i++) {
@@ -97,7 +97,7 @@ Page({
               },
               fail: function() { //如果没有本地存储就初始化
                 wx.setStorage({
-                  key: "zq" + self.data.zhangjie_id + user.username,
+                  key: "zqshiti" + self.data.zhangjie_id + user.username,
                   data: answer_nums_array
                 })
               }
@@ -188,7 +188,7 @@ Page({
         success: function(res) {
           let user = res.data;
           wx.getStorage({
-            key: "zq" + self.data.zhangjie_id + user.username,
+            key: "zqshiti" + self.data.zhangjie_id + user.username,
             success: function(res) {
               //将每个节的已经作答的本地存储映射到组件中          
               for (let i = 0; i < zhangjie.length; i++) {
@@ -210,7 +210,7 @@ Page({
             },
             fail: function() { //如果没有本地存储就初始化
               wx.setStorage({
-                key: "zq" + self.data.zhangjie_id + user.username,
+                key: "zqshiti" + self.data.zhangjie_id + user.username,
                 data: answer_nums_array
               })
             }
@@ -556,7 +556,7 @@ Page({
       success: function(res) {
         let user = res.data;
         wx.getStorage({
-          key: "zq" + self.data.zhangjie_id + user.username,
+          key: "zqshiti" + self.data.zhangjie_id + user.username,
           success: function(res) {
 
             //将每个节的已经作答的本地存储映射到组件中          
@@ -622,7 +622,7 @@ Page({
             }
 
             wx.setStorage({
-              key: "zq" + self.data.zhangjie_id + user.username,
+              key: "zqshiti" + self.data.zhangjie_id + user.username,
               data: answer_nums_array
             })
             //因为是在同步内部，最后需要更新章节信息，不更新数据不会改变

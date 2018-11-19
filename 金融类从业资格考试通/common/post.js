@@ -4,19 +4,22 @@ let animate = require('animate.js')
 /**
  * 练习题
  */
-function zuotiOnload(options, px, circular, myFavorite, res, user, self){
+function zuotiOnload(options, px, circular, myFavorite, res, user, page,self){
   let shitiArray = res.data.shiti;
+
   let all_nums = res.data.all_nums;
   let pageall = res.data.pageall;
 
   let username = user.username;
   let acode = user.acode;
+  let LoginRandom = user.Login_random;
+  let zcode = user.zcode;
 
-  common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
+  common.initNewWrongArrayDoneAnswer(shitiArray, page - 1);//将试题的所有done_daan置空
+  
+  shitiArray = common.initShitiArray(shitiArray, all_nums, page);
 
   common.initMarkAnswer(all_nums, self); //初始化答题板数组
-
-  common.initShitiArray(shitiArray, all_nums);
 
   //得到swiper数组
   let preShiti = undefined;//前一题
@@ -39,10 +42,13 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, self){
     common.initShiti(preShiti, self); //初始化试题对象
   }
 
+  console.log(options.category + "shiti" + options.zhangjie_id + username)
+
   //对是否是已答试题做处理
   wx.getStorage({
-    key: "shiti" + options.zhangjie_id+username,
+    key: options.category+"shiti" + options.zhangjie_id+username,
     success: function (res1) {
+      console.log(res1);
       //根据章是否有子节所有已经回答的题
       let doneAnswerArray = self.data.jieIdx != "undefined" ? res1.data[self.data.zhangIdx][self.data.jieIdx] : res1.data[self.data.zhangIdx]
       common.setMarkAnswerItems(doneAnswerArray, options.nums, self.data.isModelReal, self.data.isSubmit, self); //设置答题板数组     
@@ -103,38 +109,23 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, self){
     px:px,
     user:user,
     title: options.title,//标题
+    category: options.category,
     circular:circular,
     myFavorite: myFavorite,//是否收藏
-    nums: shitiArray.length, //题数
+
+    nums: all_nums, //题数
+    pageall: pageall,//总页数
+    pageArray: [page],//当前所有已经渲染的页面数组
+
     shitiArray: shitiArray, //整节的试题数组
     sliderShitiArray: sliderShitiArray,//滑动数组
     lastSliderIndex: lastSliderIndex,//默认滑动条一开始是0
     isLoaded: true, //是否已经载入完毕,用于控制过场动画
     username: username, //用户账号名称
-    acode: acode //用户唯一码
+    acode: acode, //用户唯一码
+    LoginRandom: LoginRandom,
+    zcode:zcode
   });
-
-
-  //如果是材料题就有动画
-  if (midShiti.TX == 99) {
-    let str = "#q" + px;
-    let questionStr = midShiti.question;//问题的str
-    let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
-
-    height = height >= 400 ? 400 : height;
-
-    let question = self.selectComponent(str);
-
-    animate.blockSpreadAnimation(90, height, question);//占位框动画
-
-    question.setData({
-      style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"
-    })
-
-    self.setData({
-      height: height,
-    })
-  }
 
   wx.hideLoading();
 }
@@ -185,27 +176,6 @@ function markOnload(options, px, circular, myFavorite,res, username, acode, self
     username: username, //用户账号名称
     acode: acode //用户唯一码
   });
-
-  //如果是材料题就有动画
-  if (midShiti.TX == 99) {
-    let str = "#q" + px;
-    let questionStr = midShiti.question;//问题的str
-    let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
-
-    height = height >= 400 ? 400 : height;
-
-    let question = self.selectComponent(str);
-
-    animate.blockSpreadAnimation(90, height, question);//占位框动画
-
-    question.setData({
-      style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"
-    })
-
-    self.setData({
-      height: height,
-    })
-  }
   
   wx.hideLoading();
 }
@@ -263,27 +233,6 @@ function wrongOnload(options, px, circular, myFavorite, res, username, acode, re
     requesttime: requesttime,//第一次请求的时间
     acode: acode //用户唯一码
   });
-
-  //如果是材料题就有动画
-  if (midShiti.TX == 99) {
-    let str = "#q" + px;
-    let questionStr = midShiti.question;//问题的str
-    let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
-
-    height = height >= 400 ? 400 : height;
-
-    let question = self.selectComponent(str);
-
-    animate.blockSpreadAnimation(90, height, question);//占位框动画
-
-    question.setData({
-      style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"
-    })
-
-    self.setData({
-      height: height,
-    })
-  }
 
   wx.hideLoading();
 }

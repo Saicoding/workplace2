@@ -5,15 +5,15 @@ function createShitiArray() {
     shitiArray[i] = {
       favorite: 0,
       id: 154263 + i,
-      TX: (Math.random() * 1 + 1).toFixed(0),
+      TX: parseInt((Math.random() * 1 + 1).toFixed(0)),
       question: '\\u' + (Math.round(Math.random() * 20901) + 19968).toString(16),
-      A: '\\u' + (Math.round(Math.random() * 20901) + 19968).toString(10),
-      B: '\\u' + (Math.round(Math.random() * 20901) + 19968).toString(10),
-      C: '\\u' + (Math.round(Math.random() * 20901) + 19968).toString(10),
-      D: '\\u' + (Math.round(Math.random() * 20901) + 19968).toString(10),
-      E: '\\u' + (Math.round(Math.random() * 20901) + 19968).toString(10),
+      A: (i+1)+'\\u' + (Math.round(Math.random() * 20901) + 19968).toString(10),
+      B: (i + 1) +'\\u' + (Math.round(Math.random() * 20901) + 19968).toString(10),
+      C: (i + 1) +'\\u' + (Math.round(Math.random() * 20901) + 19968).toString(10),
+      D: (i + 1) +'\\u' + (Math.round(Math.random() * 20901) + 19968).toString(10),
+      E: (i + 1) +'\\u' + (Math.round(Math.random() * 20901) + 19968).toString(10),
       answer: "D",
-      jiexi: '\\u' + (Math.round(Math.random() * 20901) + 19968).toString(36),
+      jiexi: (i + 1) +'\\u' + (Math.round(Math.random() * 20901) + 19968).toString(36),
       xiaoti: []
     }
   }
