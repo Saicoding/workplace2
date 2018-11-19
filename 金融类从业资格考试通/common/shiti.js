@@ -248,6 +248,7 @@ function initMarkAnswer(nums, self) {
   for (let i = 0; i < nums; i++) {
     markAnswerItems.push({});
   }
+
   self.markAnswer.setData({
     markAnswerItems: markAnswerItems,
     answerHeight: answerHeight

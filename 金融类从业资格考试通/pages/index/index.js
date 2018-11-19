@@ -22,6 +22,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    wx.setNavigationBarColor({//设置窗口颜色
+      frontColor: "#ffffff",
+      backgroundColor: "#f78c6b",
+    })
+
     let myType = wx.getStorageSync('myType');
     if (myType != "") {
       switch(myType){
@@ -48,8 +53,22 @@ Page({
   select: function(e) {
     let select_type = e.currentTarget.dataset.type;
     wx.setStorageSync('myType', select_type)
-    wx.redirectTo({
-      url: '/pages/index/myIndex/myIndex?type=' + select_type,
-    })
+    switch (select_type) {
+      case "zq":
+        wx.switchTab({
+          url: '/pages/index/bund/bund',
+        })
+        break;
+      case "jj":
+        wx.switchTab({
+          url: '/pages/index/fund/fund',
+        })
+        break;
+      case "qh":
+        wx.switchTab({
+          url: '/pages/index/future/future',
+        })
+        break;
+    }
   }
 })

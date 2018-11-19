@@ -6,6 +6,7 @@ let animate = require('animate.js')
  */
 function zuotiOnload(options, px, circular, myFavorite, res, user, self){
   let shitiArray = res.data.shiti;
+  console.log(shitiArray)
   let username = user.username;
   let acode = user.acode;
 

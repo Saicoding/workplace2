@@ -1,5 +1,16 @@
-<button data-type="zq" bindtap = "select">证券</button>
-<button data-type="jj" bindtap = "select" >基金</button>
-<button data-type="qh" bindtap = "select">期货</button>
+<view class = "container">
+  <view class ="block" style = "background:#ddf7f6;">
+    <view class = "block-text" style = "color:#2b79b3">证券从业资格考试</view>
+    <view data-type="zq" class ="button" bindtap='select'>立即开始学习</view>
+  </view>
 
-<tabbar id="tabBar" tabBar = "{{tabBar}}"></tabbar>
+    <view class ="block" style = "background:#f9edd7;">
+    <view class = "block-text" style = "color:#b6862c">基金从业资格考试</view>
+    <view data-type="jj" class ="button" bindtap='select'>立即开始学习</view>
+  </view>
+
+    <view class ="block" style = "background:#def5e1;">
+    <view class = "block-text" style = "color:#299b99">期货从业资格考试</view>
+    <view data-type="qh" class ="button" bindtap='select'>立即开始学习</view>
+  </view>
+</view>

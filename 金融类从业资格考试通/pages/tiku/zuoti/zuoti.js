@@ -7,6 +7,8 @@ let easeInAnimation = animate.easeInAnimation();
 let isFold = true; //默认都是折叠的
 let post = require('../../../common/post.js');
 
+let data = require('../../../data/data.js')
+
 const util = require('../../../utils/util.js')
 //把winHeight设为常量，不要放在data里（一般来说不用于渲染的数据都不能放在data里）
 const winHeight = wx.getSystemInfoSync().windowHeight
@@ -57,14 +59,23 @@ Page({
       px = 1 //如果没有这个px说明这个章节首次访问
       circular:false
     }
-    console.log("action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode)
-    app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, false, false, "").then((res) => {
+    // console.log("action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode)
+    // app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, false, false, "").then((res) => {
       
-      post.zuotiOnload(options, px, circular,myFavorite,res, user, self) //对数据进行处理和初始化
-      isFold = false;
-    }).catch((errMsg) => {
-      wx.hideLoading();
-    });
+    //   post.zuotiOnload(options, px, circular,myFavorite,res, user, self) //对数据进行处理和初始化
+    //   isFold = false;
+    // }).catch((errMsg) => {
+    //   wx.hideLoading();
+    // });
+
+    let res = {
+      data:{
+        shiti:data.getShiti(1)
+      }
+    }
+ 
+    post.zuotiOnload(options, px, circular, myFavorite, res, user, self) //对数据进行处理和初始化
+    isFold = false;
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
