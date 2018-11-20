@@ -30,7 +30,7 @@ Page({
 
     let self = this;
 
-    wx.setNavigationBarColor({//设置窗口颜色
+    wx.setNavigationBarColor({ //设置窗口颜色
       frontColor: "#ffffff",
       backgroundColor: "#C71585",
     })
@@ -38,9 +38,12 @@ Page({
     wx.setNavigationBarTitle({
       title: '期货从业资格考试通',
     })
+
     wx.setTabBarStyle({
       selectedColor: "#C71585"
     })
+
+    let typesid = self.data.typesid
 
     let user = wx.getStorageSync('user');
     this.setWindowWidthHeightScrollHeight(); //获取窗口高度 宽度 并计算章节滚动条的高度
@@ -61,7 +64,7 @@ Page({
           success: function (res) {
             let user = res.data;
             wx.getStorage({
-              key: "qh" + self.data.zhangjie_id + user.username,
+              key: "qhshiti" + self.data.zhangjie_id + user.username,
               success: function (res) {
                 //将每个节的已经作答的本地存储映射到组件中    
                 for (let i = 0; i < zhangjie.length; i++) {
@@ -94,7 +97,7 @@ Page({
               },
               fail: function () { //如果没有本地存储就初始化
                 wx.setStorage({
-                  key: "qh" + self.data.zhangjie_id + user.username,
+                  key: "qhshiti" + self.data.zhangjie_id + user.username,
                   data: answer_nums_array
                 })
               }
@@ -185,7 +188,7 @@ Page({
         success: function (res) {
           let user = res.data;
           wx.getStorage({
-            key: "qh" + self.data.zhangjie_id + user.username,
+            key: "qhshiti" + self.data.zhangjie_id + user.username,
             success: function (res) {
               //将每个节的已经作答的本地存储映射到组件中          
               for (let i = 0; i < zhangjie.length; i++) {
@@ -207,7 +210,7 @@ Page({
             },
             fail: function () { //如果没有本地存储就初始化
               wx.setStorage({
-                key: "qh" + self.data.zhangjie_id + user.username,
+                key: "qhshiti" + self.data.zhangjie_id + user.username,
                 data: answer_nums_array
               })
             }
@@ -373,6 +376,7 @@ Page({
     let z_id = e.currentTarget.id;
     let zhangIdx = e.currentTarget.dataset.itemidx; //点击的章index
     let jieIdx = e.currentTarget.dataset.jieidx; //点击的节index
+    let category = "qh"
 
     let zhangjie = self.data.zhangjie; //章节
     let zhangjie_id = self.data.zhangjie_id; //当前题库的id，用来作为本地存储的key值
@@ -393,19 +397,15 @@ Page({
       nums = zhangjie[zhangIdx].nums;
     }
 
-    let url = encodeURIComponent('/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title);
-    let url1 = '/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title
+    let url = encodeURIComponent('/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title + "&category=" + category);
+    let url1 = '/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title + "&category=" + category
     //获取是否有登录权限
     wx.getStorage({
       key: 'user',
       success: function (res) { //如果已经登陆过
-        let user = res.data;
-        let zcode = user.zcode;
-        let LoginRandom = user.Login_random;
-        let pwd = user.pwd
-
-        //验证重复登录:  参数:1.url1  没转码的url  2.url 转码的url 3.true 代码验证如果是重复登录是否跳转到要导向的页面
-        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true) //验证重复登录
+        wx.navigateTo({
+          url: url1,
+        })
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
@@ -532,7 +532,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    wx.setNavigationBarColor({//设置窗口颜色
+    wx.setNavigationBarColor({ //设置窗口颜色
       frontColor: "#ffffff",
       backgroundColor: "#C71585",
     })
@@ -540,9 +540,11 @@ Page({
     wx.setNavigationBarTitle({
       title: '期货从业资格考试通',
     })
+
     wx.setTabBarStyle({
       selectedColor: "#C71585"
     })
+
     let self = this;
     buttonClicked = false;
     let zhangjie = self.data.zhangjie;
@@ -554,7 +556,7 @@ Page({
       success: function (res) {
         let user = res.data;
         wx.getStorage({
-          key: "qh" + self.data.zhangjie_id + user.username,
+          key: "qhshiti" + self.data.zhangjie_id + user.username,
           success: function (res) {
 
             //将每个节的已经作答的本地存储映射到组件中          
@@ -620,7 +622,7 @@ Page({
             }
 
             wx.setStorage({
-              key: "qh" + self.data.zhangjie_id + user.username,
+              key: "qhshiti" + self.data.zhangjie_id + user.username,
               data: answer_nums_array
             })
             //因为是在同步内部，最后需要更新章节信息，不更新数据不会改变

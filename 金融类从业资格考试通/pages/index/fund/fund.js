@@ -30,16 +30,20 @@ Page({
 
     let self = this;
 
-    wx.setNavigationBarColor({//设置窗口颜色
+    wx.setNavigationBarColor({ //设置窗口颜色
       frontColor: "#ffffff",
       backgroundColor: "#ffc722",
     })
+
     wx.setNavigationBarTitle({
       title: '基金从业资格考试通',
     })
+
     wx.setTabBarStyle({
       selectedColor: "#ffc722"
     })
+
+    let typesid = self.data.typesid
 
     let user = wx.getStorageSync('user');
     this.setWindowWidthHeightScrollHeight(); //获取窗口高度 宽度 并计算章节滚动条的高度
@@ -48,7 +52,7 @@ Page({
       this.setZhangjie(res.data.list); //得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
 
       app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id, true, true, "请稍后").then((res) => { //得到上一步设置的题库下的所有章节
-        console.log(res)
+
         let zhangjie = res.data.list //得到所有章节
         let answer_nums_array = [] //答题数目array
         this.initZhangjie(zhangjie, answer_nums_array) //初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
@@ -60,7 +64,7 @@ Page({
           success: function (res) {
             let user = res.data;
             wx.getStorage({
-              key: "jj" + self.data.zhangjie_id + user.username,
+              key: "jjshiti" + self.data.zhangjie_id + user.username,
               success: function (res) {
                 //将每个节的已经作答的本地存储映射到组件中    
                 for (let i = 0; i < zhangjie.length; i++) {
@@ -93,7 +97,7 @@ Page({
               },
               fail: function () { //如果没有本地存储就初始化
                 wx.setStorage({
-                  key: "jj" + self.data.zhangjie_id + user.username,
+                  key: "jjshiti" + self.data.zhangjie_id + user.username,
                   data: answer_nums_array
                 })
               }
@@ -184,7 +188,7 @@ Page({
         success: function (res) {
           let user = res.data;
           wx.getStorage({
-            key: "jj" + self.data.zhangjie_id + user.username,
+            key: "jjshiti" + self.data.zhangjie_id + user.username,
             success: function (res) {
               //将每个节的已经作答的本地存储映射到组件中          
               for (let i = 0; i < zhangjie.length; i++) {
@@ -206,7 +210,7 @@ Page({
             },
             fail: function () { //如果没有本地存储就初始化
               wx.setStorage({
-                key: "jj" + self.data.zhangjie_id + user.username,
+                key: "jjshiti" + self.data.zhangjie_id + user.username,
                 data: answer_nums_array
               })
             }
@@ -372,6 +376,7 @@ Page({
     let z_id = e.currentTarget.id;
     let zhangIdx = e.currentTarget.dataset.itemidx; //点击的章index
     let jieIdx = e.currentTarget.dataset.jieidx; //点击的节index
+    let category = "jj"
 
     let zhangjie = self.data.zhangjie; //章节
     let zhangjie_id = self.data.zhangjie_id; //当前题库的id，用来作为本地存储的key值
@@ -392,19 +397,15 @@ Page({
       nums = zhangjie[zhangIdx].nums;
     }
 
-    let url = encodeURIComponent('/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title);
-    let url1 = '/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title
+    let url = encodeURIComponent('/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title + "&category=" + category);
+    let url1 = '/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title + "&category=" + category
     //获取是否有登录权限
     wx.getStorage({
       key: 'user',
       success: function (res) { //如果已经登陆过
-        let user = res.data;
-        let zcode = user.zcode;
-        let LoginRandom = user.Login_random;
-        let pwd = user.pwd
-
-        //验证重复登录:  参数:1.url1  没转码的url  2.url 转码的url 3.true 代码验证如果是重复登录是否跳转到要导向的页面
-        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true) //验证重复登录
+        wx.navigateTo({
+          url: url1,
+        })
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
@@ -531,16 +532,19 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    wx.setNavigationBarColor({//设置窗口颜色
+    wx.setNavigationBarColor({ //设置窗口颜色
       frontColor: "#ffffff",
       backgroundColor: "#ffc722",
     })
+
     wx.setNavigationBarTitle({
       title: '基金从业资格考试通',
     })
+
     wx.setTabBarStyle({
       selectedColor: "#ffc722"
     })
+
     let self = this;
     buttonClicked = false;
     let zhangjie = self.data.zhangjie;
@@ -552,7 +556,7 @@ Page({
       success: function (res) {
         let user = res.data;
         wx.getStorage({
-          key: "jj" + self.data.zhangjie_id + user.username,
+          key: "jjshiti" + self.data.zhangjie_id + user.username,
           success: function (res) {
 
             //将每个节的已经作答的本地存储映射到组件中          
@@ -618,7 +622,7 @@ Page({
             }
 
             wx.setStorage({
-              key: "jj" + self.data.zhangjie_id + user.username,
+              key: "jjshiti" + self.data.zhangjie_id + user.username,
               data: answer_nums_array
             })
             //因为是在同步内部，最后需要更新章节信息，不更新数据不会改变
@@ -672,7 +676,6 @@ Page({
    * 得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
    */
   setZhangjie: function (res) {
-    console.log(res)
     let z_id = 0;
     let index = 0;
     let tiku = wx.getStorageSync("jj_tiku_id");
