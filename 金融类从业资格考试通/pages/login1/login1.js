@@ -20,6 +20,12 @@ Page({
   onLoad: function (options) {
     let self = this;
 
+    wx.setNavigationBarColor({ //设置窗口颜色
+      frontColor: "#ffffff",
+      backgroundColor: "#fd6131",
+    })
+
+
     this.setData({
       url: decodeURIComponent(options.url),
       url1: options.url,

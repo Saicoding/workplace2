@@ -36,7 +36,7 @@
   display: float;
   float:left;
   color: #fff;
-  background: #388ff8;
+  background: #e31725;
   border:#c6c6c6;
   border-radius: 5rpx;
   width:32%;
@@ -56,17 +56,16 @@
 }
 
 .confirm-btn{
-  background: #388ff8;
+  background: #e31725;
   height:80rpx;
   margin:80rpx auto;
   border-radius: 80rpx;
   color:white;
   line-height: 80rpx;
   font-size:32rpx;
-  width: 60%;
-
+  width: 100%;
 }
 
 .select{
-  background: #0371f7;
+  background: #B22222;
 }

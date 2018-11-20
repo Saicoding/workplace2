@@ -197,9 +197,19 @@ Page({
    * 在返回页面的时候
    */
   onShow: function() {
+    wx.setNavigationBarColor({ //设置窗口颜色
+      frontColor: "#ffffff",
+      backgroundColor: "#fd6131",
+    })
+
+    wx.setNavigationBarTitle({
+      title: '金融类从业资格考试通',
+    })
+
     wx.setTabBarStyle({
       selectedColor: "#fd6131"
     })
+
     let self = this;
     buttonClicked = false;
     let user = wx.getStorageSync('user');

@@ -53,7 +53,7 @@
 
 
       <view data-itemIdx="{{itemIdx}}" id='{{item.id}}' bindtap="onTapZhangjie" class="block" hover-start-time="100" hover-class="select">
-        <image wx:if="{{item.hasChild}}" class="zhang-icon" src="{{item.isFolder?'/imgs/folder.png':'/imgs/unfolder.png'}}"></image>
+        <image wx:if="{{item.hasChild}}" class="zhang-icon" src="{{item.isFolder?'/imgs/jj_folder.png':'/imgs/jj_unfolder.png'}}"></image>
 
         <view class='title' id='{{item.id}}' style="color:{{item.isAnswerAll?'#9D9D9D':'black'}}">
           {{item.title}}

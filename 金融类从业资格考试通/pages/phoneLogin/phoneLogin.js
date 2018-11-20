@@ -19,6 +19,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.setNavigationBarColor({ //设置窗口颜色
+      frontColor: "#ffffff",
+      backgroundColor: "#fd6131",
+    })
     this.setData({
       url: decodeURIComponent(options.url),
       ifGoPage:options.ifGoPage,
@@ -93,7 +97,7 @@ Page({
             text: '重新发送',
             currentTime: 61,
             disabled: false,
-            color: '#388ff8'
+            color: '#e31725'
           })
         }
       }, 1000);
@@ -109,7 +113,7 @@ Page({
 
       self.setData({
         disabled: false,
-        color: '#388ff8'
+        color: '#e31725'
       })
       return;
 
