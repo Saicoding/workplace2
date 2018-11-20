@@ -14,7 +14,7 @@
   height: 120rpx;
   display: block;
   margin:0 auto;
-  }
+}
 
 .question_cailiao1 {
   line-height: 60rpx;

@@ -11,7 +11,6 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, page,self){
   let pageall = res.data.pageall;
 
   let username = user.username;
-  let acode = user.acode;
   let LoginRandom = user.Login_random;
   let zcode = user.zcode;
 
@@ -41,8 +40,6 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, page,self){
     preShiti = shitiArray[px-2];
     common.initShiti(preShiti, self); //初始化试题对象
   }
-
-  console.log(options.category + "shiti" + options.zhangjie_id + username)
 
   //对是否是已答试题做处理
   wx.getStorage({
@@ -122,7 +119,6 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, page,self){
     lastSliderIndex: lastSliderIndex,//默认滑动条一开始是0
     isLoaded: true, //是否已经载入完毕,用于控制过场动画
     username: username, //用户账号名称
-    acode: acode, //用户唯一码
     LoginRandom: LoginRandom,
     zcode:zcode
   });
@@ -134,8 +130,11 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, page,self){
  * 收藏题
  */
 
-function markOnload(options, px, circular, myFavorite,res, username, acode, self){
+function markOnload(options, px, circular, myFavorite,res, user, self){
   let shitiArray = res.data.shiti;
+  let username = user.username;
+  let LoginRandom = user.Login_random;
+  let zcode = user.zcode;
 
   common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
 
@@ -173,8 +172,10 @@ function markOnload(options, px, circular, myFavorite,res, username, acode, self
     myFavorite: myFavorite,//是否收藏
     lastSliderIndex: 0,//默认滑动条一开始是0
     isLoaded: true, //是否已经载入完毕,用于控制过场动画
+
     username: username, //用户账号名称
-    acode: acode //用户唯一码
+    LoginRandom: LoginRandom,
+    zcode:zcode
   });
   
   wx.hideLoading();
@@ -185,10 +186,15 @@ function markOnload(options, px, circular, myFavorite,res, username, acode, self
  * 错题
  */
 
-function wrongOnload(options, px, circular, myFavorite, res, username, acode, requesttime, self) {
+function wrongOnload(options, px, circular, myFavorite, res, user,  requesttime, self) {
   let shitiArray = res.data.shiti;
   let all_nums = res.data.all_nums;
   let pageall = res.data.pageall;
+  
+  let username = user.username;
+  let LoginRandom = user.Login_random;
+  let zcode = user.zcode;
+
 
   common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
 
@@ -229,9 +235,12 @@ function wrongOnload(options, px, circular, myFavorite, res, username, acode, re
     myFavorite: myFavorite,//是否收藏
     lastSliderIndex: 0,//默认滑动条一开始是0
     isLoaded: true, //是否已经载入完毕,用于控制过场动画
+
     username: username, //用户账号名称
+    LoginRandom: LoginRandom,
+    zcode:zcode,
+
     requesttime: requesttime,//第一次请求的时间
-    acode: acode //用户唯一码
   });
 
   wx.hideLoading();

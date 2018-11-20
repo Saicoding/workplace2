@@ -19,6 +19,7 @@ Page({
    */
   onLoad: function (options) {
     let self = this;
+
     this.setData({
       url: decodeURIComponent(options.url),
       url1: options.url,
@@ -88,6 +89,7 @@ Page({
       wx.navigateBack({}) //先回到登录前的页面
 
       if (ifGoPage == 'true') {
+        console.log(url)
         wx.navigateTo({
           url: url,
         })

@@ -140,7 +140,6 @@ Page({
             pageArray: pageArray
           })
 
-          console.log("action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + z_id + "&zcode=" + zcode + "&page=" + nextPage)
             app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + z_id + "&zcode=" + zcode + "&page="+nextPage, false, false, "", true, self).then((res) => {
             console.log(res)
             let newWrongShitiArray = res.data.shiti;
@@ -309,7 +308,7 @@ Page({
 
     common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
 
-    common.postAnswerToServer(self.data.acode, self.data.username, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结
+    common.postAnswerToServer(self.data.LoginRandom, self.data.zcode, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结
     common.storeAnswerStatus(shiti, self); //存储答题状态
 
     common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self) //更新答题板状态

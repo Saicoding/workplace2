@@ -1,4 +1,4 @@
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 const app = getApp();
 let myTime = require('time.js');
 let animate = require('animate.js')
@@ -60,7 +60,7 @@ function initNewWrongArrayDoneAnswer(shitiArray, page) {
  * 练习题中点击答题板后的处理方法
  */
 
-function processTapLianxiAnswer(midShiti, preShiti, nextShiti, px, current, circular, shitiArray, self){
+function processTapLianxiAnswer(midShiti, preShiti, nextShiti, px, current, circular, shitiArray, self) {
   let myFavorite = midShiti.favorite;
   let myCurrent = current;
 
@@ -108,7 +108,7 @@ function processTapLianxiAnswer(midShiti, preShiti, nextShiti, px, current, circ
     sliderShitiArray[0] = midShiti;
     sliderShitiArray[1] = nextShiti;
     current = 0;
-    myCurrent =0;
+    myCurrent = 0;
   } else if (px == shitiArray.length) {
     sliderShitiArray[0] = preShiti;
     sliderShitiArray[1] = midShiti;
@@ -188,7 +188,7 @@ function processTapWrongAnswer(midShiti, preShiti, nextShiti, px, current, circu
     sliderShitiArray[0] = preShiti;
     sliderShitiArray[1] = midShiti;
     current = 1;
-    myCurrent= 1;
+    myCurrent = 1;
   }
 
   circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
@@ -201,7 +201,6 @@ function processTapWrongAnswer(midShiti, preShiti, nextShiti, px, current, circu
     myCurrent: myCurrent,
     isLoaded: true,
     myFavorite: myFavorite,
-    xiaotiCurrent: 0, //没滑动一道题都将材料题小题的滑动框index置为0
     lastSliderIndex: current,
     checked: false
   })
@@ -211,11 +210,11 @@ function processTapWrongAnswer(midShiti, preShiti, nextShiti, px, current, circu
 /**
  * 错题将试题数组扩充
  */
-function initShitiArray(shitiArray, all_nums,page) {
+function initShitiArray(shitiArray, all_nums, page) {
   let allShitiArray = [];
 
-  let num1 = (page-1) * 10;
-  let num2 = all_nums - page*10; //空的试题
+  let num1 = (page - 1) * 10;
+  let num2 = all_nums - page * 10; //空的试题
 
   //前面的空试题
   for (let i = 0; i < num1; i++) {
@@ -245,16 +244,6 @@ function setModelRealCLShitiPx(shitiArray) {
     num++;
     let shiti = shitiArray[i];
     shiti.px = i + 1;
-    //试题编号加上中间如果有材料题的数量
-    if (shiti.TX == 99) { //如果是材料题
-      shiti.clpx = num;
-      num--;
-      for (let j = 0; j < shiti.xiaoti.length; j++) {
-        let ti = shiti.xiaoti[j];
-        ti.px = num + 1;
-        num++;
-      }
-    }
   }
 }
 
@@ -264,7 +253,7 @@ function setModelRealCLShitiPx(shitiArray) {
 function initMarkAnswer(nums, self) {
   let markAnswerItems = self.data.markAnswerItems;
 
-  let lines = Math.ceil(nums / 9);//有多少行编号
+  let lines = Math.ceil(nums / 9); //有多少行编号
   let answerHeight = lines > 5 ? 460 : lines * 90 + 10;
 
   for (let i = 0; i < nums; i++) {
@@ -283,7 +272,7 @@ function initMarkAnswer(nums, self) {
 function initModelRealMarkAnswer(newShitiArray, self) {
   let markAnswerItems = self.data.markAnswerItems;
 
-  let lines = Math.ceil(newShitiArray.length / 9);//有多少行编号
+  let lines = Math.ceil(newShitiArray.length / 9); //有多少行编号
   let answerHeight = lines > 5 ? 460 : lines * 90 + 10;
 
   for (let i = 0; i < newShitiArray.length; i++) {
@@ -296,7 +285,7 @@ function initModelRealMarkAnswer(newShitiArray, self) {
       });
     }
 
-    markAnswerItems[i].radius = newShiti.TX ==1?50:10;//映射试题种类
+    markAnswerItems[i].radius = newShiti.TX == 1 ? 50 : 10; //映射试题种类
   }
 
   self.markAnswer.setData({
@@ -398,51 +387,23 @@ function setModelRealMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubm
     let select = jie_answer_array[i].select;
     let style = "";
 
-    if (select != "材料题") {
-      if (isModelReal && isSubmit == false) { //如果是真题或者押题并且没有提交
-        if (jie_answer_array[i].done_daan != "") { //如果答案不为空
-          style = "background:#0197f6;color:white;border:1rpx solid #0197f6;"
-        } else { //如果是空
-          style = "border:1rpx solid #9c9c9c;"
-        }
-
-      } else if (jie_answer_array[i].isRight == 0) { //如果题是正确的
-        style = "background:#90dd35;color:white;border:1rpx solid #90dd35;"
-      } else if (jie_answer_array[i].isRight == 1) { //如果题是错误的
-        style = "background:#fa4b5c;color:white;border:1rpx solid #fa4b5c;"
+    if (isModelReal && isSubmit == false) { //如果是真题或者押题并且没有提交
+      if (jie_answer_array[i].done_daan != "") { //如果答案不为空
+        style = "background:#0197f6;color:white;border:1rpx solid #0197f6;"
+      } else { //如果是空
+        style = "border:1rpx solid #9c9c9c;"
       }
 
-      markAnswerItems[px - 1].select = jie_answer_array[i].select;
-      markAnswerItems[px - 1].isRight = jie_answer_array[i].isRight
-      markAnswerItems[px - 1].style = style;
-
-    } else {
-      let done_daan = jie_answer_array[i].done_daan; //多选题答案
-      for (let j = 0; j < done_daan.length; j++) {
-        let daan = done_daan[j];
-        let tiPx = daan.px;
-        if (isModelReal && isSubmit == false) { //如果是真题或者押题并且没有提交
-          if (daan.done_daan != "") { //如果答案不为空
-            style = "background:#0197f6;color:white;border:1rpx solid #0197f6;"
-          } else { //如果是空
-            style = "border:1rpx solid #9c9c9c;"
-          }
-
-        } else if (daan.isRight == 0) { //如果题是正确的
-          style = "background:#90dd35;color:white;border:1rpx solid #90dd35;"
-        } else if (daan.isRight == 1) { //如果题是错误的
-          style = "background:#fa4b5c;color:white;border:1rpx solid #fa4b5c;"
-        }
-
-        markAnswerItems[daan.px - 1].select = "材料题";
-        markAnswerItems[daan.px - 1].isRight = daan.isRight
-        markAnswerItems[daan.px - 1].style = style;
-        markAnswerItems[daan.px - 1].cl = jie_answer_array[i].px
-      }
+    } else if (jie_answer_array[i].isRight == 0) { //如果题是正确的
+      style = "background:#90dd35;color:white;border:1rpx solid #90dd35;"
+    } else if (jie_answer_array[i].isRight == 1) { //如果题是错误的
+      style = "background:#fa4b5c;color:white;border:1rpx solid #fa4b5c;"
     }
-  }
 
-  console.log(markAnswerItems)
+    markAnswerItems[px - 1].select = jie_answer_array[i].select;
+    markAnswerItems[px - 1].isRight = jie_answer_array[i].isRight
+    markAnswerItems[px - 1].style = style;
+  }
 
   self.markAnswer.setData({
     markAnswerItems: markAnswerItems
@@ -507,33 +468,6 @@ function setMarkAnswer(shiti, isModelReal, isSubmit, self) {
 }
 
 /**
- * 材料题设置单个答题板
- */
-
-function setCLMarkAnswer(shiti, isSubmit, shitiPx, self) {
-  let markAnswerItems = self.markAnswer.data.markAnswerItems; //得到答题板组件的已答
-  let px = shiti.px;
-  let style = "";
-
-  if (isSubmit == false) { //如果是真题或者押题
-    style = "background:#0197f6;color:white;border:1rpx solid #0197f6; "
-  } else if (shiti.flag == 0) { //如果题是正确的
-    style = "background:#90dd35;color:white;border:1rpx solid #90dd35; "
-  } else if (shiti.flag == 1) { //如果题是错误的
-    style = "background:#fa4b5c;color:white;border:1rpx solid #fa4b5c; "
-  }
-
-  markAnswerItems[px - 1].select = shiti.tx;
-  markAnswerItems[px - 1].isRight = shiti.flag
-  markAnswerItems[px - 1].style = style;
-  markAnswerItems[px - 1].cl = shitiPx
-
-  self.markAnswer.setData({
-    markAnswerItems: markAnswerItems
-  })
-}
-
-/**
  * 更新存储已答试题,更新答题板数据（单选和多选）
  */
 function storeAnswerStatus(shiti, self) {
@@ -544,7 +478,7 @@ function storeAnswerStatus(shiti, self) {
   let username = user.username
   let category = self.data.category;
 
-  let answer_nums_array = wx.getStorageSync(category+"shiti" + self.data.zhangjie_id + username);
+  let answer_nums_array = wx.getStorageSync(category + "shiti" + self.data.zhangjie_id + username);
 
   let obj = {
     "id": shiti.id,
@@ -570,7 +504,7 @@ function storeAnswerStatus(shiti, self) {
   console.log(category + "shiti" + self.data.zhangjie_id + username)
 
   wx.setStorage({
-    key: category+"shiti" + self.data.zhangjie_id + username,
+    key: category + "shiti" + self.data.zhangjie_id + username,
     data: answer_nums_array,
   })
 }
@@ -585,29 +519,18 @@ function storeModelRealAnswerStatus(shiti, self) {
   let doneAnswerArray = self.data.doneAnswerArray;
   let category = self.data.category;
 
-  let answer_nums_array = wx.getStorageSync(category+self.data.tiTypeStr + "modelReal" + id + username);
+  let answer_nums_array = wx.getStorageSync(category + self.data.tiTypeStr + "modelReal" + id + username);
 
   let flag = false;
 
   let obj = {};
 
-  if (shiti.TX == 99) {
-    obj = {
-      "id": shiti.id,
-      "done_daan": shiti.done_daan,
-      "select": shiti.tx,
-      "isRight": shiti.flag,
-      "px": shiti.px,
-      "clpx": shiti.clpx
-    }
-  } else {
-    obj = {
-      "id": shiti.id,
-      "done_daan": shiti.done_daan,
-      "select": shiti.tx,
-      "isRight": shiti.flag,
-      "px": shiti.px,
-    }
+  obj = {
+    "id": shiti.id,
+    "done_daan": shiti.done_daan,
+    "select": shiti.tx,
+    "isRight": shiti.flag,
+    "px": shiti.px,
   }
 
 
@@ -636,7 +559,7 @@ function storeModelRealAnswerStatus(shiti, self) {
   })
 
   wx.setStorage({
-    key: category+self.data.tiTypeStr + "modelReal" + id + username ,
+    key: category + self.data.tiTypeStr + "modelReal" + id + username,
     data: answer_nums_array,
   })
 }
@@ -773,81 +696,24 @@ function changeModelRealSelectStatus(done_daan, shiti, self) {
  * 对已答试题进行处理（练习题）
  */
 function processDoneAnswer(done_daan, shiti, self) {
-  switch (shiti.tx) {
-    case "单选题":
-    case "多选题":
-      if (done_daan != "") {
-        changeSelectStatus(done_daan, shiti, self) //根据得到的已答数组更新试题状态
-        shiti.isAnswer = true;
-      }
-      break;
-    case "材料题":
-      if (done_daan != "") { //如果材料题已答
-        for (let i = 0; i < shiti.xiaoti.length; i++) {
-          let ti = shiti.xiaoti[i]; //小题
-          for (let j = 0; j < done_daan.length; j++) {
-            let xt_done_daan = done_daan[j]; //小题已答答案对象
-            if (i + 1 == xt_done_daan.px) { //找到对应小题
-              changeSelectStatus(xt_done_daan.done_daan, ti, self) //根据得到的已答数组更新试题状态
-              break;
-            }
-          }
-        }
-        shiti.isAnswer = true;
-      }
-      break;
+  if (done_daan != "") {
+    changeSelectStatus(done_daan, shiti, self) //根据得到的已答数组更新试题状态
+    shiti.isAnswer = true;
   }
 }
 /**
  * 对已答试题进行处理（真题,押题）
  */
 function processModelRealDoneAnswer(done_daan, shiti, self) {
-  switch (shiti.tx) {
-    case "单选题":
-    case "多选题":
-      if (self.data.isSubmit) { //提交了
-        if (done_daan == "") { //提交而且答案是空
-          changeModelRealSelectStatus(shiti.answer, shiti, self) //根据得到的已答数组更新试题状态   
-        } else {
-          changeSelectStatus(done_daan, shiti, self)
-        }
+  if (self.data.isSubmit) { //提交了
+    if (done_daan == "") { //提交而且答案是空
+      changeModelRealSelectStatus(shiti.answer, shiti, self) //根据得到的已答数组更新试题状态   
+    } else {
+      changeSelectStatus(done_daan, shiti, self)
+    }
 
-      } else {
-        changeModelRealSelectStatus(done_daan, shiti, self) //根据得到的已答数组更新试题状态
-      }
-      break;
-    case "材料题":
-      let xiaoti = shiti.xiaoti;
-      for (let i = 0; i < xiaoti.length; i++) {
-        let ti = xiaoti[i];
-
-        if (self.data.isSubmit) { //提交了试卷
-          if (done_daan == "") { //提交而且答案是空
-            changeModelRealSelectStatus(ti.answer, ti, self) //根据得到的已答数组更新试题状态   
-          } else {
-            let isIn = false; //已答数组中有没有这个小题，默认没有
-            for (let j = 0; j < done_daan.length; j++) {
-              let ti_done_daan = done_daan[j];
-              if (ti.px == ti_done_daan.px) {
-                isIn = true;
-                changeSelectStatus(ti_done_daan.done_daan, ti, self)
-              }
-            }
-            if (!isIn) { //如果没有作答
-              changeModelRealSelectStatus(ti.answer, ti, self) //根据得到的已答数组更新试题状态  
-            }
-          }
-        } else { //如果没有提交试卷     
-          for (let j = 0; j < done_daan.length; j++) {
-            let ti_done_daan = done_daan[j]
-            if (ti.px == ti_done_daan.px) {
-              changeModelRealSelectStatus(ti_done_daan.done_daan, ti, self) //根据得到的已答数组更新试题状态
-              break;
-            }
-          }
-        }
-      }
-      break;
+  } else {
+    changeModelRealSelectStatus(done_daan, shiti, self) //根据得到的已答数组更新试题状态
   }
 }
 
@@ -903,9 +769,12 @@ function changeMultiShiti(done_daan, shiti) {
 /**
  * 向服务器提交做题结果
  */
-function postAnswerToServer(acode, username, id, flag, done_daan, app, API_URL) {
+function postAnswerToServer(LoginRandom, zcode, id, flag, done_daan, app, API_URL) {
   //向服务器提交做题结果
-  app.post(API_URL, "action=saveShitiResult&acode=" + acode + "&username=" + username + "&tid=" + id + "&flag=" + flag + "&answer=" + done_daan, false).then((res) => {})
+  console.log("action=saveShitiResult&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&tid=" + id + "&flag=" + flag + "&answer=" + done_daan)
+  app.post(API_URL, "action=saveShitiResult&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&tid=" + id + "&flag=" + flag + "&answer=" + done_daan, false).then((res) => {
+    console.log(res)
+  })
 }
 
 /**
@@ -1014,7 +883,7 @@ function lianxiRestart(self) {
 
     initMarkAnswer(shitiArray.length, self); //初始化答题板数组
 
-    let answer_nums_array = wx.getStorageSync(category+"shiti" + self.data.zhangjie_id + username);
+    let answer_nums_array = wx.getStorageSync(category + "shiti" + self.data.zhangjie_id + username);
 
     //根据章是否有字节的结构来
     if (jieIdx != "undefined") {
@@ -1022,7 +891,7 @@ function lianxiRestart(self) {
     } else {
       answer_nums_array[zhangIdx] = [];
     }
-    wx.setStorageSync(category+"shiti" + self.data.zhangjie_id + username , answer_nums_array); //重置已答数组
+    wx.setStorageSync(category + "shiti" + self.data.zhangjie_id + username, answer_nums_array); //重置已答数组
 
     self.setData({
       shiti: self.data.shitiArray[0],
@@ -1085,13 +954,13 @@ function restartModelReal(self) {
 
   initModelRealMarkAnswer(self.data.newShitiArray, self); //初始化答题板数组
 
-  let answer_nums_array = wx.getStorageSync(category+self.data.tiTypeStr + "modelReal" + self.data.id + username ); //将已答答案置空
+  let answer_nums_array = wx.getStorageSync(category + self.data.tiTypeStr + "modelReal" + self.data.id + username); //将已答答案置空
   wx.setStorage({
-    key: category+self.data.tiTypeStr + "modelReal" + self.data.id + username ,
+    key: category + self.data.tiTypeStr + "modelReal" + self.data.id + username,
     data: [],
   })
   wx.setStorage({
-    key: category+self.data.tiTypeStr + "modelRealIsSubmit" + self.data.id + username ,
+    key: category + self.data.tiTypeStr + "modelRealIsSubmit" + self.data.id + username,
     data: false,
   })
   self.setData({
@@ -1144,13 +1013,10 @@ function delLastStr(str) {
 function getDoneAnswers(shitiArray) {
   let userAnswer1 = "";
   let userAnswer2 = "";
-  let userAnswer99 = "";
   let tid1 = "";
   let tid2 = "";
-  let tid99 = "";
   let rightAnswer1 = "";
   let rightAnswer2 = "";
-  let rightAnswer99 = "";
   let TrueTid = "";
 
 
@@ -1184,54 +1050,23 @@ function getDoneAnswers(shitiArray) {
         }
         rightAnswer2 += myShiti.answer + ',';
         break;
-      case 99:
-        let xiaoti = myShiti.xiaoti;
-
-        for (let k = 0; k < xiaoti.length; k++) {
-          let ti = xiaoti[k]; //材料题的每个小题
-
-          if (ti.TX == 1) {
-            userAnswer99 += ti.done_daan + ","; //拼接字符串
-          } else if (ti.TX == 2) {
-            let xt_done_daan = ti.done_daan; //试题答案["A","B","C"]
-            let str_done_daan = ""; //试题字符串答案"ABC"
-
-            for (let m = 0; m < xt_done_daan.length; m++) {
-              let single = xt_done_daan[m];
-              str_done_daan += single;
-            }
-            userAnswer99 += str_done_daan + ","; //拼接字符串  
-          }
-          tid99 += ti.id + ",";
-          if (ti.flag == 0) { //答对
-            TrueTid += ti.id + ",";
-          }
-          rightAnswer99 += ti.answer + ',';
-        }
-        break;
     }
   }
   userAnswer1 = delLastStr(userAnswer1);
   userAnswer2 = delLastStr(userAnswer2);
-  userAnswer99 = delLastStr(userAnswer99);
   tid1 = delLastStr(tid1);
   tid2 = delLastStr(tid2);
-  tid99 = delLastStr(tid99);
   rightAnswer1 = delLastStr(rightAnswer1);
   rightAnswer2 = delLastStr(rightAnswer2);
-  rightAnswer99 = delLastStr(rightAnswer99);
   TrueTid = delLastStr(TrueTid);
 
   let doneUserAnswer = {
     'userAnswer1': userAnswer1,
     'userAnswer2': userAnswer2,
-    'userAnswer99': userAnswer99,
     'tid1': tid1,
     'tid2': tid2,
-    'tid99': tid99,
     'rightAnswer1': rightAnswer1,
     'rightAnswer2': rightAnswer2,
-    'rightAnswer99': rightAnswer99,
     'TrueTid': TrueTid
   }
   return doneUserAnswer;
@@ -1291,7 +1126,6 @@ module.exports = {
   getNewShitiArray: getNewShitiArray,
   initModelRealMarkAnswer: initModelRealMarkAnswer,
   setModelRealCLShitiPx: setModelRealCLShitiPx,
-  setCLMarkAnswer: setCLMarkAnswer,
   setMarkedAll: setMarkedAll,
   initShitiArray: initShitiArray,
   initNewWrongArrayDoneAnswer: initNewWrongArrayDoneAnswer,

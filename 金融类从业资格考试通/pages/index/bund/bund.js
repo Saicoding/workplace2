@@ -43,7 +43,6 @@ Page({
       selectedColor: "#fd6131"
     })
 
-    let typesid = self.data.typesid
 
     let user = wx.getStorageSync('user');
     this.setWindowWidthHeightScrollHeight(); //获取窗口高度 宽度 并计算章节滚动条的高度
@@ -403,9 +402,11 @@ Page({
     wx.getStorage({
       key: 'user',
       success: function (res) { //如果已经登陆过
-        wx.navigateTo({
-          url: url1,
-        })
+        let user = res.data;
+        let zcode = user.zcode;
+        let LoginRandom = user.Login_random;
+        let pwd = user.pwd
+        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true)
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
@@ -455,17 +456,18 @@ Page({
     let kid = self.data.zhangjie_id;
     let url = encodeURIComponent('/pages/tiku/mark/mark?kid=' + kid)
     let url1 = '/pages/tiku/mark/mark?kid=' + kid;
+
     //获取是否有登录权限
     wx.getStorage({
       key: 'user',
-      success: function(res) { //如果已经登陆过
+      success: function (res) { //如果已经登陆过
         let user = res.data;
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
         validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true)
       },
-      fail: function(res) { //如果没有username就跳转到登录界面
+      fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
           url: '/pages/login1/login1?url=' + url + "&ifGoPage=true",
         })

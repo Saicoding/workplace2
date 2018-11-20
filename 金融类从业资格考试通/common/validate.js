@@ -6,8 +6,7 @@ const app = getApp();
  */
 function validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1,url,ifGoPage) {
 
-  app.post(API_URL, "action=CheckAccount&zcode=" + zcode + "&LoginRandom=" + LoginRandom + "&pwd=" + pwd, false, false, "", url, ifGoPage).then((res) => {
-      
+  app.post(API_URL, "action=CheckAccount&zcode=" + zcode + "&LoginRandom=" + LoginRandom + "&pwd=" + pwd, false, false, "", url, ifGoPage).then((res) => { 
       wx.navigateTo({
         url: url1
       })

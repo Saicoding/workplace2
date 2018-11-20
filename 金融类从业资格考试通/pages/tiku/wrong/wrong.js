@@ -1,5 +1,5 @@
 // pages/tiku/mark/mark.js
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 let common = require('../../../common/shiti.js');
 let animate = require('../../../common/animate.js');
 let easeOutAnimation = animate.easeOutAnimation();
@@ -43,16 +43,19 @@ Page({
     }) //设置标题
     let self = this;
     let user = wx.getStorageSync('user');
+
     let username = user.username; //用户姓名
-    let acode = user.acode; //用户唯一码
+    let LoginRandom = user.Login_random;
+    let zcode = user.zcode;
     let kid = options.kid; //题库编号
     let px = 1;
     let circular = false;
     let myFavorite = 0;
     let requesttime = time.formatDateTime((new Date()).valueOf());//请求时间（第一次请求的时间）
 
-    app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&requesttime=" + requesttime, false, true, "","", true, self).then((res) => {
-      post.wrongOnload(options, px, circular, myFavorite, res, username, acode, requesttime,self);
+    console.log("action=GetErrorShiti&kid=" + kid + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&requesttime=" + requesttime)
+    app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&requesttime=" + requesttime, false, true, "","", true, self).then((res) => {
+      post.wrongOnload(options, px, circular, myFavorite, res, user,requesttime,self);
     }).catch((errMsg) => {
       wx.hideLoading();
     });
@@ -287,7 +290,7 @@ Page({
 
     common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
 
-    common.postAnswerToServer(self.data.acode, self.data.username, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结果
+    common.postAnswerToServer(self.data.LoginRandom, self.data.zcode, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结果
 
     common.storeAnswerArray(shiti, self) //存储已答题数组
 
