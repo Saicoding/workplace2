@@ -232,7 +232,7 @@
   display: float;
   float: left;
   width: 515rpx;
-  border-bottom: 1px dashed #eee;
+  border-bottom: 1rpx dashed #eee;
   margin-left: 100rpx;
   white-space: nowrap;
   overflow: hidden;

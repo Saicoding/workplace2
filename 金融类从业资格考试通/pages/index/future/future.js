@@ -301,16 +301,18 @@ Page({
     let zhangjie = self.data.zhangjie //取得章节对象
     let folder_object = self.data.folder_object //取得展开章节的对象
     let jie_num = 0;
+    let blank_num = 0;
 
     for (let i = 0; i < folder_object.length; i++) {
       if (folder_object[i].index < index) { //如果在点击选项前面有展开字节
+        blank_num ++;
         jie_num += folder_object[i].num //有几个节点就加几个节点
       }
     }
 
     let height = 71 * num+30;
 
-    let scroll = (index * 80 + jie_num * 71+30) * (windowWidth / 750);
+    let scroll = (index * 80 + jie_num * 71 + blank_num*30) * (windowWidth / 750);
 
 
     if (isFolder) { //展开
