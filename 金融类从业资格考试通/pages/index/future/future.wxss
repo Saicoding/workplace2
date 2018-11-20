@@ -225,6 +225,7 @@
   line-height: 70rpx;
   font-size: 30rpx;
   color: rgb(73, 73, 73);
+  border:1rpx solid white;
 }
 
 .jie_title {

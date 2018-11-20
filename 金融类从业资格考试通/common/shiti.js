@@ -130,7 +130,6 @@ function processTapLianxiAnswer(midShiti, preShiti, nextShiti, px, current, circ
     checked: false,
     isLoaded: true,
   })
-  self._hideMarkAnswer();
 }
 
 /**
@@ -500,8 +499,6 @@ function storeAnswerStatus(shiti, self) {
     doneAnswerArray: doneAnswerArray
   })
 
-  console.log(answer_nums_array)
-  console.log(category + "shiti" + self.data.zhangjie_id + username)
 
   wx.setStorage({
     key: category + "shiti" + self.data.zhangjie_id + username,
@@ -680,7 +677,6 @@ function changeModelRealSelectStatus(done_daan, shiti, self) {
       /**
        * 比较正确答案和已经选择选项，因为都是数组，数组比较内容需要转到字符串，因为数组也是对象，对象的比较默认为变量地址
        */
-      // console.log(answers.toString() + "||" + new_done_daan.toString())
       if (answers.toString() == new_done_daan.toString()) {
         flag = 0;
       } else {
@@ -791,10 +787,11 @@ function storeLastShiti(px, self) {
 
   let last_view_key = ""; //存储上次访问的题目的key
   if (jieIdx != "undefined") { //如果有子节
-    last_view_key = 'last_view' + self.data.zhangjie_id + zhangIdx + jieIdx + username + category;
+    last_view_key = category+'last_view' + self.data.zhangjie_id + zhangIdx + jieIdx + username;
   } else { //如果没有子节
-    last_view_key = 'last_view' + self.data.zhangjie_id + zhangIdx + username + category;
+    last_view_key = category+'last_view' + self.data.zhangjie_id + zhangIdx + username;
   }
+  console.log(last_view_key)
   //本地存储最后一次访问的题目
   wx.setStorage({
     key: last_view_key,
@@ -811,7 +808,7 @@ function storeModelRealLastShiti(px, self) {
   let username = user.username;
   let category = self.data.category;
   //存储当前最后一题
-  let last_view_key = self.data.tiTypeStr + 'lastModelReal' + self.data.id + username + category; //存储上次访问的题目的key
+  let last_view_key = category+self.data.tiTypeStr + 'lastModelReal' + self.data.id + username ; //存储上次访问的题目的key
   //本地存储最后一次访问的题目
   wx.setStorage({
     key: last_view_key,
@@ -1013,10 +1010,13 @@ function delLastStr(str) {
 function getDoneAnswers(shitiArray) {
   let userAnswer1 = "";
   let userAnswer2 = "";
+  let userAnswer99 = "";
   let tid1 = "";
   let tid2 = "";
+  let tid99 = "";
   let rightAnswer1 = "";
   let rightAnswer2 = "";
+  let rightAnswer99 = "";
   let TrueTid = "";
 
 
@@ -1050,23 +1050,54 @@ function getDoneAnswers(shitiArray) {
         }
         rightAnswer2 += myShiti.answer + ',';
         break;
+      case 99:
+        let xiaoti = myShiti.xiaoti;
+
+        for (let k = 0; k < xiaoti.length; k++) {
+          let ti = xiaoti[k]; //材料题的每个小题
+
+          if (ti.TX == 1) {
+            userAnswer99 += ti.done_daan + ","; //拼接字符串
+          } else if (ti.TX == 2) {
+            let xt_done_daan = ti.done_daan; //试题答案["A","B","C"]
+            let str_done_daan = ""; //试题字符串答案"ABC"
+
+            for (let m = 0; m < xt_done_daan.length; m++) {
+              let single = xt_done_daan[m];
+              str_done_daan += single;
+            }
+            userAnswer99 += str_done_daan + ","; //拼接字符串  
+          }
+          tid99 += ti.id + ",";
+          if (ti.flag == 0) { //答对
+            TrueTid += ti.id + ",";
+          }
+          rightAnswer99 += ti.answer + ',';
+        }
+        break;
     }
   }
   userAnswer1 = delLastStr(userAnswer1);
   userAnswer2 = delLastStr(userAnswer2);
+  userAnswer99 = delLastStr(userAnswer99);
   tid1 = delLastStr(tid1);
   tid2 = delLastStr(tid2);
+  tid99 = delLastStr(tid99);
   rightAnswer1 = delLastStr(rightAnswer1);
   rightAnswer2 = delLastStr(rightAnswer2);
+  rightAnswer99 = delLastStr(rightAnswer99);
   TrueTid = delLastStr(TrueTid);
 
   let doneUserAnswer = {
     'userAnswer1': userAnswer1,
     'userAnswer2': userAnswer2,
+    'userAnswer99': userAnswer99,
     'tid1': tid1,
     'tid2': tid2,
+    'tid99': tid99,
     'rightAnswer1': rightAnswer1,
     'rightAnswer2': rightAnswer2,
+    'rightAnswer99': rightAnswer99,
     'TrueTid': TrueTid
   }
   return doneUserAnswer;

@@ -21,21 +21,26 @@ Page({
   onLoad: function (options) {
     let self = this;
     let user = wx.getStorageSync('user');
-    let username = user.username;
-    let acode = user.acode;
+    let category = options.category;
+
+    let LoginRandom = user.Login_random == undefined ? "" : user.Login_random
+    let zcode = user.zcode == undefined ? "" : user.zcode;
+
     let tiType = options.ti == "model" ? 1 : 2;//获取题的类型
     let title = options.ti == "model" ? "模拟真题" : "考前押题";
+
     wx.setNavigationBarTitle({
       title: title
     }) //设置标题
 
     self.setData({
       title: title,
+      category: category
     })
 
     let px = 1;
 
-    app.post(API_URL, "action=GetTestlist&kid=" + options.kid + "&username=" + username + "&acode=" + acode + "&types=" + tiType, false, true, "", "", true, self).then((res) => {
+    app.post(API_URL, "action=GetTestlist&kid=" + options.kid + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&types=" + tiType, false, true, "", "", true, self).then((res) => {
       let modelList = res.data.list;
 
       for (let i = 0; i < modelList.length; i++) {
@@ -79,9 +84,10 @@ Page({
     let title = e.currentTarget.dataset.title;
     let totalscore = e.currentTarget.dataset.totalscore;
     let tiType = self.data.tiType;
+    let category = self.data.category;
 
-    let url = encodeURIComponent('/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType + "&test_score=" + test_score);
-    let url1 = '/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType + "&test_score=" + test_score;
+    let url = encodeURIComponent('/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType + "&test_score=" + test_score + "&category=" + category);
+    let url1 = '/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType + "&test_score=" + test_score + "&category=" + category;
 
 
     //获取是否有登录权限

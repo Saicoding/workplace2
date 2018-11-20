@@ -53,7 +53,6 @@ Page({
     let myFavorite = 0;
     let requesttime = time.formatDateTime((new Date()).valueOf());//请求时间（第一次请求的时间）
 
-    console.log("action=GetErrorShiti&kid=" + kid + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&requesttime=" + requesttime)
     app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&requesttime=" + requesttime, false, true, "","", true, self).then((res) => {
       post.wrongOnload(options, px, circular, myFavorite, res, user,requesttime,self);
     }).catch((errMsg) => {
@@ -88,8 +87,9 @@ Page({
    */
   sliderChange: function(e) {
     let self = this;
-    let username = self.data.username;
-    let acode = self.data.acode;
+    let user = self.data.user;
+    let LoginRandom = user.Login_random;
+    let zcode = user.zcode;
     let lastSliderIndex = self.data.lastSliderIndex; //滑块上次的index
     let current = e.detail.current; //当前滑块的index
     let source = e.detail.source; //导致滑动的类型
@@ -127,8 +127,8 @@ Page({
           self.setData({
             pageArray: pageArray
           })
-
-          app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&page=" + nextPage + "&requesttime=" + requesttime, false, true, "", true, self).then((res) => {
+          
+          app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&page=" + nextPage + "&requesttime=" + requesttime, false, true, "", true, self).then((res) => {
             let newWrongShitiArray = res.data.shiti;
 
             common.initNewWrongArrayDoneAnswer(newWrongShitiArray, nextPage - 1); //将试题的所有done_daan置空
@@ -158,7 +158,7 @@ Page({
             pageArray: pageArray
           })
 
-          app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&page=" + prePage + "&requesttime=" + requesttime, false, true, "", true, self).then((res) => {
+          app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&page=" + prePage + "&requesttime=" + requesttime, false, true, "", true, self).then((res) => {
 
             let newWrongShitiArray = res.data.shiti;
 
@@ -391,8 +391,9 @@ Page({
     let doneAnswerArray = self.data.doneAnswerArray;
 
     let kid = self.data.kid;
-    let username = self.data.username;
-    let acode = self.data.acode;
+    let user = self.data.user;
+    let LoginRandom = user.Login_random;
+    let zcode = user.zcode;
 
     let pageArray = self.data.pageArray; //当前所有已经渲染的页面数组
     let pageall = self.data.pageall; //当前题库错题页总页数
@@ -424,7 +425,7 @@ Page({
           isLoaded: false,
           pageArray: pageArray
         })
-        app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&page=" + page + "&requesttime=" + requesttime, false, false, "", true, self).then((res) => {
+        app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&page=" + page + "&requesttime=" + requesttime, false, false, "", true, self).then((res) => {
 
           let newWrongShitiArray = res.data.shiti;
 
@@ -434,7 +435,7 @@ Page({
             shitiArray[i + (page - 1) * 10] = newWrongShitiArray[i];
           }
          
-          app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&page=" + prepage + "&requesttime=" + requesttime, false, false, "", true, self).then((res) => {
+          app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&page=" + prepage + "&requesttime=" + requesttime, false, false, "", true, self).then((res) => {
 
             let newWrongShitiArray = res.data.shiti;
 
@@ -462,7 +463,7 @@ Page({
           isLoaded: false,
           pageArray: pageArray
         })
-        app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&page=" + page + "&requesttime=" + requesttime, false, false, "", true, self).then((res) => {
+        app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&page=" + page + "&requesttime=" + requesttime, false, false, "", true, self).then((res) => {
           let newWrongShitiArray = res.data.shiti;
 
           common.initNewWrongArrayDoneAnswer(newWrongShitiArray, page - 1); //将试题的所有done_daan置空
@@ -471,7 +472,7 @@ Page({
             shitiArray[i + (page - 1) * 10] = newWrongShitiArray[i];
           }
 
-          app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&page=" + nextPage + "&requesttime=" + requesttime, false, false, "", true, self).then((res) => {
+          app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&page=" + nextPage + "&requesttime=" + requesttime, false, false, "", true, self).then((res) => {
 
             let newWrongShitiArray = res.data.shiti;
 
@@ -501,7 +502,7 @@ Page({
           pageArray: pageArray
         })
 
-        app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&page=" + page + "&requesttime=" + requesttime, false, false, "", true, self).then((res) => {
+        app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&page=" + page + "&requesttime=" + requesttime, false, false, "", true, self).then((res) => {
           let newWrongShitiArray = res.data.shiti;
 
           common.initNewWrongArrayDoneAnswer(newWrongShitiArray, page - 1); //将试题的所有done_daan置空

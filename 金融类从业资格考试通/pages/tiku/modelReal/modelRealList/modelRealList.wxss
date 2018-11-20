@@ -7,10 +7,11 @@
   padding-left: 25rpx;
 }
 
-.loading-img {
-  width: 750rpx;
-  height: 458rpx;
-  margin: 0 auto;
+.loading-img{
+  display: block;
+  width: 120rpx;
+  height: 120rpx;
+  margin:400rpx auto;
 }
 
 .circle {

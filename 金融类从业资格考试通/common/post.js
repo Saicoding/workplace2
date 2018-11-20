@@ -236,6 +236,7 @@ function wrongOnload(options, px, circular, myFavorite, res, user,  requesttime,
     lastSliderIndex: 0,//默认滑动条一开始是0
     isLoaded: true, //是否已经载入完毕,用于控制过场动画
 
+    user:user,
     username: username, //用户账号名称
     LoginRandom: LoginRandom,
     zcode:zcode,

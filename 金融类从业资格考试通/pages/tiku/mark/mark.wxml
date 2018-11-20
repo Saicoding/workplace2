@@ -33,7 +33,7 @@
 </swiper>
 
 <view wx:if="{{!isLoaded}}">
-  <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit" style="margin-top:{{windowHeight/2-400}}rpx;"></image>
+  <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit" ></image>
 </view>
 
 <!-- 底部正确错误个数统计条 -->

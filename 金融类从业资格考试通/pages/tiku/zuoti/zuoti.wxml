@@ -30,7 +30,7 @@
   </block>
 </swiper>
 <view wx:if="{{!isLoaded}}" >
-  <image class="loading-img" src="/imgs/timg.gif"  style="margin-top:{{windowHeight/2-400}}rpx;"></image>
+  <image class="loading-img" src="/imgs/timg.gif"  ></image>
 </view>
 <!-- 底部正确错误个数统计条 -->
 <count id="count" rightNum="{{rightNum}}" wrongNum="{{wrongNum}}" nums="{{nums}}" px="{{px}}" isMark="{{myFavorite}}" class="bottom" bindtoogleMark="_toogleMark" bindtoogleMarkAnswer="_toogleMarkAnswer" bindtoggleErrorRecovery="_toggleErrorRecovery">

@@ -225,13 +225,16 @@
   line-height: 70rpx;
   font-size: 30rpx;
   color: rgb(73, 73, 73);
+  border:1rpx solid white;
 }
 
 .jie_title {
   display: float;
   float: left;
   width: 515rpx;
-  border-bottom: 1px dashed #eee;
+  height: 70rpx;
+  border-bottom: 1rpx dashed #eee;
+  line-height: 70rpx;
   margin-left: 100rpx;
   white-space: nowrap;
   overflow: hidden;

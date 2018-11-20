@@ -1,6 +1,6 @@
 // pages/tiku/modelReal/modelRealDetail/modelRealDetail.js
 // pages/tiku/zuoti/index.js
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 let common = require('../../../../common/shiti.js');
 let time1 = require('../../../../common/time.js');
 let animate = require('../../../../common/animate.js')
@@ -42,8 +42,10 @@ Page({
     let self = this;
 
     let user = wx.getStorageSync('user');
+    let LoginRandom = user.Login_random
     let username = user.username;
-    let acode = user.acode;
+    let zcode = user.zcode;
+    let category = options.category;
 
     let tiType = options.tiType;
     let test_score = options.test_score;
@@ -53,7 +55,9 @@ Page({
     let lastSliderIndex = 0 ;
 
     //根据真题定制最后一次访问的key
-    let last_view_key = tiTypeStr + 'lastModelReal' + options.id+username;
+    let last_view_key = category+tiTypeStr + 'lastModelReal' + options.id + username;
+
+    console.log(last_view_key)
 
     let last_model_real = wx.getStorageSync(last_view_key); //得到最后一次的题目
 
@@ -67,7 +71,7 @@ Page({
 
     let shitiNum = px;
 
-    app.post(API_URL, "action=SelectTestShow&sjid=" + id + "&username=" + username + "&acode=" + acode, false, true, "","",true,self).then((res) => {
+    app.post(API_URL, "action=SelectTestShow&sjid=" + id + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "","",true,self).then((res) => {
       let shitiArray = res.data.list;
 
       common.setModelRealCLShitiPx(shitiArray)
@@ -119,25 +123,25 @@ Page({
       //开始计时
       let interval = "";
       if (!isSubmit) { //如果没提交
-        let second = wx.getStorageSync(tiTypeStr + 'last_time' + options.id + username);
+        let second = wx.getStorageSync(category+tiTypeStr + 'last_time' + options.id + username);
         if (second) {
           interval = common.startWatch(second, self);
         } else {
           interval = common.startWatch(options.times * 60, self);
         }
       } else { //如果已提交
-        let last_gone_time_str = wx.getStorageSync(tiTypeStr + "last_gone_time" + options.id + username);
+        let last_gone_time_str = wx.getStorageSync(category+tiTypeStr + "last_gone_time" + options.id + username);
 
         self.modelCount.setData({
           timeStr: last_gone_time_str
         })
       }
 
-      let isSubmit = wx.getStorageSync(tiTypeStr + 'modelRealIsSubmit' + options.id+username);
+      let isSubmit = wx.getStorageSync(category+tiTypeStr + 'modelRealIsSubmit' + options.id + username);
 
       //对是否是已答试题做处理
       wx.getStorage({
-        key: tiTypeStr + "modelReal" + options.id+username,
+        key: category+tiTypeStr + "modelReal" + options.id + username ,
         success: function(res1) {
           //根据章是否有子节所有已经回答的题
           let doneAnswerArray = res1.data;
@@ -155,18 +159,6 @@ Page({
           for (let i = 0; i < doneAnswerArray.length; i++) {
             let doneAnswer = doneAnswerArray[i];
             shitiArray[doneAnswer.px - 1].done_daan = doneAnswer.done_daan; //设置已答试题的答案
-            if (doneAnswer.select == "材料题") {
-              let daan = doneAnswer.done_daan;
-              shitiArray[doneAnswer.px - 1].doneAnswer = daan; //设置该材料题的doneAnswer
-              for (let j = 0; j < shitiArray[doneAnswer.px - 1].xiaoti.length; j++) {
-                for (let k = 0; k < daan.length; k++) {
-                  let ti = shitiArray[doneAnswer.px - 1].xiaoti[j];
-                  if (j == daan[k].px - 1) {
-                    ti.done_daan = daan[k].done_daan;
-                  }
-                }
-              }
-            }
           }
 
           if (preShiti != undefined) common.processModelRealDoneAnswer(preShiti.done_daan, preShiti, self);
@@ -184,7 +176,7 @@ Page({
         },
         fail: function() {
           wx.setStorage({
-            key: tiTypeStr + "modelReal" + options.id+username,
+            key:category+tiTypeStr + "modelReal" + options.id + username,
             data: [],
           })
         }
@@ -213,6 +205,7 @@ Page({
         totalscore: options.totalscore, //总分
         tiTypeStr: tiTypeStr, //题的类型字符串
         test_score: test_score, //最高分
+        category: category,//试题种类
 
         interval: interval, //计时器
         title: options.title, //标题
@@ -229,30 +222,8 @@ Page({
 
         newShitiArray: newShitiArray, //新的试题数组
         username: username, //用户账号名称
-        acode: acode //用户唯一码
       });
-      
-      //如果是材料题就有动画
-      if (midShiti.TX == 99) {
-        let str = "#q" + px;
-        let questionStr = midShiti.question;//问题的str
-        let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
-
-        height = height >= 400 ? 400 : height;
-        
-        let question = self.selectComponent(str);
-
-        animate.blockSpreadAnimation(90, height, question);//占位框动画
-
-        question.setData({
-          style2: "positon: fixed; left: 20rpx;height:" + height +"rpx", //问题框"
-        })
-
-        self.setData({
-          height: height,
-        })
-      }
-
+    
       wx.hideLoading();
     }).catch((errMsg) => {
       console.log(errMsg)
@@ -283,43 +254,6 @@ Page({
       }
     });
   },
-  /**
-   * 切换问题的动画
-   */
-  _toogleAnimation: function() {
-    let self = this;
-
-    let px = self.data.px; //当前px
-    let str = "#q" + px; //当前问题组件id
-    let question = self.selectComponent(str); //当前问题组件
-    let height = self.data.height;
-    let isSubmit = self.data.isSubmit;
-
-    let lastSliderIndex = self.data.lastSliderIndex; //当前滑块index
-    let shitiArray = self.data.shitiArray; //当前试题数组
-    let sliderShitiArray = self.data.sliderShitiArray; //当前滑块试题数组
-    let shiti = shitiArray[px - 1]; //当前试题
-    let sliderShiti = sliderShitiArray[lastSliderIndex]; //当前滑块试题
-
-    if (!shiti.confirm && !isSubmit) return;
-
-    if (isFold) {
-      question.setData({
-        style2: "positon: fixed; left: 20rpx;height:" + height + "rpx"
-      })
-      // animate.questionSpreadAnimation(90, height, question);
-      animate.blockSpreadAnimation(90, height, question);
-      isFold = false;
-    } else {
-      question.setData({
-        style2: "positon: fixed; left: 20rpx;height:90rpx"
-      })
-      // animate.questionFoldAnimation(height, 90, question);
-      animate.blockFoldAnimation(height, 90, question);
-      isFold = true;
-    }
-  },
-
 
   /**
    * slider改变事件
@@ -363,9 +297,6 @@ Page({
     let nextShiti = undefined; //后一题
     let midShiti = shitiArray[px - 1]; //中间题
 
-    if (midShiti.TX == 99) {
-      shitiNum = midShiti.clpx;
-    }
 
     //每次滑动结束后初始化前一题和后一题
     if (direction == "左滑") {
@@ -385,8 +316,8 @@ Page({
       }
       nextShiti = shitiArray[px];
     }
-
-    common.storeLastShiti(px, self); //存储最后一题的状态
+   
+    common.storeModelRealLastShiti(px, self); //存储最后一题的状态
 
     //滑动结束后,更新滑动试题数组
     let sliderShitiArray = [];
@@ -434,45 +365,6 @@ Page({
       shitiNum: shitiNum,
       checked: false
     })
-
-
-    //如果是材料题就判断是否动画
-    if (midShiti.TX == 99) {
-      let str = "#q" + px;
-
-      let questionStr = midShiti.question;//问题的str
-      let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
-
-      height = height >=400?400:height;
-
-      let question = self.selectComponent(str);
-
-      animate.blockSpreadAnimation(90, height, question);
-
-      question.setData({//每切换到材料题就把占位框复位
-        style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"   
-      })
-
-      self.setData({
-        height: height
-      })
-    }
-  },
-  /**
-   * 小题滑动事件
-   */
-  xiaotiSliderChange: function(e) {
-    let self = this;
-    let px = self.data.px;
-    let current = e.detail.current;
-    let shitiArray = self.data.shitiArray;
-    let shiti = shitiArray[px - 1];
-    let clpx = shiti.clpx;
-
-    let shitiNum = current + shiti.clpx;
-    self.setData({
-      shitiNum: shitiNum
-    })
   },
 
   /**
@@ -513,110 +405,6 @@ Page({
   },
 
   /**
-   * 材料题点击开始作答按钮
-   */
-  CLZuoti: function(e) {
-    let self = this;
-
-    let str = "#q" + self.data.px;
-    let question = self.selectComponent(str);
-
-    let px = self.data.px;
-    let lastSliderIndex = self.data.lastSliderIndex;
-    let shitiArray = self.data.shitiArray;
-    let sliderShitiArray = self.data.sliderShitiArray;
-    let shiti = shitiArray[px - 1];
-    let height = self.data.height;
-
-    let sliderShiti = sliderShitiArray[lastSliderIndex];
-    shiti.confirm = true;
-    sliderShiti.confirm = true;
-
-    question.setData({//每切换到材料题就把占位框复位
-      style2: "positon: fixed; left: 20rpx;height:90rpx", //问题框"   
-    })
-    animate.blockFoldAnimation(height,90,question);
-    isFold = true;
-
-    self.setData({
-      shitiArray: shitiArray,
-      sliderShitiArray: sliderShitiArray
-    })
-  },
-
-  /**
-   * 材料题作答
-   */
-  _CLAnswerSelect: function(e) {
-    let self = this;
-
-    if (self.data.isSubmit) return;
-    let px = e.currentTarget.dataset.px;
-
-    let shitiPX = self.data.px; //试题的px
-    let shitiArray = self.data.shitiArray
-    let shiti = shitiArray[shitiPX - 1]; //本试题对象
-    let done_daan = "";
-    let xiaoti = shiti.xiaoti;
-
-    let sliderShitiArray = self.data.sliderShitiArray;
-    let current = self.data.lastSliderIndex //当前滑动编号
-    let currentShiti = sliderShitiArray[current];
-    let currentXiaoti = currentShiti.xiaoti
-
-    for (let i = 0; i < xiaoti.length; i++) {
-      if (px - shiti.clpx == i) { //找到对应的小题
-        done_daan = xiaoti[i].TX == 1 ? e.detail.done_daan : e.detail.done_daan.sort();; //根据单选还是多选得到done_daan,多选需要排序
-
-        common.changeModelRealSelectStatus(done_daan, currentXiaoti[i], self); //改变试题状态
-        common.changeModelRealSelectStatus(done_daan, xiaoti[i], self); //改变试题状态
-
-        common.setCLMarkAnswer(xiaoti[i], self.data.isSubmit, shiti.px, self) //更新答题板状态(单个)
-
-
-        if (xiaoti[i].flag == 1) shiti.flag = 1; //如果小题错一个,整个材料题就是错的
-        xiaoti[i].done_daan = done_daan; //设置小题的已做答案
-        let isStore = false;
-
-        //更新小题已经作答的答案
-        for (let j = 0; j < shiti.doneAnswer.length; j++) {
-          let doneAnswer = shiti.doneAnswer[j];
-          if (doneAnswer.px == px) {
-            doneAnswer.done_daan = done_daan
-            doneAnswer.isRight = xiaoti[i].flag;
-            doneAnswer.clpx = shiti.clpx
-            isStore = true;
-            break;
-          }
-        }
-
-
-        if (!isStore) {
-          shiti.doneAnswer.push({
-            'px': px,
-            'done_daan': done_daan,
-            'isRight': xiaoti[i].flag,
-            'clpx': shiti.clpx
-          }); //向本材料题的已答数组中添加已答题目px 和 答案信息
-        }
-
-        shiti.done_daan = shiti.doneAnswer; //设置该试题已作答的答案数组
-
-        common.storeModelRealAnswerStatus(shiti, self); //存储答题状态
-
-        if (shiti.doneAnswer.length == xiaoti.length) { //说明材料题已经全部作答
-
-          common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
-        }
-      }
-    }
-    this.setData({
-      sliderShitiArray: sliderShitiArray,
-      shitiArray: shitiArray
-    })
-  },
-
-  /**
    * 刚载入时的动画
    */
   onShow: function(e) {
@@ -637,6 +425,7 @@ Page({
     if(!isLoaded) return;
 
     let user = self.data.user;
+    let category = self.data.category;
  
     let modelCount = self.modelCount;
     let pages = getCurrentPages();
@@ -650,7 +439,7 @@ Page({
       clearInterval(self.data.interval); //停止计时器
 
       wx.setStorage({
-        key: self.data.tiTypeStr + 'last_time' + self.data.id+user.username,
+        key: category+self.data.tiTypeStr + 'last_time' + self.data.id + user.username,
         data: second,
       })
     }
@@ -774,27 +563,6 @@ Page({
       checked: false
     })
     self._hideMarkAnswer();
-
-    //如果是材料题就判断是否动画
-    if (midShiti.TX == 99) {
-      let str = "#q" + px;
-      let questionStr = midShiti.question;//问题的str
-      let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
-
-      height = height >= 400 ? 400 : height;
-
-      let question = self.selectComponent(str);
-
-      animate.blockSpreadAnimation(90, height, question);//占位框动画
-
-      question.setData({
-        style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"
-      })
-
-      self.setData({
-        height:height
-      })
-    }
   },
 
   /**
@@ -814,8 +582,14 @@ Page({
     let undone = 0; //未做题数
     let time = self.modelCount.data.time; //当前时间,对象格式
     let gone_time = 0; //花费时间
-    let username = self.data.username;
-    let acode = self.data.acode;
+    let category = self.data.category;//试题种类
+
+    let user = self.data.user;
+    let username = user.username;
+    let LoginRandom = user.Login_random;
+    let zcode = user.zcode;
+
+
     let sjid = self.data.id;
     let doneUserAnswer = common.getDoneAnswers(shitiArray);
 
@@ -838,19 +612,6 @@ Page({
             wrongNums += 1;
           }
           break;
-
-        case "材料题":
-          for (let j = 0; j < doneAnswer.done_daan.length; j++) {
-            let daan = doneAnswer.done_daan[j];
-            if (daan.isRight == 0) {
-              rightNums += 1;
-
-              score += shitiArray[px - 1].xiaoti[daan.px - shitiArray[px - 1].clpx].score;
-            } else {
-              wrongNums += 1;
-            }
-          }
-          break;
       }
     }
 
@@ -860,8 +621,8 @@ Page({
 
     //提交结果
     app.post(API_URL, "action=SaveTestResult" +
-      "&username=" + username +
-      "&acode=" + acode +
+      "&LoginRandom=" + LoginRandom +
+      "&zcode=" + zcode +
       "&sjid=" + id +
       "&userAnswer1=" + doneUserAnswer.userAnswer1 +
       "&userAnswer2=" + doneUserAnswer.userAnswer2 +
@@ -897,13 +658,13 @@ Page({
         text: "重新评测",
       })
       wx.setStorage({
-        key: self.data.tiTypeStr + 'modelRealIsSubmit' + self.data.id+username,
+        key: category+self.data.tiTypeStr + 'modelRealIsSubmit' + self.data.id + username ,
         data: true,
       })
 
       //设置用时
       wx.setStorage({
-        key: self.data.tiTypeStr + "last_gone_time" + self.data.id+username,
+        key: category+self.data.tiTypeStr + "last_gone_time" + self.data.id + username,
         data: "用时" + time1.getGoneTimeStr(gone_time)
       })
       //设置答题板的显示文字

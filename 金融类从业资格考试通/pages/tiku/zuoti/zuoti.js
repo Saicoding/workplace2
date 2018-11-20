@@ -56,7 +56,7 @@ Page({
     let myFavorite = 0;
 
     //根据章是否有字节来定制最后一次访问的key
-    let last_view_key = 'last_view' + options.zhangjie_id + options.zhangIdx + (options.jieIdx != "undefined" ? options.jieIdx : "") + user.username + category;
+    let last_view_key = category+'last_view' + options.zhangjie_id + options.zhangIdx + (options.jieIdx != "undefined" ? options.jieIdx : "") + user.username;
 
     let last_view = wx.getStorageSync(last_view_key); //得到最后一次的题目
     let px = last_view.px; //最后一次浏览的题的编号
@@ -437,6 +437,8 @@ Page({
 
     let prepage = page - 1;//上一页
     let nextPage = page + 1;//下一页
+
+    self._hideMarkAnswer();
 
     //如果渲染数组不包含当前页面
     if (pageArray.indexOf(page) == -1) {

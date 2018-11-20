@@ -10,11 +10,12 @@
 }
 
 .loading-img{
+  display: block;
   width: 120rpx;
   height: 120rpx;
-  display: block;
-  margin:0 auto;
+  margin:400rpx auto;
 }
+
 
 .question_cailiao1 {
   line-height: 60rpx;

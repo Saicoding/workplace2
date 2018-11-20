@@ -268,7 +268,7 @@ Page({
       let isFolder = zhangjie[i].isFolder; //取得现在是什么状态
       let jie_num = zhangjie[i].zhangjie_child.length;
 
-      let height = 71 * jie_num;
+      let height = 71 * jie_num+30;
 
       let scroll = 0;
 
@@ -308,9 +308,9 @@ Page({
       }
     }
 
-    let height = 71 * num;
+    let height = 71 * num+30;
 
-    let scroll = (index * 80 + jie_num * 71) * (windowWidth / 750);
+    let scroll = (index * 80 + jie_num * 71+30) * (windowWidth / 750);
 
 
     if (isFolder) { //展开
@@ -511,9 +511,10 @@ Page({
     buttonClicked = true;
     let self = this;
     let ti = e.currentTarget.dataset.ti; //题型(押题,真题)
+    let category = "qh";
 
     let kid = self.data.zhangjie_id;
-    let url1 = '/pages/tiku/modelReal/modelRealList/modelRealList?kid=' + kid + "&ti=" + ti;
+    let url1 = '/pages/tiku/modelReal/modelRealList/modelRealList?kid=' + kid + "&ti=" + ti + "&category=" + category;
 
     wx.navigateTo({
       url: url1
