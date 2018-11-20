@@ -85,24 +85,25 @@ Page({
    * 退出登录
    */
   goOut:function(){
-    console.log('ok')
-    this.loginOut.showDialog();
-  },
+    wx.showModal({
+      content:'您确定要退出登录吗？',
+      confirmColor:'#0097f5',
+      success(res) {
+        if (res.confirm) {
+          let url = encodeURIComponent('/pages/mine/mineIndex/mineIndex');
 
-  /**
-   * 点击确认登录
-   */
-  _tapConfirm:function(){
-    this.loginOut.hideDialog();
+          wx.navigateBack({})
 
-    let url = encodeURIComponent('/pages/mine/mineIndex/mineIndex');
+          wx.removeStorageSync('user');
 
-    wx.navigateBack({})
+          wx.navigateTo({
+            url: '/pages/login1/login1?url=' + url + "&ifGoPage=false",
+          })
+        } else if (res.cancel) {
 
-    wx.removeStorageSync('user');
-
-    wx.navigateTo({
-      url: '/pages/login1/login1?url=' + url + "&ifGoPage=false",
+        }
+      }
     })
   },
+
 })

@@ -11,5 +11,3 @@
     退出登录
   </view>
 </view>
-
-<loginOut id="loginOut" windowHeight="{{windowHeight}}" bindtapConfirm="_tapConfirm"></loginOut>
