@@ -199,7 +199,7 @@ Page({
   onShow: function() {
     wx.setNavigationBarColor({ //设置窗口颜色
       frontColor: "#ffffff",
-      backgroundColor: "#fd6131",
+      backgroundColor: "#f78c6b",
     })
 
     wx.setNavigationBarTitle({
@@ -207,7 +207,7 @@ Page({
     })
 
     wx.setTabBarStyle({
-      selectedColor: "#fd6131"
+      selectedColor: "#f78c6b"
     })
 
     let self = this;

@@ -51,9 +51,8 @@ Page({
    * 当点击分享按钮
    */
   onShareAppMessage: function (res1) {
-
     return {
-      title: '房地产经纪考试通',
+      title: '金融类从业资格考试通',
       path: '/pages/index/index', //这里设定都是以"/page"开头,并拼接好传递的参数
       imageUrl:'/imgs/login1.png',
       success: (res)=> {
