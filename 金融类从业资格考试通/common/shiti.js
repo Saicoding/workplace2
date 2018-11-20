@@ -14,7 +14,7 @@ function initShiti(shiti, self) {
   shiti.isAnswer = false;
 
   if (TX == 1) { //单选
-    shiti.num_color = "#0197f6";
+    shiti.num_color = "#ffcc33";
     shiti.tx = "单选题"
     shiti.srcs = { //定义初始图片对象(单选)
       "A": "/imgs/A.png",
@@ -24,7 +24,7 @@ function initShiti(shiti, self) {
       "E": "/imgs/E.png"
     }
   } else if (TX == 2) { //多选
-    shiti.num_color = "#2ac414";
+    shiti.num_color = "#FF6666";
     shiti.tx = "多选题"
     shiti.srcs = { //定义初始图片对象(多选)
       "A": "/imgs/A.png",
@@ -475,9 +475,8 @@ function storeAnswerStatus(shiti, self) {
   let doneAnswerArray = self.data.doneAnswerArray
   let user = self.data.user;
   let username = user.username
-  let category = self.data.category;
 
-  let answer_nums_array = wx.getStorageSync(category + "shiti" + self.data.zhangjie_id + username);
+  let answer_nums_array = wx.getStorageSync("shiti" + self.data.zhangjie_id + username);
 
   let obj = {
     "id": shiti.id,
@@ -501,7 +500,7 @@ function storeAnswerStatus(shiti, self) {
 
 
   wx.setStorage({
-    key: category + "shiti" + self.data.zhangjie_id + username,
+    key: "shiti" + self.data.zhangjie_id + username,
     data: answer_nums_array,
   })
 }
@@ -514,9 +513,8 @@ function storeModelRealAnswerStatus(shiti, self) {
   let user = self.data.user;
   let username = user.username;
   let doneAnswerArray = self.data.doneAnswerArray;
-  let category = self.data.category;
 
-  let answer_nums_array = wx.getStorageSync(category + self.data.tiTypeStr + "modelReal" + id + username);
+  let answer_nums_array = wx.getStorageSync(self.data.tiTypeStr + "modelReal" + id + username);
 
   let flag = false;
 
@@ -556,7 +554,7 @@ function storeModelRealAnswerStatus(shiti, self) {
   })
 
   wx.setStorage({
-    key: category + self.data.tiTypeStr + "modelReal" + id + username,
+    key: self.data.tiTypeStr + "modelReal" + id + username,
     data: answer_nums_array,
   })
 }
@@ -783,13 +781,12 @@ function storeLastShiti(px, self) {
 
   let user = self.data.user;
   let username = user.username;
-  let category = self.data.category
 
   let last_view_key = ""; //存储上次访问的题目的key
   if (jieIdx != "undefined") { //如果有子节
-    last_view_key = category+'last_view' + self.data.zhangjie_id + zhangIdx + jieIdx + username;
+    last_view_key = 'last_view' + self.data.zhangjie_id + zhangIdx + jieIdx + username;
   } else { //如果没有子节
-    last_view_key = category+'last_view' + self.data.zhangjie_id + zhangIdx + username;
+    last_view_key = 'last_view' + self.data.zhangjie_id + zhangIdx + username;
   }
   console.log(last_view_key)
   //本地存储最后一次访问的题目
@@ -806,9 +803,8 @@ function storeLastShiti(px, self) {
 function storeModelRealLastShiti(px, self) {
   let user = self.data.user;
   let username = user.username;
-  let category = self.data.category;
   //存储当前最后一题
-  let last_view_key = category+self.data.tiTypeStr + 'lastModelReal' + self.data.id + username ; //存储上次访问的题目的key
+  let last_view_key = self.data.tiTypeStr + 'lastModelReal' + self.data.id + username ; //存储上次访问的题目的key
   //本地存储最后一次访问的题目
   wx.setStorage({
     key: last_view_key,
@@ -867,7 +863,6 @@ function lianxiRestart(self) {
   let zhangIdx = self.data.zhangIdx;
   let user = self.data.user;
   let username = user.username;
-  let category = self.data.category;
 
   if (restart) { //如果点击了重新开始练习，就清除缓存
     let shiti = self.data.shitiArray[0];
@@ -880,7 +875,7 @@ function lianxiRestart(self) {
 
     initMarkAnswer(shitiArray.length, self); //初始化答题板数组
 
-    let answer_nums_array = wx.getStorageSync(category + "shiti" + self.data.zhangjie_id + username);
+    let answer_nums_array = wx.getStorageSync("shiti" + self.data.zhangjie_id + username);
 
     //根据章是否有字节的结构来
     if (jieIdx != "undefined") {
@@ -888,7 +883,7 @@ function lianxiRestart(self) {
     } else {
       answer_nums_array[zhangIdx] = [];
     }
-    wx.setStorageSync(category + "shiti" + self.data.zhangjie_id + username, answer_nums_array); //重置已答数组
+    wx.setStorageSync("shiti" + self.data.zhangjie_id + username, answer_nums_array); //重置已答数组
 
     self.setData({
       shiti: self.data.shitiArray[0],
@@ -921,7 +916,6 @@ function restartModelReal(self) {
   let shitiArray = self.data.shitiArray;
   let user = self.data.user;
   let username = user.username;
-  let category = self.data.category;
 
   initShitiArrayDoneAnswer(shitiArray); //将所有问题已答置空
 
@@ -951,13 +945,13 @@ function restartModelReal(self) {
 
   initModelRealMarkAnswer(self.data.newShitiArray, self); //初始化答题板数组
 
-  let answer_nums_array = wx.getStorageSync(category + self.data.tiTypeStr + "modelReal" + self.data.id + username); //将已答答案置空
+  let answer_nums_array = wx.getStorageSync(self.data.tiTypeStr + "modelReal" + self.data.id + username); //将已答答案置空
   wx.setStorage({
-    key: category + self.data.tiTypeStr + "modelReal" + self.data.id + username,
+    key: self.data.tiTypeStr + "modelReal" + self.data.id + username,
     data: [],
   })
   wx.setStorage({
-    key: category + self.data.tiTypeStr + "modelRealIsSubmit" + self.data.id + username,
+    key: self.data.tiTypeStr + "modelRealIsSubmit" + self.data.id + username,
     data: false,
   })
   self.setData({

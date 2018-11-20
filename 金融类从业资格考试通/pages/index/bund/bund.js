@@ -377,7 +377,6 @@ Page({
     let z_id = e.currentTarget.id;
     let zhangIdx = e.currentTarget.dataset.itemidx; //点击的章index
     let jieIdx = e.currentTarget.dataset.jieidx; //点击的节index
-    let category = "zq"
 
     let zhangjie = self.data.zhangjie; //章节
     let zhangjie_id = self.data.zhangjie_id; //当前题库的id，用来作为本地存储的key值
@@ -398,8 +397,8 @@ Page({
       nums = zhangjie[zhangIdx].nums;
     }
 
-    let url = encodeURIComponent('/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title + "&category=" + category);
-    let url1 = '/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title + "&category=" + category
+    let url = encodeURIComponent('/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title );
+    let url1 = '/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title 
     //获取是否有登录权限
     wx.getStorage({
       key: 'user',
@@ -517,10 +516,8 @@ Page({
     let self = this;
     let ti = e.currentTarget.dataset.ti; //题型(押题,真题)
 
-    let category = "zq";
-
     let kid = self.data.zhangjie_id;
-    let url1 = '/pages/tiku/modelReal/modelRealList/modelRealList?kid=' + kid + "&ti=" + ti + "&category=" + category;
+    let url1 = '/pages/tiku/modelReal/modelRealList/modelRealList?kid=' + kid + "&ti=" + ti;
 
     wx.navigateTo({
       url: url1

@@ -1,6 +1,6 @@
       <view class ="container">
       <view class="jiexi_border" hidden="{{!isAnswer}}">
-        <view class="line"></view>
+        <view class="line" style = "margin-left:60rpx;"></view>
         <text class="txt">解析</text>
         <view class="line"></view>
       </view>

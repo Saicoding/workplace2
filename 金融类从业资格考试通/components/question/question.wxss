@@ -5,24 +5,18 @@
 }
 
 .outContainer{
-  margin-left:20rpx;
-  margin-right:20rpx;
-  margin-top:20rpx;
-  border-radius: 20rpx;
-  box-shadow: rgb(231, 230, 230) 3rpx 3rpx 8rpx 1rpx ;
-  padding-left:20rpx;
   padding-bottom: 20rpx;
   padding-top:10rpx;
   background: #ffffff;
+  width:100%;
 }
 
 .mycontainer{
-  padding-top:5rpx;
-  padding-left:15rpx;
   line-height: 45rpx;
+  padding-top:10rpx;
+  padding-left:15rpx;
   font-size:35rpx;
   overflow: hidden;
-  width:94%;
 }
 
 .question-block1 {
@@ -43,7 +37,6 @@
   font-size: 25rpx;
   text-align: center;
   line-height:45rpx;
- 
 }
 
 .qustion-select {

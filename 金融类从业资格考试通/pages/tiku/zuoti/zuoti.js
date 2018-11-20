@@ -37,7 +37,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log(options)
     wx.setNavigationBarTitle({
       title: options.title
     }) //设置标题
@@ -50,13 +49,12 @@ Page({
     let LoginRandom = user.Login_random == undefined ? "" : user.Login_random;
     let zcode = user.zcode == undefined ? "" : user.zcode;
     let username = user.username;
-    let category = options.category;
 
     let circular = false;
     let myFavorite = 0;
 
     //根据章是否有字节来定制最后一次访问的key
-    let last_view_key = category+'last_view' + options.zhangjie_id + options.zhangIdx + (options.jieIdx != "undefined" ? options.jieIdx : "") + user.username;
+    let last_view_key = 'last_view' + options.zhangjie_id + options.zhangIdx + (options.jieIdx != "undefined" ? options.jieIdx : "") + user.username;
 
     let last_view = wx.getStorageSync(last_view_key); //得到最后一次的题目
     let px = last_view.px; //最后一次浏览的题的编号

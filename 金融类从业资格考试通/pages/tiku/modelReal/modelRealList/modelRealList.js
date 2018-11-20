@@ -21,7 +21,6 @@ Page({
   onLoad: function (options) {
     let self = this;
     let user = wx.getStorageSync('user');
-    let category = options.category;
 
     let LoginRandom = user.Login_random == undefined ? "" : user.Login_random
     let zcode = user.zcode == undefined ? "" : user.zcode;
@@ -35,7 +34,6 @@ Page({
 
     self.setData({
       title: title,
-      category: category
     })
 
     let px = 1;
@@ -84,10 +82,9 @@ Page({
     let title = e.currentTarget.dataset.title;
     let totalscore = e.currentTarget.dataset.totalscore;
     let tiType = self.data.tiType;
-    let category = self.data.category;
 
-    let url = encodeURIComponent('/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType + "&test_score=" + test_score + "&category=" + category);
-    let url1 = '/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType + "&test_score=" + test_score + "&category=" + category;
+    let url = encodeURIComponent('/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType + "&test_score=" + test_score);
+    let url1 = '/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType + "&test_score=" + test_score;
 
 
     //获取是否有登录权限

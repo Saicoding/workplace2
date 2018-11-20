@@ -14,7 +14,7 @@
 .line {
   display: float;
   float:left;
-  width: 240rpx;
+  width: 150rpx;
   border-top: 1px solid #ccc;
   margin-top:20rpx;
 }

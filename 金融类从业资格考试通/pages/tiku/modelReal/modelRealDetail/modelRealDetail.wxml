@@ -4,22 +4,24 @@
     <swiper-item>
       <scroll-view scroll-y style="height:{{windowHeight-85}}rpx;" catchlongtap='_toogleMarkAnswer'>
         <view style="border:1rpx solid white;padding-bottom:50rpx;">
-          <!--问题-->
-          <question bindtoogleAnimation="_toogleAnimation" isModelReal="true" id="q{{shiti.px}}" num_color="{{shiti.num_color}}" px="{{shiti.px}}" tx="{{shiti.tx}}" question="{{shiti.question}}"></question>
+          <view class="container">
+            <!--问题-->
+            <question bindtoogleAnimation="_toogleAnimation" isModelReal="true" id="q{{shiti.px}}" num_color="{{shiti.num_color}}" px="{{shiti.px}}" tx="{{shiti.tx}}" question="{{shiti.question}}"></question>
 
-          <!--单选题-->
-          <view style="margin-botoom:50rpx;" wx:if="{{shiti.TX == 1}}">
-            <singleSelect shiti="{{shiti}}" checked="{{checked}}" bindanswerSelect="_answerSelect"> </singleSelect>
-            <!-- 解析 -->
-            <jiexi isAnswer="{{isSubmit}}" jiexi="{{shiti.jiexi}}"></jiexi>
-          </view>
+            <!--单选题-->
+            <view style="margin-botoom:50rpx;" wx:if="{{shiti.TX == 1}}">
+              <singleSelect shiti="{{shiti}}" checked="{{checked}}" bindanswerSelect="_answerSelect"> </singleSelect>
+              <!-- 解析 -->
+              <jiexi isAnswer="{{isSubmit}}" jiexi="{{shiti.jiexi}}"></jiexi>
+            </view>
 
-          <!--多选题-->
-          <view style="margin-botoom:50rpx;" wx:if="{{shiti.TX ==2}}">
+            <!--多选题-->
+            <view style="margin-botoom:50rpx;" wx:if="{{shiti.TX ==2}}">
 
-            <multiSelect shiti="{{shiti}}" checked="{{checked}}" bindcheckVal="_answerSelect"></multiSelect>
-            <!-- 解析 -->
-            <jiexi isAnswer="{{isSubmit}}" jiexi="{{shiti.jiexi}}"></jiexi>
+              <multiSelect shiti="{{shiti}}" checked="{{checked}}" bindcheckVal="_answerSelect"></multiSelect>
+              <!-- 解析 -->
+              <jiexi isAnswer="{{isSubmit}}" jiexi="{{shiti.jiexi}}"></jiexi>
+            </view>
           </view>
         </view>
       </scroll-view>
@@ -29,7 +31,7 @@
 
 <!-- 载入动画 -->
 <view wx:if="{{!isLoaded}}">
-  <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit" ></image>
+  <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit"></image>
 </view>
 
 <!-- 底部正确错误个数统计条 -->

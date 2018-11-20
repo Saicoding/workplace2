@@ -43,6 +43,15 @@
   height:500rpx;
 }
 
+.container{
+  box-shadow: rgb(231, 230, 230) 3rpx 3rpx 8rpx 1rpx ;
+  border-radius: 20rpx;
+  width:93%;
+  height:90%;
+  margin:20rpx auto;
+  overflow-x: hidden;
+  padding-bottom:30rpx;
+}
 
 /******************** 提交答案 **********************/
 

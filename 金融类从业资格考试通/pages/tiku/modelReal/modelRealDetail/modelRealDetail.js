@@ -45,7 +45,6 @@ Page({
     let LoginRandom = user.Login_random
     let username = user.username;
     let zcode = user.zcode;
-    let category = options.category;
 
     let tiType = options.tiType;
     let test_score = options.test_score;
@@ -55,9 +54,8 @@ Page({
     let lastSliderIndex = 0 ;
 
     //根据真题定制最后一次访问的key
-    let last_view_key = category+tiTypeStr + 'lastModelReal' + options.id + username;
+    let last_view_key = tiTypeStr + 'lastModelReal' + options.id + username;
 
-    console.log(last_view_key)
 
     let last_model_real = wx.getStorageSync(last_view_key); //得到最后一次的题目
 
@@ -84,8 +82,6 @@ Page({
       let preShiti = undefined; //前一题
       let nextShiti = undefined; //后一题
       let midShiti = shitiArray[px - 1]; //中间题
-
-      if (midShiti.TX == 99) shitiNum = midShiti.clpx; //刚载入进来时编号用clpx
 
       let sliderShitiArray = [];
 
@@ -120,28 +116,29 @@ Page({
 
       common.initModelRealMarkAnswer(newShitiArray, self); //初始化答题板数组
 
+      let isSubmit = wx.getStorageSync(tiTypeStr + 'modelRealIsSubmit' + options.id + username);
+
       //开始计时
       let interval = "";
+      console.log(isSubmit)
       if (!isSubmit) { //如果没提交
-        let second = wx.getStorageSync(category+tiTypeStr + 'last_time' + options.id + username);
+        let second = wx.getStorageSync(tiTypeStr + 'last_time' + options.id + username);
         if (second) {
           interval = common.startWatch(second, self);
         } else {
           interval = common.startWatch(options.times * 60, self);
         }
       } else { //如果已提交
-        let last_gone_time_str = wx.getStorageSync(category+tiTypeStr + "last_gone_time" + options.id + username);
+        let last_gone_time_str = wx.getStorageSync(tiTypeStr + "last_gone_time" + options.id + username);
 
         self.modelCount.setData({
           timeStr: last_gone_time_str
         })
       }
 
-      let isSubmit = wx.getStorageSync(category+tiTypeStr + 'modelRealIsSubmit' + options.id + username);
-
       //对是否是已答试题做处理
       wx.getStorage({
-        key: category+tiTypeStr + "modelReal" + options.id + username ,
+        key: tiTypeStr + "modelReal" + options.id + username ,
         success: function(res1) {
           //根据章是否有子节所有已经回答的题
           let doneAnswerArray = res1.data;
@@ -176,7 +173,7 @@ Page({
         },
         fail: function() {
           wx.setStorage({
-            key:category+tiTypeStr + "modelReal" + options.id + username,
+            key:tiTypeStr + "modelReal" + options.id + username,
             data: [],
           })
         }
@@ -205,7 +202,6 @@ Page({
         totalscore: options.totalscore, //总分
         tiTypeStr: tiTypeStr, //题的类型字符串
         test_score: test_score, //最高分
-        category: category,//试题种类
 
         interval: interval, //计时器
         title: options.title, //标题
@@ -425,7 +421,6 @@ Page({
     if(!isLoaded) return;
 
     let user = self.data.user;
-    let category = self.data.category;
  
     let modelCount = self.modelCount;
     let pages = getCurrentPages();
@@ -439,7 +434,7 @@ Page({
       clearInterval(self.data.interval); //停止计时器
 
       wx.setStorage({
-        key: category+self.data.tiTypeStr + 'last_time' + self.data.id + user.username,
+        key: self.data.tiTypeStr + 'last_time' + self.data.id + user.username,
         data: second,
       })
     }
@@ -582,7 +577,6 @@ Page({
     let undone = 0; //未做题数
     let time = self.modelCount.data.time; //当前时间,对象格式
     let gone_time = 0; //花费时间
-    let category = self.data.category;//试题种类
 
     let user = self.data.user;
     let username = user.username;
@@ -658,13 +652,13 @@ Page({
         text: "重新评测",
       })
       wx.setStorage({
-        key: category+self.data.tiTypeStr + 'modelRealIsSubmit' + self.data.id + username ,
+        key: self.data.tiTypeStr + 'modelRealIsSubmit' + self.data.id + username ,
         data: true,
       })
 
       //设置用时
       wx.setStorage({
-        key: category+self.data.tiTypeStr + "last_gone_time" + self.data.id + username,
+        key: self.data.tiTypeStr + "last_gone_time" + self.data.id + username,
         data: "用时" + time1.getGoneTimeStr(gone_time)
       })
       //设置答题板的显示文字

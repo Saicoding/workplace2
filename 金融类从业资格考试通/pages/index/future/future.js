@@ -20,7 +20,7 @@ Page({
     loaded: false, //是否已经载入一次,用于答题时点击返回按钮,首页再次展现后更新做题数目
     zhangjie: "", //章节信息
     z_id: 0, //题库id
-    line_graden: "background: linear-gradient(to right, #CD3278, #C71585);"
+    line_graden: "background: linear-gradient(to right, #830053, #f556ba);"
   },
 
   /**
@@ -377,7 +377,6 @@ Page({
     let z_id = e.currentTarget.id;
     let zhangIdx = e.currentTarget.dataset.itemidx; //点击的章index
     let jieIdx = e.currentTarget.dataset.jieidx; //点击的节index
-    let category = "qh"
 
     let zhangjie = self.data.zhangjie; //章节
     let zhangjie_id = self.data.zhangjie_id; //当前题库的id，用来作为本地存储的key值
@@ -513,10 +512,9 @@ Page({
     buttonClicked = true;
     let self = this;
     let ti = e.currentTarget.dataset.ti; //题型(押题,真题)
-    let category = "qh";
 
     let kid = self.data.zhangjie_id;
-    let url1 = '/pages/tiku/modelReal/modelRealList/modelRealList?kid=' + kid + "&ti=" + ti + "&category=" + category;
+    let url1 = '/pages/tiku/modelReal/modelRealList/modelRealList?kid=' + kid + "&ti=" + ti;
 
     wx.navigateTo({
       url: url1

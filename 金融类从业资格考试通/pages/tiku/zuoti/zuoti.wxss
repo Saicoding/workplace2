@@ -2,6 +2,9 @@
 
 
 /******************** 提问 **********************/
+page{
+  height:100%;
+}
 
 .question {
   line-height: 60rpx;
@@ -35,6 +38,16 @@
 .swiper{
   width: 100%;
   height:100%;
+}
+
+.container{
+  box-shadow: rgb(231, 230, 230) 3rpx 3rpx 8rpx 1rpx ;
+  border-radius: 20rpx;
+  width:93%;
+  height:90%;
+  margin:20rpx auto;
+  overflow-x: hidden;
+  padding-bottom:30rpx;
 }
 
 .swiper-xiaoti{
@@ -71,10 +84,6 @@
 
 /******************** 答案组块 **********************/
 
-
-page {
-  height: 100%;
-}
 .cailiaoZuoti{
   text-align: center;
 }
