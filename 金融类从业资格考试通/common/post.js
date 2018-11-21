@@ -43,7 +43,7 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, page,self){
 
   //对是否是已答试题做处理
   wx.getStorage({
-    key: options.category+"shiti" + options.zhangjie_id+username,
+    key: "shiti" + options.zhangjie_id+username,
     success: function (res1) {
       console.log(res1);
       //根据章是否有子节所有已经回答的题
@@ -106,7 +106,6 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, page,self){
     px:px,
     user:user,
     title: options.title,//标题
-    category: options.category,
     circular:circular,
     myFavorite: myFavorite,//是否收藏
 

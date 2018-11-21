@@ -388,7 +388,7 @@ function setModelRealMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubm
 
     if (isModelReal && isSubmit == false) { //如果是真题或者押题并且没有提交
       if (jie_answer_array[i].done_daan != "") { //如果答案不为空
-        style = "background:#0197f6;color:white;border:1rpx solid #0197f6;"
+        style = "color:white;border:1rpx solid #fd7f2b;background: linear-gradient(to right, #fd781f, #f9ba91);"
       } else { //如果是空
         style = "border:1rpx solid #9c9c9c;"
       }
@@ -419,7 +419,7 @@ function setMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubmit, self)
     let style = "";
     if (isModelReal && isSubmit == false) { //如果是真题或者押题
       if (jie_answer_array[i].done_daan != "") { //如果答案不为空
-        style = "background:#0197f6;color:white;border:1rpx solid #0197f6;"
+        style = "color:white;border:1rpx solid #fd7f2b;background: linear-gradient(to right, #fd781f, #f9ba91);"
       } else { //如果是空
         style = "border:1rpx solid #9c9c9c;";
       }
@@ -449,7 +449,7 @@ function setMarkAnswer(shiti, isModelReal, isSubmit, self) {
   let px = shiti.px;
   let style = "";
   if (isModelReal && isSubmit == false) { //如果是真题或者押题
-    style = "background:#0197f6;color:white;border:1rpx solid #0197f6; "
+    style = "color:white;border:1rpx solid #fd7f2b;background: linear-gradient(to right, #fd781f, #f9ba91);"
   } else if (shiti.flag == 0) { //如果题是正确的
     style = "background:#90dd35;color:white;border:1rpx solid #90dd35; "
   } else if (shiti.flag == 1) { //如果题是错误的
@@ -476,6 +476,7 @@ function storeAnswerStatus(shiti, self) {
   let user = self.data.user;
   let username = user.username
 
+  console.log("shiti" + self.data.zhangjie_id + username)
   let answer_nums_array = wx.getStorageSync("shiti" + self.data.zhangjie_id + username);
 
   let obj = {

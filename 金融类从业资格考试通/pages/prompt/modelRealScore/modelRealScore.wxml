@@ -19,11 +19,11 @@
       </view>
       <view class="count">
         <view class="right" style="margin-left:60rpx;">
-          <text class="count-text-up" style="color:#3cd0a2">{{rightNums}}</text>
+          <text class="count-text-up" style="color:#b1c914">{{rightNums}}</text>
           <text class="count-text-down">正确</text>
         </view>
         <view class="wrong" style="margin-left:133rpx;">
-          <text class="count-text-up" style="color:#fa6258">{{wrongNums}}</text>
+          <text class="count-text-up" style="color:#a6325a">{{wrongNums}}</text>
           <text class="count-text-down">答错</text>
         </view>
         <view class="undone" style="margin-right:60rpx;margin-left:133rpx;">

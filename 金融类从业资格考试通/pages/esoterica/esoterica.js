@@ -1,5 +1,5 @@
 // pages/hasNoErrorShiti/hasNoErrorShiti.js
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 const app = getApp(); //获取app对象
 let validate = require('../../common/validate.js');
 let buttonClicked = false;
@@ -16,21 +16,22 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function () {
+  onLoad: function (options) {
+    let title = options.title
     wx.setNavigationBarTitle({//设置标题
-      title: "房地产经纪考试通"
+      title: title
     }) 
 
     //先执行onload方法，如果没有登录信息就先进入登录界面，登录成功后又执行一次该方法，这时可以获取user值，
     let self = this;
     let user = wx.getStorageSync('user');
-    let username = user.username == undefined?"":user.username;
-    let acode = user.acode == undefined ? "" : user.acode;
+    let LoginRandom = user.Login_random == undefined ? "" : user.Login_random;
+    let zcode = user.zcode == undefined ? "" : user.zcode;
   
     app.post(API_URL, "action=SelectZj").then((res) => {
+      
       this.setZhangjie(res.data.list); //得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
-
-      app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id+"&username="+username+"&acode="+acode, false, false, "","",true).then((res) => {
+      app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id + "&LoginRandom=" + LoginRandom+"&zcode="+zcode, false, false, "","",true).then((res) => {
         let kdList = res.data.list;//考点列表
  
         self.setData({

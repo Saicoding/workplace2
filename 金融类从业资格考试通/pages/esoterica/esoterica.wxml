@@ -27,7 +27,7 @@
 
 <!-- 载入动画 -->
 <view wx:if="{{!isLoaded}}">
-  <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit" style = "margin-top:{{windowHeight/2-300}}rpx;"></image>
+  <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit" ></image>
 </view>
 
 <waterWave id="waterWave"></waterWave>

@@ -14,7 +14,7 @@
 
 .bottom-block1 {
   color: white;
-  background: #0197f6;
+  background: linear-gradient(to right, #f84d1a, #faa990);
   letter-spacing: 5rpx;
   font-size: 25rpx;
   margin-left:30rpx;
@@ -26,8 +26,8 @@
 
 .bottom-block2 {
   font-size: 30rpx;
-  border:1px solid #0197f6;
-  color:#0197f6;
+  border:1px solid #f78c6b;
+  color:#f78c6b;
   width:250rpx;
   margin-left:20rpx;
   text-align: center;

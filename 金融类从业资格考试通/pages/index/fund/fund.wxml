@@ -28,7 +28,7 @@
         <view class='t_text'>考前押题</view>
       </view>
     </view>
-    <view class='t_center' bindtap="GOkaoqianmiji" >
+    <view class='t_center' bindtap="GOkdjx" >
       <view class="center-block" style = "{{line_graden}}">
         <view class="center-text" style="margin-top:70rpx;font-size:40rpx;letter-spacing:2rpx;">考点解析</view>
         <view class="center-text" style="margin-top:20rpx;font-size:25rpx;">敲黑板/划重点</view>

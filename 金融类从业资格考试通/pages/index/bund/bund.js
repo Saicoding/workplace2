@@ -20,6 +20,7 @@ Page({
     loaded: false, //是否已经载入一次,用于答题时点击返回按钮,首页再次展现后更新做题数目
     zhangjie: "", //章节信息
     z_id: 0, //题库id
+    title:"证券从业资格考试通",
     line_graden: " background: linear-gradient(to right, #ea2f22, #ff8f08);"
   },
 
@@ -63,7 +64,7 @@ Page({
           success: function(res) {
             let user = res.data;
             wx.getStorage({
-              key: "zqshiti" + self.data.zhangjie_id + user.username,
+              key: "shiti" + self.data.zhangjie_id + user.username,
               success: function(res) {
                 //将每个节的已经作答的本地存储映射到组件中    
                 for (let i = 0; i < zhangjie.length; i++) {
@@ -96,7 +97,7 @@ Page({
               },
               fail: function() { //如果没有本地存储就初始化
                 wx.setStorage({
-                  key: "zqshiti" + self.data.zhangjie_id + user.username,
+                  key: "shiti" + self.data.zhangjie_id + user.username,
                   data: answer_nums_array
                 })
               }
@@ -187,7 +188,7 @@ Page({
         success: function(res) {
           let user = res.data;
           wx.getStorage({
-            key: "zqshiti" + self.data.zhangjie_id + user.username,
+            key: "shiti" + self.data.zhangjie_id + user.username,
             success: function(res) {
               //将每个节的已经作答的本地存储映射到组件中          
               for (let i = 0; i < zhangjie.length; i++) {
@@ -209,7 +210,7 @@ Page({
             },
             fail: function() { //如果没有本地存储就初始化
               wx.setStorage({
-                key: "zqshiti" + self.data.zhangjie_id + user.username,
+                key: "shiti" + self.data.zhangjie_id + user.username,
                 data: answer_nums_array
               })
             }
@@ -477,16 +478,19 @@ Page({
   },
 
   /**
-   * 导航到模拟考试
+   * 导航到考点解析
    */
-  GOkaoqianmiji: function(e) {
+  GOkdjx: function(e) {
     this.waterWave.containerTap(e);
     if (buttonClicked) return;
     buttonClicked = true;
     let self = this;
+
     let kid = self.data.zhangjie_id;
-    let url = encodeURIComponent('/pages/tiku/kaoqianmiji/kaoqianmiji')
-    let url1 = '/pages/tiku/kaoqianmiji/kaoqianmiji';
+    let title = self.data.title;
+
+    let url = encodeURIComponent('/pages/esoterica/esoterica?kid=' + kid + "&title=" + title);
+    let url1 = '/pages/esoterica/esoterica?kid=' + kid + "&title=" + title;
 
     //获取是否有登录权限
     wx.getStorage({
@@ -559,7 +563,7 @@ Page({
       success: function(res) {
         let user = res.data;
         wx.getStorage({
-          key: "zqshiti" + self.data.zhangjie_id + user.username,
+          key: "shiti" + self.data.zhangjie_id + user.username,
           success: function(res) {
 
             //将每个节的已经作答的本地存储映射到组件中          
@@ -625,7 +629,7 @@ Page({
             }
 
             wx.setStorage({
-              key: "zqshiti" + self.data.zhangjie_id + user.username,
+              key: "shiti" + self.data.zhangjie_id + user.username,
               data: answer_nums_array
             })
             //因为是在同步内部，最后需要更新章节信息，不更新数据不会改变

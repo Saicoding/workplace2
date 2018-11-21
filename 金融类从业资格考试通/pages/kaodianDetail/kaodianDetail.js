@@ -1,5 +1,5 @@
 // pages/kaodianDetail/kaodianDetail.js
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 const app = getApp(); //获取app对象
 let time = require('../../common/time.js');
 let mytime = { 'second': 0 };
@@ -27,10 +27,10 @@ Page({
     let kdid = options.kdid;
     
     let user = wx.getStorageSync("user");
-    let username = user.username;
-    let acode = user.acode;
+    let LoginRandom = user.Login_random;
+    let zcode = user.zcode;
 
-    app.post(API_URL,"action=GetKaodianShow&username="+username+"&acode="+acode+"&kdid="+kdid,false,true,"").then((res)=>{
+    app.post(API_URL, "action=GetKaodianShow&LoginRandom=" + LoginRandom+"&zcode="+zcode+"&kdid="+kdid,false,true,"").then((res)=>{
       let data = res.data.data[0];
       let content = data.content;
       let nextId = data.nextId;

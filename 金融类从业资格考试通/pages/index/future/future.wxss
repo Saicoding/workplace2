@@ -8,6 +8,7 @@
   padding-right: 20rpx;
   border-bottom: 1px #cecece solid;
   box-shadow: rgb(211, 206, 206) 3rpx 3rpx 8rpx 1rpx;
+  color:#b4257f;
 }
 
 .mulu {
