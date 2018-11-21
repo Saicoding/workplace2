@@ -56,19 +56,15 @@ Page({
     let storages = wx.getStorageInfoSync().keys;
 
     for (let i = 0; i < storages.length; i++) {
-      console.log('hehe')
       let storage = storages[i];
-      if (storage == 'user' || storage == 'turnonWifiPrompt') {
-        console.log('haha')
+      if (storage == 'user' || storage == 'myType') {
         continue;
       }
-      console.log(storage)
       wx.removeStorageSync(storage);
     }
 
     let storages1 = wx.getStorageInfoSync();
     console.log(storages1)
-    console.log(user)
 
     wx.showToast({
       title: '清除缓存成功',
