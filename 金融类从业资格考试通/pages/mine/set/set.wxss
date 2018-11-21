@@ -38,3 +38,30 @@ page{
 .select{
    background: rgb(230, 229, 229);
 }
+
+.container{
+  width:100%;
+  height:70rpx;
+}
+
+.imgAndText,.icon,.text{
+  display: float;
+  float:left;
+}
+
+.imgAndText{
+  height:35rpx;
+  padding:15rpx 73rpx 15rpx 73rpx;
+}
+
+.icon{
+  width:35rpx;
+  height:35rpx;
+}
+
+.text{
+  font-size:25rpx;
+  height:35rpx;
+  line-height: 35rpx;
+  margin-left:15rpx;
+}
