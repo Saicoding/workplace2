@@ -1,38 +1,14 @@
 <!--pages/mine/set/set.wxml-->
 <view class="mycontainer">
 
-  <view class="block" style="border-top:1rpx solid #ebebeb;" bindtap='clearStorage' hover-stay-time='100' hover-class='select'>
-    <view class="mytext">
-      首页首选项
-    </view>
-    <image class="right-img" src="/imgs/right-rate.png" mode="aspectFit" style=" transform:rotate({{jjrAngle}}deg);"></image>
-  </view>
-
-  <view class="container">
-    <radio-group class="radio-group" bindchange="categorySelect">
-      <label>
-        <radio hidden value="zq" checked="{{checked}}" />
-        <view class="imgAndText">
-          <image class="icon" src="{{srcs.zq}}" mode="aspectFit"></image>
-          <view class="text" style= "color:{{colors.zq}}">证券</view>
-        </view>
-      </label>
-      <label>
-        <radio hidden value="jj" checked="{{checked}}" />
-        <view class="imgAndText">
-          <image src="{{srcs.jj}}" mode="aspectFit" class="icon"></image>
-          <view class="text" style= "color:{{colors.jj}}">基金</view>
-        </view>
-      </label>
-      <label>
-        <radio hidden value="qh" checked="{{checked}}" />
-        <view class="imgAndText">
-          <image src="{{srcs.qh}}" mode="aspectFit" class="icon"></image>
-          <view class="text" style= "color:{{colors.qh}}">期货</view>
-        </view>
-      </label>
-    </radio-group>
-  </view>
+  <view class="block" style="border-top:1rpx solid #ebebeb;">
+    <picker range="{{categories}}" range-key="title" class='picker' value="{{Index}}" bindchange="categorySelect" data-selecthx="{{categories[index].title}}">
+      <view class='mulu'>当前默认首页</view>
+      <view class="piker-text" value="{{index}}" style="color:{{color}}">
+        {{categories[index].title}}>
+      </view>
+    </picker>
+   </view>
 
   <view class="block" bindtap='clearStorage' hover-stay-time='100' hover-class='select'>
     <view class="mytext">

@@ -18,6 +18,7 @@ Page({
    */
   onLoad: function (options) {
     let title = options.title
+    let typesid = options.typesid;
     wx.setNavigationBarTitle({//设置标题
       title: title
     }) 
@@ -29,7 +30,7 @@ Page({
     let zcode = user.zcode == undefined ? "" : user.zcode;
   
     app.post(API_URL, "action=SelectZj").then((res) => {
-      
+      console.log(res)
       this.setZhangjie(res.data.list); //得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
       app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id + "&LoginRandom=" + LoginRandom+"&zcode="+zcode, false, false, "","",true).then((res) => {
         let kdList = res.data.list;//考点列表

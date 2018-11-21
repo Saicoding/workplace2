@@ -1,67 +1,63 @@
 /* pages/mine/set/set.wxss */
-page{
+
+page {
   background: #f9f9f9;
-}
-.mycontainer{
-  background: #f9f9f9;
-  width:100%;
-  margin-top:18rpx;
-  height:300rpx;
 }
 
-.block{
-  height:80rpx;
-  width:100%;
+.mycontainer {
+  background: #f9f9f9;
+  width: 100%;
+  margin-top: 18rpx;
+  height: 300rpx;
+}
+
+.block {
+  height: 80rpx;
+  width: 100%;
   background: white;
-  border-bottom:1rpx solid #ebebeb;
+  border-bottom: 1rpx solid #ebebeb;
   line-height: 80rpx;
-  font-size:30rpx;
-  padding-left:40rpx;
+  font-size: 30rpx;
+  padding-left: 40rpx;
 }
 
-.right-img,.mytext{
+.right-img, .mytext {
   display: float;
-  float:left;
+  float: left;
 }
 
-.mytext{
-  width:660rpx;
-  height:80rpx;
+.mytext {
+  width: 660rpx;
+  height: 80rpx;
   line-height: 80rpx;
 }
-.right-img{
-  width:30rpx;
-  height:30rpx;
-  margin-top:25rpx;
+
+.right-img {
+  width: 30rpx;
+  height: 30rpx;
+  margin-top: 25rpx;
 }
 
-.select{
-   background: rgb(230, 229, 229);
+.select {
+  background: rgb(230, 229, 229);
 }
 
-.container{
-  width:100%;
-  height:70rpx;
+.picker {
+  width: 680rpx;
+  height: 80rpx;
+  line-height: 80rpx;
 }
 
-.imgAndText,.icon,.text{
+.mulu, .picker-text {
   display: float;
-  float:left;
 }
 
-.imgAndText{
-  height:35rpx;
-  padding:15rpx 73rpx 15rpx 73rpx;
+.mulu {
+  float: left;
+  text-align: left;
+  width:580rpx;
 }
 
-.icon{
-  width:35rpx;
-  height:35rpx;
-}
-
-.text{
-  font-size:25rpx;
-  height:35rpx;
-  line-height: 35rpx;
-  margin-left:15rpx;
+.piker-text {
+  float: right;
 }

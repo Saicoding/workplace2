@@ -6,7 +6,18 @@ Page({
    */
   data: {
     storageSize: 0,
-    checked: false
+    checked: false,
+    categories: [{
+        title: '证券   '
+      },
+      {
+        title: '基金   '
+      },
+      {
+        title: '期货   '
+      },
+    ],
+    index:0
   },
 
   /**
@@ -23,8 +34,31 @@ Page({
     });
 
     let myType = wx.getStorageSync('myType');
+    this.setColor(myType);
+  },
 
-    self.setSrcsAndColors(myType);
+  setColor: function (myType){
+    let index = 0;
+    let color = "";
+    switch(myType){
+      case "zq":
+        index = 0;
+        color = "#fd6131";
+      break;
+      case "jj":
+        index = 1;
+        color = "#c1940e";
+        break;
+      case "qh":
+        index = 2;
+        color = "#c71585";
+        break;
+    }
+    
+    this.setData({
+      index:index,
+      color:color
+    })
   },
 
 
@@ -100,57 +134,36 @@ Page({
   /**
    * 改变首选项
    */
-  categorySelect:function(e){
+  categorySelect: function(e) {
     let self = this;
-    let value = e.detail.value;
-    let myType = self.data.myType;
-    
-    if(myType == value) return;
+    let index = e.detail.value;
+    let category = "";
+    let color = "";
+    console.log(index)
 
-    self.setSrcsAndColors(value);
-    wx.setStorageSync('myType', value);
-  },
-
-  /**
-   * 设置srcs和colors方法封装
-   */
-  setSrcsAndColors: function (myType) {
-    let self = this;
-    let srcs = {};
-    let colors = {};
-
-    switch (myType) {
-      case "zq":
-        srcs.zq = "/imgs/zq-s.png";
-        srcs.jj = "/imgs/jj.png";
-        srcs.qh = "/imgs/qh.png";
-        colors.zq = "#fd6131";
-        colors.jj = "black";
-        colors.qh = "black";
+    switch (index) {
+      case "0":
+        category = "zq";
+        color = "#fd6131";
+      case "1":
+        category= "jj";
+        color = "#c1940e";
         break;
-      case "jj":
-        srcs.zq = "/imgs/zq.png";
-        srcs.jj = "/imgs/jj-s.png";
-        srcs.qh = "/imgs/qh.png";
-        colors.zq = "black";
-        colors.jj = "#d2ac37";
-        colors.qh = "black";
-        break;
-      case "qh":
-        srcs.zq = "/imgs/zq.png";
-        srcs.jj = "/imgs/jj.png";
-        srcs.qh = "/imgs/qh-s.png";
-        colors.zq = "black";
-        colors.jj = "black";
-        colors.qh = "#c71585";
+      case "2":
+        category = "qh";
+        color = "#c71585";
         break;
     }
 
+    console.log(color)
+
     self.setData({
-      srcs: srcs,
-      colors: colors,
-      myType: myType
+      index: index,
+      color:color
     })
-  },
+
+    wx.setStorageSync('myType', category);
+
+  }
 
 })

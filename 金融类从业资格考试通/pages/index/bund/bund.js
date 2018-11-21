@@ -488,8 +488,9 @@ Page({
 
     let kid = self.data.zhangjie_id;
     let title = self.data.title;
+    let typesid = "274";
 
-    let url = encodeURIComponent('/pages/esoterica/esoterica?kid=' + kid + "&title=" + title);
+    let url = encodeURIComponent('/pages/esoterica/esoterica?kid=' + kid + "&title=" + title + "&typesid=" + typesid);
     let url1 = '/pages/esoterica/esoterica?kid=' + kid + "&title=" + title;
 
     //获取是否有登录权限
