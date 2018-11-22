@@ -1,5 +1,5 @@
 <!--pages/tiku/zuoti/index.wxml-->
-<swiper wx:if="{{isLoaded}}" duration="200" current="{{myCurrent}}" circular="{{circular}}" skip-hidden-item-layout="true" class="swiper" bindchange="sliderChange">
+<swiper wx:if="{{isLoaded && isHasShiti}}" duration="200" current="{{myCurrent}}" circular="{{circular}}" skip-hidden-item-layout="true" class="swiper" bindchange="sliderChange">
   <block wx:for="{{sliderShitiArray}}" wx:for-item="shiti" wx:key="ti">
     <swiper-item>
       <scroll-view scroll-y style="height:{{windowHeight-85}}rpx;">
@@ -39,6 +39,10 @@
 <!-- 答题板 -->
 <markAnswer id="markAnswer" done_answers="{{jieDoneAnswerArray}}" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">
 </markAnswer>
+
+<view wx:if="{{!isHasShiti}}">
+  <hasNoPage str="{{message}}"></hasNoPage>
+</view>
 
 <!-- 纠错板 -->
 <errorRecovery id="errorRecovery" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}" bindsubmit="_submit"></errorRecovery>

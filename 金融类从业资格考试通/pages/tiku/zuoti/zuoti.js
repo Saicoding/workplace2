@@ -66,7 +66,7 @@ Page({
       page = ((px - 1) - (px - 1) % 10) / 10 + 1;//当前页
     }
 
-    app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + options.z_id + "&zcode=" + zcode + "&page="+page, false, false, "").then((res) => {
+    app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + options.z_id + "&zcode=" + zcode + "&page="+page, false, false, "","",false,self).then((res) => {
       post.zuotiOnload(options, px, circular, myFavorite, res, user, page,self) //对数据进行处理和初始化
     }).catch((errMsg) => {
       wx.hideLoading();

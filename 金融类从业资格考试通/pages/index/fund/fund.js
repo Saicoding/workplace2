@@ -146,6 +146,8 @@ Page({
   /* 更改题库 */
   bindPickerChange: function (e) {
     var self = this
+    let user = wx.getStorageSync('user');
+
     self.foldAll();
     self.setData({
       index: e.detail.value, //设置是第几个题库
@@ -153,6 +155,13 @@ Page({
       folder_object: [], //初始化展开字节的对象,因为更换章节后默认都是不展开状态
       scroll: 0 //初始化章节的滑动条
     })
+
+    if (user) {//如果有用户名
+      wx.setStorageSync("jj_tiku_id" + user.username, {
+        "id": self.data.array[e.detail.value].id,
+        "index": self.data.index
+      });
+    }
 
     app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id, true, false, "载入题库中").then((res) => {
       let answer_nums_array = [] //答题数目array
@@ -213,11 +222,6 @@ Page({
               })
             }
           })
-
-          wx.setStorageSync("jj_tiku_id" + user.username, {
-            "id": self.data.array[e.detail.value].id,
-            "index": self.data.index
-          });
         },
       })
 
@@ -236,14 +240,10 @@ Page({
     let self = this;
     let index = e.currentTarget.dataset.itemidx; //选择章节的index
     let zhangjie = self.data.zhangjie; //取得章节对象
-    let isFolder = zhangjie[index].isFolder //章节的展开与折叠状态
-    let display = zhangjie[index].display //设置是否开始动画
+
     let hasChild = zhangjie[index].hasChild //是否有子节
     let windowWidth = self.data.windowWidth;
     let num = zhangjie[index].zhangjie_child.length //取得有多少个章节
-    let jie_height = num * 70 * windowWidth / 750 //获得字节高度(px),因为在定义节高度的时候用的是rpx，而滚动条位置是用px定位的，所以需要转换
-    let zhangjie_block_height = 750 * windowWidth / 750 //获得章节模块距离顶部的距离,转换同上
-
 
     if (!hasChild) {
       this.GOzuoti(e);
@@ -251,23 +251,25 @@ Page({
     }
 
     //开始动画
-    this.step(index, num, windowWidth);
+    this.step(index, num, windowWidth, zhangjie);
 
     self.setData({
       zhangjie: zhangjie,
     })
   },
+
   /**
    * 关闭所有展开
    */
   foldAll: function () {
     let self = this;
+    let windowWidth = self.data.windowWidth;
     let zhangjie = self.data.zhangjie //取得章节对象
     for (let i = 0; i < zhangjie.length; i++) {
       let isFolder = zhangjie[i].isFolder; //取得现在是什么状态
       let jie_num = zhangjie[i].zhangjie_child.length;
 
-      let height = 71 * jie_num+30;
+      let height = (68 + 2 * 750 / windowWidth) * jie_num;
 
       let scroll = 0;
 
@@ -278,7 +280,7 @@ Page({
           timingFunction: "ease-out"
         })
 
-        foldAnimation.height(0, height + "rpx").step({})
+        foldAnimation.height(0, height + "rpx").opacity(0).step({})
 
         zhangjie[i].height = 0;
         zhangjie[i].isFolder = true;
@@ -294,24 +296,21 @@ Page({
   /**
    * 实现展开折叠效果
    */
-  step: function (index, num, windowWidth) {
+  step: function (index, num, windowWidth, zhangjie) {
     let self = this;
-    let isFolder = self.data.zhangjie[index].isFolder; //取得现在是什么状态
-    let zhangjie = self.data.zhangjie //取得章节对象
+    let isFolder = zhangjie[index].isFolder; //取得现在是什么状态
     let folder_object = self.data.folder_object //取得展开章节的对象
     let jie_num = 0;
-    let blank_num = 0;
 
     for (let i = 0; i < folder_object.length; i++) {
       if (folder_object[i].index < index) { //如果在点击选项前面有展开字节
-        blank_num++;
         jie_num += folder_object[i].num //有几个节点就加几个节点
       }
     }
 
-    let height = 71 * num+30;
+    let height = (68 + 2 * 750 / windowWidth) * num;//上下边框2px 转化为rpx
 
-    let scroll = (index * 80 + jie_num * 71 +blank_num*30) * (windowWidth / 750);
+    let scroll = (index * 80 + jie_num * (68 + 2 * 750 / windowWidth)) * (windowWidth / 750);
 
 
     if (isFolder) { //展开
@@ -321,7 +320,7 @@ Page({
         timingFunction: "ease"
       })
 
-      spreadAnimation.height(height + "rpx", 0).step({
+      spreadAnimation.height(height + "rpx", 0).opacity(1).step({
 
       })
       zhangjie[index].isFolder = false;
@@ -340,13 +339,19 @@ Page({
       })
 
     } else { //折叠
+      zhangjie[index].display = true;
+
+      self.setData({
+        zhangjie: zhangjie
+      })
+
       let foldAnimation = wx.createAnimation({
         duration: 1000,
         delay: 0,
         timingFunction: "ease-out"
       })
 
-      foldAnimation.height(0, height + "rpx").step(function () { })
+      foldAnimation.height(0, height + "rpx").opacity(0).step(function () { })
       //把折叠对象从折叠对象数组中去除
       for (let i = 0; i < folder_object.length; i++) {
         if (folder_object[i].index == index) {
@@ -357,10 +362,17 @@ Page({
       zhangjie[index].isFolder = true;
       zhangjie[index].folderData = foldAnimation.export();
 
+      setTimeout(function () {
+        zhangjie[index].display = false;
+        self.setData({
+          zhangjie: zhangjie,
+          scroll: scroll
+        })
+      }, 1000)
+
 
       self.setData({
         zhangjie: zhangjie,
-        scroll: scroll,
         folder_object: folder_object
       })
     }
@@ -682,7 +694,10 @@ Page({
   setZhangjie: function (res) {
     let z_id = 0;
     let index = 0;
-    let tiku = wx.getStorageSync("jj_tiku_id");
+
+    let user = wx.getStorageSync('user');
+    let tiku = wx.getStorageSync("jj_tiku_id" + user.username);
+
     if (tiku == "") {
       z_id = res[0].id;
       index = 0;

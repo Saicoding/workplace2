@@ -42,7 +42,7 @@
 </markAnswer>
 
 <view wx:if="{{!isHasShiti}}">
-  <hasNoPage str="当前题库没有错题"></hasNoPage>
+  <hasNoPage str="{{message}}"></hasNoPage>
 </view>
 <!-- 点击水波 -->
 <waterWave id="waterWave"></waterWave>

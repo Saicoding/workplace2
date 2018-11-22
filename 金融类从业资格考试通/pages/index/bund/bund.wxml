@@ -51,9 +51,8 @@
     <view wx:for="{{zhangjie}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
       <!-- 如果是展开状态才显示线条 -->
 
-
       <view data-itemIdx="{{itemIdx}}" id='{{item.id}}' bindtap="onTapZhangjie" class="block" hover-start-time="100" hover-class="select">
-        <image wx:if="{{item.hasChild}}" class="zhang-icon" src="{{item.isFolder?'/imgs/zq_folder.png':'/imgs/zq_unfolder.png'}}"></image>
+        <image wx:if="{{item.hasChild}}" class="zhang-icon" src="{{item.isFolder && !item.display?'/imgs/zq_folder.png':'/imgs/zq_unfolder.png'}}"></image>
 
         <view class='title' id='{{item.id}}' style="color:{{item.isAnswerAll?'#9D9D9D':'black'}}">
           {{item.title}}
@@ -74,7 +73,6 @@
           </view>
         </view>
       </view>
-
     </view>
   </scroll-view>
 </view>

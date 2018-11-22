@@ -45,7 +45,7 @@
 </markAnswer>
 
 <view wx:if="{{!isHasShiti}}">
-  <hasNoPage str="当前题库没有收藏试题"></hasNoPage>
+  <hasNoPage str="{{message}}"></hasNoPage>
 </view>
 
 <!-- 纠错板 -->

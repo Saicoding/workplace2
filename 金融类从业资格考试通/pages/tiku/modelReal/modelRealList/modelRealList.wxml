@@ -15,5 +15,5 @@
 </view>
 
 <view wx:if="{{!isHasShiti}}">
-  <hasNoPage str="当前题库没有{{title}}"></hasNoPage>
+  <hasNoPage str="{{message}}"></hasNoPage>
 </view>

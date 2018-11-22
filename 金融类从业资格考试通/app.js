@@ -36,6 +36,7 @@ App({
         },
         success: function(res) { //服务器返回数据
           let status = res.data.status;
+          let message = res.data.message;
           if (status == 1) {//请求成功
             resolve(res);
           } else if(status == -2){//没有权限
@@ -52,7 +53,8 @@ App({
             console.log('没有试题')
             self.setData({
               isHasShiti:false,
-              isLoaded:true
+              isLoaded:true,
+              message: message
             })
           }else if(status == -201){
             console.log('余额不足')
