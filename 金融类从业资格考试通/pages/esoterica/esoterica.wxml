@@ -1,6 +1,6 @@
 <view class="index-top">
   <picker range="{{array}}" range-key="title" class='picker changeType' value="{{Index}}" bindchange="bindPickerChange" data-selecthx="{{array[index].title}}">
-    <image src="/imgs/dingwei1.png" class="dingwei" mode="aspectFit"></image>
+    <image src="{{dingwei_src}}" class="dingwei" mode="aspectFit"></image>
     <text class='mulu'>当前考点</text>
     <view value="{{index}}">
       {{array[index].title}}>
@@ -8,26 +8,45 @@
   </picker>
 </view>
 
-<view wx:if="{{isLoaded}}" class="content">
-  <view class="line">
-    <view wx:for="{{kdList}}" wx:for-item="kaodian" wx:key="k">
-      <view data-title="{{kaodian.title}}" data-kdid="{{kaodian.id}}" class="block" bindtap="GOkaodianDetail">
-        <view class="list">
-          <view class="circle-out">
-            <view class="circle-in" style="background:{{kaodian.readed == 0?'#c9c9c9':'#00b22b'}}"></view>
+<scroll-view wx:if="{{isLoaded}}" style="height:{{windowHeight-10}}rpx;" scroll-y="true" scroll-with-animation>
+  <view style="border:1rpx solid white">
+    <view class="content">
+      <view class="line">
+        <view wx:for="{{kdList}}" wx:for-item="kaodian" wx:key="k" wx:for-index="kidx">
+          <!-- 章 -->
+          <view data-itemIdx="{{kidx}}" id='{{kaodian.id}}' class="block" bindtap="onTapZhangjie">
+            <view class="list">
+              <view class="circle-out">
+                <view class="circle-in" style="background:{{kaodian.readed == 0?'#c9c9c9':'#00b22b'}}"></view>
+              </view>
+              <view wx:if="{{kidx == kdList.length-1 && kaodian.isFolder}}" class="white-down"></view>
+              <view wx:if="{{kidx == 0}}" class="white-top"></view>
+            </view>
+            <view class="text">{{kaodian.title}}</view>
           </view>
-          <view wx:if="{{index == kdList.length-1}}" class="white-down"></view>
-          <view wx:if="{{index == 0}}" class="white-top"></view>
+
+          <!-- 节 -->
+          <view class="jie" animation="{{!kaodian.isFolder?kaodian.spreadData:kaodian.folderData}}">
+            <view wx:for="{{kaodian.data}}" wx:for-item="kd_jie" wx:key="j" wx:for-index="jidx">
+              <view  data-kidx = "{{kidx}}" data-jidx = "{{jidx}}" data-title="{{kd_jie.title}}" data-kdid="{{kd_jie.id}}" class="block-jie" bindtap="GOkaodianDetail">
+                <view class="list-jie">
+                  <view class="circle-out-jie">
+                    <view class="circle-in-jie" style="background:{{kd_jie.readed == 0?'#c9c9c9':'#00b22b'}}"></view>
+                  </view>
+                </view>
+                <view class="text-jie">{{kd_jie.title}} </view>
+                <view wx:if="{{kidx == kdList.length-1 && jidx == kaodian.data.length-1}}" class="white-down-jie"></view>
+              </view>
+            </view>
+          </view>
         </view>
-        <view class="text">{{kaodian.title}}</view>
       </view>
     </view>
   </view>
-</view>
-
+</scroll-view>
 <!-- 载入动画 -->
 <view wx:if="{{!isLoaded}}">
-  <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit" ></image>
+  <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit"></image>
 </view>
 
 <waterWave id="waterWave"></waterWave>

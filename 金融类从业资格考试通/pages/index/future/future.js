@@ -484,10 +484,10 @@ Page({
     let self = this;
 
     let kid = self.data.zhangjie_id;
-    let title = self.data.title;
+    let category = "qh";
 
-    let url = encodeURIComponent('/pages/esoterica/esoterica?kid=' + kid + "&title=" + title);
-    let url1 = '/pages/esoterica/esoterica?kid=' + kid + "&title=" + title;
+    let url = encodeURIComponent('/pages/esoterica/esoterica?kid=' + kid  + "&category=" + category);
+    let url1 = '/pages/esoterica/esoterica?kid=' + kid + "&category=" + category;
 
     //获取是否有登录权限
     wx.getStorage({

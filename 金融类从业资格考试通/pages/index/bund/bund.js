@@ -20,7 +20,6 @@ Page({
     loaded: false, //是否已经载入一次,用于答题时点击返回按钮,首页再次展现后更新做题数目
     zhangjie: "", //章节信息
     z_id: 0, //题库id
-    title:"证券从业资格考试通",
     line_graden: " background: linear-gradient(to right, #ea2f22, #ff8f08);"
   },
 
@@ -487,11 +486,10 @@ Page({
     let self = this;
 
     let kid = self.data.zhangjie_id;
-    let title = self.data.title;
-    let typesid = "274";
+    let category = "zq";
 
-    let url = encodeURIComponent('/pages/esoterica/esoterica?kid=' + kid + "&title=" + title + "&typesid=" + typesid);
-    let url1 = '/pages/esoterica/esoterica?kid=' + kid + "&title=" + title;
+    let url = encodeURIComponent('/pages/esoterica/esoterica?kid=' + kid  + "&category=" + category);
+    let url1 = '/pages/esoterica/esoterica?kid=' + kid + "&category=" + category;
 
     //获取是否有登录权限
     wx.getStorage({

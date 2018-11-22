@@ -145,6 +145,7 @@ Page({
       case "0":
         category = "zq";
         color = "#fd6131";
+        break;
       case "1":
         category= "jj";
         color = "#c1940e";
@@ -155,7 +156,7 @@ Page({
         break;
     }
 
-    console.log(color)
+    console.log(category)
 
     self.setData({
       index: index,

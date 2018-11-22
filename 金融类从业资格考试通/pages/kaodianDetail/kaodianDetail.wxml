@@ -1,5 +1,5 @@
 <!--pages/kaodianDetail/kaodianDetail.wxml-->
-<scroll-view wx:if="{{isLoaded}}" enable-back-to-top scroll-with-animation bindscrolltolower="scrollToBottom" scroll-y scroll-top ="{{scroll}}" class="mycontent" style = "font-size:{{fontSize}}rpx;background:{{day?'#ffffff':'#323232'}};color:{{day?'black':'#9b9b9b'}};  line-height:{{fontSize*1.8}}rpx;height:{{windowHeight-125}}rpx;">
+<scroll-view bindtap='scrollToBottom' wx:if="{{isLoaded}}" enable-back-to-top scroll-with-animation bindscrolltolower="scrollToBottom" scroll-y scroll-top ="{{scroll}}" class="mycontent" style = "font-size:{{fontSize}}rpx;background:{{day?'#ffffff':'#323232'}};color:{{day?'black':'#9b9b9b'}};  line-height:{{fontSize*1.8}}rpx;height:{{windowHeight-125}}rpx;">
   <rich-text nodes="{{content}}"></rich-text>
 </scroll-view>
 
