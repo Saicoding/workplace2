@@ -30,21 +30,23 @@ Page({
 
     let self = this;
     let kdid = options.kdid;
-    let kidx = options.kidx; //章index
-    let jidx = options.jidx; //节index
 
     let user = wx.getStorageSync("user");
     let LoginRandom = user.Login_random;
     let zcode = user.zcode;
 
+    console.log("action=GetKaodianShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kdid=" + kdid)
     app.post(API_URL, "action=GetKaodianShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kdid=" + kdid, false, true, "").then((res) => {
-
       let data = res.data.data[0];
+      console.log(data)
       let content = data.content;
       let nextId = data.nextId;
       let proId = data.proId;
       let nextTitle = data.nextTitle;
       let proTitle = data.proTitle;
+      let n_zid = data.n_zid;
+      let p_zid = data.p_zid;
+      let now_zid = data.now_zid;
 
       self.setData({
         content: content,
@@ -54,8 +56,9 @@ Page({
         proId: proId,
         user: user,
         kdid: kdid,
-        kidx: kidx,
-        jidx: jidx,
+        n_zid: n_zid,
+        p_zid: p_zid,
+        now_zid: now_zid,
         isLoaded: true,
       })
     })
@@ -90,25 +93,24 @@ Page({
     let kdid = self.data.kdid;
 
     if (second > 30) {
-      for(let i = 0 ;i<kdList.length;i++){
+      for (let i = 0; i < kdList.length; i++) {
         let kd = kdList[i];
         let readed = "1";
-        for(let j = 0 ;j<kd.data.length;j++){
+        for (let j = 0; j < kd.data.length; j++) {
           let jie_kd = kd.data[j];
-          if(jie_kd.id == kdid){
+          if (jie_kd.id == kdid) {
             jie_kd.readed = "1";
           }
 
-          if (jie_kd.readed == "0"){
-            readed = "0" ;
+          if (jie_kd.readed == "0") {
+            readed = "0";
           }
         }
         kd.readed = readed;
 
-        if(readed == "1"){
+        if (readed == "1") {
           let myid = kd.id;
-          app.post(API_URL, "action=ChangeKaodianFlag&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&id=" + myid, false, true, "").then((res) => {
-          })
+          app.post(API_URL, "action=ChangeKaodianFlag&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&id=" + myid, false, true, "").then((res) => {})
         }
       }
 
@@ -116,27 +118,26 @@ Page({
         kdList: kdList
       })
 
-      app.post(API_URL, "action=ChangeKaodianFlag&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&id=" + kdid, false, true, "").then((res) => {
-      })
+      app.post(API_URL, "action=ChangeKaodianFlag&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&id=" + kdid, false, true, "").then((res) => {})
     }
   },
 
   /**
    * 
    */
-  onHide:function(){
+  onHide: function() {
     clearInterval(myinterval.interval);
   },
 
   /**
    * 生命周期事件
    */
-  onUnload: function () { 
+  onUnload: function() {
     let self = this;
     clearInterval(myinterval.interval);
     let isToBottom = self.data.isToBottom;
 
-    if(!isToBottom) {
+    if (!isToBottom) {
       mytime.second = 0;
       return;
     }
@@ -147,7 +148,7 @@ Page({
   /**
    * 生命周期事件
    */
-  onShow:function(){
+  onShow: function() {
     clearInterval(myinterval.interval);
     time.start(myinterval, mytime);
   },
@@ -190,11 +191,19 @@ Page({
     let LoginRandom = user.Login_random
     let zcode = user.zcode;
     let preNext = e.currentTarget.dataset.prenext;
+
+
     let nextId = self.data.nextId;
     let proId = self.data.proId;
+    let p_zid = self.data.p_zid;
+    let n_zid = self.data.n_zid;
+    let now_zid = self.data.now_zid;
+
     let kdid = "";
     let isToBottom = self.data.isToBottom;
     let second = mytime.second;
+
+
 
     //先判断当前题是否已经看完，再做下面的判断
     if (isToBottom) {
@@ -211,7 +220,25 @@ Page({
         clearInterval(myinterval.interval);
         return;
       }
+
+
       kdid = proId;
+      if (p_zid != now_zid) {//如果不相等,说明到上一章了
+        wx.showModal({
+          content: "此为本章第一节",
+          cancelText: "继续浏览",
+          confirmText: "到上一章",
+          success: function(e) {
+            if(e.confirm){
+              time.restart(myinterval, mytime); //重新开始计时
+              self.requestDetail(LoginRandom, zcode, kdid, preNext);
+            }
+          }
+        })
+      }else{
+        time.restart(myinterval, mytime); //重新开始计时
+        self.requestDetail(LoginRandom, zcode, kdid, preNext);
+      }
     }
 
     if (preNext == 1) { //点击了下一题
@@ -224,13 +251,33 @@ Page({
         clearInterval(myinterval.interval);
         return;
       }
+
       kdid = nextId;
+      if (n_zid != now_zid) {//如果不相等,说明到上一章了
+        wx.showModal({
+          content: "此为本章最后一节",
+          cancelText: "继续浏览",
+          confirmText: "到下一章",
+          success: function (e) {
+            if (e.confirm) {
+              time.restart(myinterval, mytime); //重新开始计时
+              self.requestDetail(LoginRandom, zcode, kdid, preNext);
+            }
+          }
+        })
+      } else {
+        time.restart(myinterval, mytime); //重新开始计时
+        self.requestDetail(LoginRandom, zcode, kdid, preNext);
+      }
     }
-
-    time.restart(myinterval, mytime); //重新开始计时
-
-    app.post(API_URL, "action=GetKaodianShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kdid=" + kdid, true, true, "载入中").then((res) => {
-
+  },
+  /**
+   * 请求考点信息方法封装
+   */
+  requestDetail: function (LoginRandom, zcode, kdid, preNext) {
+    let self = this;
+    app.post(API_URL, "action=GetKaodianShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kdid=" + kdid, true, false, "载入中").then((res) => {
+      console.log(res.data.data[0])
       let data = res.data.data[0];
       let content = data.content;
       let nextId = data.nextId;
@@ -239,6 +286,9 @@ Page({
       let proTitle = data.proTitle;
       let mynextTitle = self.data.nextTitle;
       let myproTitle = self.data.proTitle;
+      let n_zid = data.n_zid;
+      let p_zid = data.p_zid;
+      let now_zid = data.now_zid;
 
       let title = preNext == 0 ? myproTitle : mynextTitle
 
@@ -253,6 +303,9 @@ Page({
         kdid: kdid,
         nextTitle: nextTitle,
         proTitle: proTitle,
+        n_zid: n_zid,
+        p_zid: p_zid,
+        now_zid: now_zid,
         scroll: 0
       })
     })

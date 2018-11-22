@@ -28,7 +28,7 @@
           <!-- 节 -->
           <view class="jie" animation="{{!kaodian.isFolder?kaodian.spreadData:kaodian.folderData}}">
             <view wx:for="{{kaodian.data}}" wx:for-item="kd_jie" wx:key="j" wx:for-index="jidx">
-              <view  data-kidx = "{{kidx}}" data-jidx = "{{jidx}}" data-title="{{kd_jie.title}}" data-kdid="{{kd_jie.id}}" class="block-jie" bindtap="GOkaodianDetail">
+              <view  data-zid = "{{kaodian.id}}" data-title="{{kd_jie.title}}" data-kdid="{{kd_jie.id}}" class="block-jie" bindtap="GOkaodianDetail">
                 <view class="list-jie">
                   <view class="circle-out-jie">
                     <view class="circle-in-jie" style="background:{{kd_jie.readed == 0?'#c9c9c9':'#00b22b'}}"></view>

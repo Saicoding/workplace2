@@ -37,7 +37,6 @@ function getTime(t) {
 function start(myinterval,mytime){
   myinterval.interval = setInterval(function(){
     mytime.second++;
-    console.log(mytime)
   },1000)
 }
 
@@ -49,7 +48,6 @@ function restart(myinterval,mytime){
   mytime.second = 0;
   myinterval.interval = setInterval(function () {
     mytime.second++;
-    console.log(mytime)
   }, 1000)
 }
 

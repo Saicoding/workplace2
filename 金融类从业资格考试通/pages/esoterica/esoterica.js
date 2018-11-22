@@ -12,7 +12,7 @@ Page({
     folder_object: [], //展开字节的对象,用于判断点击的章之前有多少个字节被展开
     buttonClicked: false,
     isLoaded: false,
-    display:false,//动画是否已经完成
+    display: false, //动画是否已经完成
   },
 
   /**
@@ -115,11 +115,8 @@ Page({
   onTapZhangjie: function(e) {
     this.waterWave.containerTap(e);
     let self = this;
-    self.setData({
-      display:true
-    })
     let kdList = self.data.kdList;
-    let index  = e.currentTarget.dataset.itemidx;
+    let index = e.currentTarget.dataset.itemidx;
     let num = kdList[index].data.length;
     let windowWidth = self.data.windowWidth;
 
@@ -164,6 +161,12 @@ Page({
       })
 
     } else { //折叠
+
+      if (index == kdList.length - 1) {
+        self.setData({
+          display: true
+        })
+      }
       let foldAnimation = wx.createAnimation({
         duration: 1000,
         delay: 0,
@@ -171,7 +174,7 @@ Page({
       })
 
       foldAnimation.height(0, height + "rpx").opacity(0).step(function(res) {
-        
+
       })
       //把折叠对象从折叠对象数组中去除
       for (let i = 0; i < folder_object.length; i++) {
@@ -180,15 +183,17 @@ Page({
         }
       }
       kdList[index].height = 0;
-      
+
       kdList[index].folderData = foldAnimation.export();
       kdList[index].isFolder = true;
 
-      setTimeout(function () {
-        self.setData({
-          display:false
-        })
-      }, 1000)
+      if (index == kdList.length - 1) {
+        setTimeout(function() {
+          self.setData({
+            display: false
+          })
+        }, 1000)
+      }
 
       self.setData({
         scroll: scroll,
@@ -223,7 +228,7 @@ Page({
     app.post(API_URL, "action=GetKaodianList&kid=" + kaodian_id + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, false, "").then((res) => {
       let kdList = res.data.list; //考点列表
 
-      self.initKdList(kdList);//初始化考点列表信息
+      self.initKdList(kdList); //初始化考点列表信息
       //存储本次浏览的题库
 
       wx.setStorageSync("kaodian_id" + username, {
@@ -243,13 +248,12 @@ Page({
     buttonClicked = true;
 
     let kdid = e.currentTarget.dataset.kdid;
+    let zid = e.currentTarget.dataset.zid;
     let kdList = this.data.kdList
     let title = e.currentTarget.dataset.title
-    let kidx = e.currentTarget.dataset.kidx;
-    let jidx = e.currentTarget.dataset.jidx;
 
-    let url = encodeURIComponent('/pages/kaodianDetail/kaodianDetail?kdid=' + kdid + "&title=" + title + "&kidx=" + kidx + "&jidx=" + jidx );
-    let url1 = '/pages/kaodianDetail/kaodianDetail?kdid=' + kdid + "&title=" + title + "&kidx=" + kidx + "&jidx=" + jidx;
+    let url = encodeURIComponent('/pages/kaodianDetail/kaodianDetail?kdid=' + kdid + "&title=" + title + "&zid=" + zid);
+    let url1 = '/pages/kaodianDetail/kaodianDetail?kdid=' + kdid + "&title=" + title + "&zid=" + zid;
 
     //获取是否有登录权限
     wx.getStorage({

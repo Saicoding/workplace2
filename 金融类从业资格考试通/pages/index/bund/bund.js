@@ -238,13 +238,10 @@ Page({
     let index = e.currentTarget.dataset.itemidx; //选择章节的index
     let zhangjie = self.data.zhangjie; //取得章节对象
     let isFolder = zhangjie[index].isFolder //章节的展开与折叠状态
-    let display = zhangjie[index].display //设置是否开始动画
+
     let hasChild = zhangjie[index].hasChild //是否有子节
     let windowWidth = self.data.windowWidth;
     let num = zhangjie[index].zhangjie_child.length //取得有多少个章节
-    let jie_height = num * 70 * windowWidth / 750 //获得字节高度(px),因为在定义节高度的时候用的是rpx，而滚动条位置是用px定位的，所以需要转换
-    let zhangjie_block_height = 750 * windowWidth / 750 //获得章节模块距离顶部的距离,转换同上
-
 
     if (!hasChild) {
       this.GOzuoti(e);
@@ -268,7 +265,7 @@ Page({
       let isFolder = zhangjie[i].isFolder; //取得现在是什么状态
       let jie_num = zhangjie[i].zhangjie_child.length;
 
-      let height = 71 * jie_num+30;
+      let height = 70 * jie_num;
 
       let scroll = 0;
 
