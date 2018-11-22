@@ -94,9 +94,7 @@ Page({
     let jidx = self.data.jidx;
 
 
-    if (second > 5) {
-
-      console.log('大于5')
+    if (second > 30) {
       kdList[kidx].data[jidx].readed = 1;
       let readed = 1;
       for (let i = 0; i < kdList[kidx].data.length; i++) {
@@ -108,9 +106,10 @@ Page({
 
       if (readed == 1){
         let myid = kdList[kidx].id;
-        kdList[kidx].readed == 1;
+        kdList[kidx].readed = 1;
         app.post(API_URL, "action=ChangeKaodianFlag&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&id=" + myid, false, true, "").then((res) => {
         })
+        console.log(kdList)
       }
 
       prePage.setData({
@@ -121,6 +120,29 @@ Page({
         console.log(res)
       })
     }
+  },
+
+  /**
+   * 生命周期事件
+   */
+  onUnload: function () { 
+    let self = this;
+    clearInterval(myinterval.interval);
+    let isToBottom = self.data.isToBottom;
+
+    if(!isToBottom) {
+      mytime.second = 0;
+      return;
+    }
+    self.setPreReaded();
+    mytime.second = 0;
+  },
+
+  /**
+   * 生命周期事件
+   */
+  onShow:function(){
+    clearInterval(myinterval.interval);
   },
 
   /**
