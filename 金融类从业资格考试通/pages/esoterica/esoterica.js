@@ -12,6 +12,7 @@ Page({
     folder_object: [], //展开字节的对象,用于判断点击的章之前有多少个字节被展开
     buttonClicked: false,
     isLoaded: false,
+    display:false,//动画是否已经完成
   },
 
   /**
@@ -114,6 +115,9 @@ Page({
   onTapZhangjie: function(e) {
     this.waterWave.containerTap(e);
     let self = this;
+    self.setData({
+      display:true
+    })
     let kdList = self.data.kdList;
     let index  = e.currentTarget.dataset.itemidx;
     let num = kdList[index].data.length;
@@ -142,9 +146,8 @@ Page({
         timingFunction: "ease"
       })
 
-      spreadAnimation.height(height + "rpx", 0).step({
+      spreadAnimation.height(height + "rpx", 0).opacity(1).step({})
 
-      })
       kdList[index].isFolder = false;
       kdList[index].height = height;
       kdList[index].spreadData = spreadAnimation.export()
@@ -167,7 +170,9 @@ Page({
         timingFunction: "ease-out"
       })
 
-      foldAnimation.height(0, height + "rpx").step(function() {})
+      foldAnimation.height(0, height + "rpx").opacity(0).step(function(res) {
+        
+      })
       //把折叠对象从折叠对象数组中去除
       for (let i = 0; i < folder_object.length; i++) {
         if (folder_object[i].index == index) {
@@ -175,15 +180,22 @@ Page({
         }
       }
       kdList[index].height = 0;
-      kdList[index].isFolder = true;
+      
       kdList[index].folderData = foldAnimation.export();
+      kdList[index].isFolder = true;
 
+      setTimeout(function () {
+        self.setData({
+          display:false
+        })
+      }, 1000)
 
       self.setData({
-        kdList: kdList,
         scroll: scroll,
+        kdList: kdList,
         folder_object: folder_object
       })
+
     }
   },
 

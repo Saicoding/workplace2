@@ -19,7 +19,7 @@
               <view class="circle-out">
                 <view class="circle-in" style="background:{{kaodian.readed == 0?'#c9c9c9':'#00b22b'}}"></view>
               </view>
-              <view wx:if="{{kidx == kdList.length-1 && kaodian.isFolder}}" class="white-down"></view>
+              <view wx:if="{{kidx == kdList.length-1 && kaodian.isFolder && !display}}" class="white-down"></view>
               <view wx:if="{{kidx == 0}}" class="white-top"></view>
             </view>
             <view class="text">{{kaodian.title}}</view>
@@ -35,7 +35,7 @@
                   </view>
                 </view>
                 <view class="text-jie">{{kd_jie.title}} </view>
-                <view wx:if="{{kidx == kdList.length-1 && jidx == kaodian.data.length-1}}" class="white-down-jie"></view>
+                <view wx:if="{{kidx == kdList.length-1 && jidx == kaodian.data.length-1 }}" class="white-down-jie"></view>
               </view>
             </view>
           </view>
