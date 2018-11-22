@@ -1,5 +1,5 @@
 // pages/hasNoErrorShiti/hasNoErrorShiti.js
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 const app = getApp();
 let animate = require('../../../common/animate.js');
 let validate = require('../../../common/validate.js');
@@ -31,49 +31,9 @@ Page({
   data: {
     stepText: 5,
     nums: 0,
-    product: [{
-        'title': '【房地产经纪人】 学习进度',
-        'rate': 'jjr',
-        'angle': 0,
-        'isFold': true,
-        'height':380,
-        'src': '/imgs/orange-rate.png',
-        'jie': [{
-            'title': '房地产交易制度政策',
-            'kmid': 257
-          },
-          {
-            'title': '房地产经纪职业导论',
-            'kmid': 258
-          },
-          {
-            'title': '房地产经纪专业基础',
-            'kmid': 260
-          },
-          {
-            'title': '房地产业务操作',
-            'kmid': 259
-          },
-        ]
-      },
-      {
-        'title': '【房地产经纪人协理】 学习进度',
-        'rate': 'xl',
-        'height': 200,
-        'isFold': true,
-        'angle': 0,
-        'src': '/imgs/blue-rate.png',
-        'jie': [{
-            'title': '经纪操作实务',
-            'kmid': 263
-          },
-          {
-            'title': '经纪综合能力',
-            'kmid': 262
-          }
-        ]
-      }
-    ]
+    isLoaded: false,
+
+    products: [] //三个产品
   },
 
   /**
@@ -82,6 +42,11 @@ Page({
   onLoad: function() {
     //获取是否有登录权限
     let self = this;
+
+    //请求章节信息
+    self.initProduct(274);
+    self.initProduct(277);
+    self.initProduct(281);
 
     let url = encodeURIComponent('/pages/mine/mineIndex/mineIndex');
 
@@ -98,14 +63,79 @@ Page({
     }
   },
 
+  /**
+   * 初始产品信息
+   */
+  initProduct: function(typesid) {
+    let self = this;
+
+    let products = self.data.products; //所有产品
+
+    app.post(API_URL, "action=SelectZj&typesid=" + typesid).then((res) => {
+      let zhangList = res.data.list;
+      switch (typesid) {
+        case 274:
+          products[0] = {
+            'title': '【证券】 学习进度',
+            'rate': 'zq',
+            'angle': 0,
+            'isFold': true,
+            'src': '/imgs/zq_dingwei.png',
+            'jie': zhangList
+          }
+          break;
+        case 277:
+          products[1] = {
+            'title': '【基金】 学习进度',
+            'rate': 'jj',
+            'angle': 0,
+            'isFold': true,
+            'src': '/imgs/jj_dingwei.png',
+            'jie': zhangList
+          }
+          break;
+        case 281:
+          products[2] = {
+            'title': '【期货】 学习进度',
+            'rate': 'qh',
+            'angle': 0,
+            'isFold': true,
+            'src': '/imgs/qh_dingwei.png',
+            'jie': zhangList
+          }
+          break;
+      }
+
+      self.setData({
+        products: products
+      })
+    })
+  },
+
   toogleShow: function(e) {
     let self = this;
     let rate = e.currentTarget.dataset.rate; //点击的科目
-    let product = self.data.product;
-    let p = rate == "jjr" ? product[0] : product[1];
+    let products = self.data.products;
+
+    let p = "";
+
+    switch (rate) {
+      case "zq":
+        p = products[0];
+        break;
+      case "jj":
+        p = products[1];
+        break;
+      case "qh":
+        p = products[2];
+        break;
+    }
+
+    let jie_num = p.jie.length;
+    let height = jie_num * (88 + 2 * 750 / windowWidth);
 
     if (p.isFold) { //如果是折叠状态
-      p.foldData = animate.foldAnimation(easeInAnimation, p.height, 0);
+      p.foldData = animate.foldAnimation(easeInAnimation, height, 0);
       p.isFold = false;
       let interval = setInterval(function() {
         p.angle += 3;
@@ -114,12 +144,12 @@ Page({
           clearInterval(interval);
         }
         self.setData({
-          product: product
+          products: products
         })
       }, 30)
 
     } else {
-      p.foldData = animate.foldAnimation(easeOutAnimation, 0, p.height);
+      p.foldData = animate.foldAnimation(easeOutAnimation, 0, height);
       p.isFold = true;
       let interval = setInterval(function() {
         p.angle -= 3;
@@ -128,7 +158,7 @@ Page({
           clearInterval(interval);
         }
         self.setData({
-          product: product
+          products: products
         })
       }, 30)
     }
@@ -168,9 +198,12 @@ Page({
     buttonClicked = true;
     let kmid = e.currentTarget.dataset.kmid;
     let title = e.currentTarget.dataset.title;
+    let category = e.currentTarget.dataset.category;
+
+    console.log(e)
 
     wx.navigateTo({
-      url: '/pages/mine/mineRadar/mineRadar?kmid=' + kmid + "&title=" + title,
+      url: '/pages/mine/mineRadar/mineRadar?kmid=' + kmid + "&title=" + title + "&category=" + category,
     })
   },
 

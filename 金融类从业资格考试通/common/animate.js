@@ -22,7 +22,8 @@ function easeInAnimation() {
 
 
 function foldAnimation(myAnimation,max,min){
-  myAnimation.height(max+"rpx", min+"rpx").step({
+  let opacity = max == 0 ? 0:1
+  myAnimation.height(max + "rpx", min + "rpx").opacity(opacity).step({
     duration: 1000,
   })
   return myAnimation.export();

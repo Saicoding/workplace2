@@ -16,7 +16,7 @@
   <scroll-view scroll-y style="height:{{windowHeight-310}}rpx;">
     <view class='mycontainer'>
 
-      <view wx:for="{{product}}" wx:for-item='item' wx:key='p'>
+      <view wx:for="{{products}}" wx:for-item='item' wx:key='p'>
         <view class="line" hover-class='select' hover-stay-time='100'>
           <view data-rate="{{item.rate}}" class="block" bindtap="toogleShow">
             <image class="left-img" src="{{item.src}}" mode="aspectFit" style=" transform:rotate({{-item.angle}}deg)"></image>
@@ -29,7 +29,7 @@
         <view class="jie" animation="{{item.foldData}}">
           <view wx:for="{{item.jie}}" wx:for-item="xiaojie" wx:key="k">
             <view class="line" hover-class='select' hover-stay-time='100'>
-              <view data-title="{{xiaojie.title}}" data-kmid="{{xiaojie.kmid}}" class="jie-block" bindtap="GOradar" hover-class='select' hover-stay-time='100'>
+              <view data-category = "{{item.rate}}" data-title="{{xiaojie.title}}" data-kmid="{{xiaojie.id}}" class="jie-block" bindtap="GOradar" hover-class='select' hover-stay-time='100'>
                 <view class="jie-text ">《{{xiaojie.title}}》 </view>
                 <image class="right-img" src="/imgs/more.png " mode="aspectFit "></image>
               </view>

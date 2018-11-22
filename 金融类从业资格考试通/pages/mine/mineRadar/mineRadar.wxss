@@ -3,7 +3,6 @@
 }
 
 .up {
-  background: #0197f6;
   width: 100%;
   height: 450rpx;
   color: white;
@@ -59,8 +58,8 @@
 }
 
 .loading-img{
-  width: 750rpx;
-  height:458rpx;
-  margin:0 auto;
-  margin-top:40rpx;
+    display: block;
+  width: 120rpx;
+  height: 120rpx;
+  margin:200rpx auto;
 }

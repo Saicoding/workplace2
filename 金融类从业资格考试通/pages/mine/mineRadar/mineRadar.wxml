@@ -1,5 +1,5 @@
 <view class="mycontainer">
-  <view class="up">
+  <view class="up" style = "background:{{color}}">
     <view class="pic-container">
       <image class="pic" src="{{user.Pic}}" mode="aspectFit"></image>
     </view>

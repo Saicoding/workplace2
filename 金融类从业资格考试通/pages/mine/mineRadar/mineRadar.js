@@ -1,10 +1,11 @@
 // pages/hasNoErrorShiti/hasNoErrorShiti.js
 
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
+let share = require('../../../common/share.js')
 const app = getApp();
 
 // start雷达图初始化数据
-let numCount = 5; //元素个数
+let numCount = 4; //元素个数
 let numSlot = 5; //一条线上的总节点数
 let windowWidth = wx.getSystemInfoSync().windowWidth; //窗口高度
 
@@ -22,12 +23,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    stepText: 5,
+    stepText: 4,
     chanelArray: [
       ["章节题库", 0],
-      ["套卷练习", 0],
-      ["视频学习", 0],
-      ["考前秘籍", 0],
+      ["真题练习", 0],
+      ["押题练习", 0],
       ["考点学习", 0]
     ],
     loaded:false
@@ -44,13 +44,20 @@ Page({
     //获取是否有登录权限
     let self = this;
     let kmid = options.kmid
+    let category = options.category;
+    
+    share.setColor(category, false, true)
+
+    let color = share.getColors(category)[0];
+
 
     let user = wx.getStorageSync('user');
 
     self.getStudyRate(user,kmid);
 
     self.setData({
-      user: user
+      user: user,
+      color: color
     })
 
   },
@@ -73,16 +80,15 @@ Page({
 
   getStudyRate(user,kmid) {
     let self = this;
-
-    app.post(API_URL, "action=MyLearningProSin&username=" + user.username + "&acode=" + user.acode+"&kmid="+kmid, false, false, "").then((res) => {
-      
+    console.log("action=MyLearningProSin&LoginRandom=" + user.Login_random + "&zcode=" + user.zcode + "&kmid=" + kmid)
+    app.post(API_URL, "action=MyLearningProSin&LoginRandom=" + user.Login_random + "&zcode=" + user.zcode+"&kmid="+kmid, false, false, "").then((res) => {
+      console.log(res)
       let chanelArray = self.data.chanelArray;
       let rate = res.data.data[0];
       chanelArray[0][1] = rate.zhangjie;
-      chanelArray[1][1] = rate.shijuan;
-      chanelArray[2][1] = rate.shipin; 
-      chanelArray[3][1] = rate.miji;
-      chanelArray[4][1] = rate.kaodian;
+      chanelArray[1][1] = rate.zhentijuan;
+      chanelArray[2][1] = rate.yatijuan; 
+      chanelArray[3][1] = rate.kaodian;
 
       //雷达图
       self.drawRadar(chanelArray)
