@@ -46,8 +46,6 @@ Page({
       let nextTitle = data.nextTitle;
       let proTitle = data.proTitle;
 
-      time.start(myinterval, mytime)
-
       self.setData({
         content: content,
         nextId: nextId,
@@ -90,26 +88,28 @@ Page({
     let prePage = pages[pages.length - 2]; //上一页
     let kdList = prePage.data.kdList;
     let kdid = self.data.kdid;
-    let kidx = self.data.kidx;
-    let jidx = self.data.jidx;
-
 
     if (second > 30) {
-      kdList[kidx].data[jidx].readed = 1;
-      let readed = 1;
-      for (let i = 0; i < kdList[kidx].data.length; i++) {
-        if (kdList[kidx].data[i].readed == 0) {
-          readed = 0;
-          break;
-        }
-      }
+      for(let i = 0 ;i<kdList.length;i++){
+        let kd = kdList[i];
+        let readed = "1";
+        for(let j = 0 ;j<kd.data.length;j++){
+          let jie_kd = kd.data[j];
+          if(jie_kd.id == kdid){
+            jie_kd.readed = "1";
+          }
 
-      if (readed == 1){
-        let myid = kdList[kidx].id;
-        kdList[kidx].readed = 1;
-        app.post(API_URL, "action=ChangeKaodianFlag&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&id=" + myid, false, true, "").then((res) => {
-        })
-        console.log(kdList)
+          if (jie_kd.readed == "0"){
+            readed = "0" ;
+          }
+        }
+        kd.readed = readed;
+
+        if(readed == "1"){
+          let myid = kd.id;
+          app.post(API_URL, "action=ChangeKaodianFlag&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&id=" + myid, false, true, "").then((res) => {
+          })
+        }
       }
 
       prePage.setData({
@@ -117,9 +117,15 @@ Page({
       })
 
       app.post(API_URL, "action=ChangeKaodianFlag&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&id=" + kdid, false, true, "").then((res) => {
-        console.log(res)
       })
     }
+  },
+
+  /**
+   * 
+   */
+  onHide:function(){
+    clearInterval(myinterval.interval);
   },
 
   /**
@@ -143,6 +149,7 @@ Page({
    */
   onShow:function(){
     clearInterval(myinterval.interval);
+    time.start(myinterval, mytime);
   },
 
   /**
@@ -219,8 +226,8 @@ Page({
       }
       kdid = nextId;
     }
-    time.restart(myinterval, mytime); //重新开始计时
 
+    time.restart(myinterval, mytime); //重新开始计时
 
     app.post(API_URL, "action=GetKaodianShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kdid=" + kdid, true, true, "载入中").then((res) => {
 
@@ -243,6 +250,7 @@ Page({
         content: content,
         nextId: nextId,
         proId: proId,
+        kdid: kdid,
         nextTitle: nextTitle,
         proTitle: proTitle,
         scroll: 0
