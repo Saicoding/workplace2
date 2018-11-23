@@ -57,9 +57,8 @@ Page({
    * 当点击分享按钮
    */
   onShareAppMessage: function (res1) {
-    let jibai = self.data.jibai;
     return {
-      title: '我在本次测试中打败全国'+jibai+'的用户',
+      title: '我在本次测试中击败全国' + this.data.jibai + '%的用户',
       path: '/pages/index/index', //这里设定都是以"/page"开头,并拼接好传递的参数
       imageUrl:'/imgs/login1.png',
       success: (res)=> {

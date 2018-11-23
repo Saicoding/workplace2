@@ -370,8 +370,10 @@ Page({
    */
   _toogleMark: function(e) {
     let self = this;
-    let username = self.data.username;
-    let acode = self.data.acode;
+
+    let user = self.data.user;
+    let LoginRandom = user.Login_random;
+    let zcode = user.zcode;
     let myFavorite = self.data.myFavorite;
 
     let px = self.data.px;
@@ -383,7 +385,7 @@ Page({
       myFavorite: shiti.favorite,
       shitiArray: shitiArray
     })
-    app.post(API_URL, "action=FavoriteShiti&tid=" + shiti.id + "&username=" + username + "&acode=" + acode, false, true, "").then((res) => {})
+    app.post(API_URL, "action=FavoriteShiti&tid=" + shiti.id + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "").then((res) => {})
   },
 
   /**

@@ -49,4 +49,4 @@
 </view>
 
 <!-- 纠错板 -->
-<errorRecovery id="errorRecovery" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}" bindsubmit="_submit"></errorRecovery>
+<errorRecovery colors = "{{colors}}" category = "{{category}}" id="errorRecovery" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}" bindsubmit="_submit"></errorRecovery>
