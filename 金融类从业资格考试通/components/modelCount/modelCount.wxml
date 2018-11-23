@@ -1,9 +1,9 @@
 <view hidden='{{hidden}}' class = "container">
-  <view class="bottom-block1" bindtap="_submit">
+  <view class="bottom-block1" style = "background: linear-gradient(to right, {{colors[1]}}, {{colors[2]}});" bindtap="_submit">
     {{text}}
   </view>
 
-  <view class="bottom-block2">
+  <view class="bottom-block2" style = "  border:1px solid {{colors[1]}};color:{{colors[1]}};">
     {{timeStr}}
   </view>
 

@@ -7,6 +7,7 @@ let animate = require('../../../../common/animate.js')
 let easeOutAnimation = animate.easeOutAnimation();
 let easeInAnimation = animate.easeInAnimation();
 let isFold = false; //默认都是打开的
+let share = require('../../../../common/share.js');
 
 const util = require('../../../../utils/util.js')
 //把winHeight设为常量，不要放在data里（一般来说不用于渲染的数据都不能放在data里）
@@ -35,22 +36,25 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    let category = options.category;//试卷种类
+    let colors = share.getColors(category);
+    share.setColor(category,false,false);
+
     wx.setNavigationBarTitle({
       title: options.title
     }) //设置标题
 
     let self = this;
+    let user = wx.getStorageSync('user');//用户名
+    let LoginRandom = user.Login_random;//用户随机码
+    let username = user.username;//用户名称
+    let zcode = user.zcode;//用户唯一码
 
-    let user = wx.getStorageSync('user');
-    let LoginRandom = user.Login_random
-    let username = user.username;
-    let zcode = user.zcode;
-
-    let tiType = options.tiType;
-    let test_score = options.test_score;
-    let id = options.id;
-    let tiTypeStr = tiType == 1 ? "model" : "yati";
-    let circular = false;
+    let tiType = options.tiType;//题的种类,是真题还是押题
+    let test_score = options.test_score;//试卷总分数
+    let id = options.id;//试卷id
+    let tiTypeStr = tiType == 1 ? "model" : "yati";//试卷种类
+    let circular = false;//slider是否可以循环滑动
     let lastSliderIndex = 0 ;
 
     //根据真题定制最后一次访问的key
@@ -212,6 +216,10 @@ Page({
         shitiNum: shitiNum,
         circular: circular, //是否循环
         user: user,
+
+        category: category,//试卷种类
+        colors: colors,//配色方案
+
         isLoaded: true, //是否已经载入完毕,用于控制过场动画
         sliderShitiArray: sliderShitiArray, //滑动数组
         lastSliderIndex: lastSliderIndex, //默认滑动条一开始是0
@@ -570,6 +578,7 @@ Page({
   _submit: function() {
     let self = this;
     let shitiArray = self.data.shitiArray; //所有试题
+    let category = self.data.category;//试卷种类
     let id = self.data.id; //真题的id号
     let doneAnswerArray = self.data.doneAnswerArray; //已经回答的试题
     let times = self.data.times; //考试总时间
@@ -672,7 +681,7 @@ Page({
 
       let jibai = res.data.jibai;
       wx.navigateTo({
-        url: '/pages/prompt/modelRealScore/modelRealScore?score=' + score + "&rightNums=" + rightNums + "&wrongNums=" + wrongNums + "&undone=" + undone + "&totalscore=" + totalscore + "&id=" + id + "&gone_time=" + gone_time + "&jibai=" + jibai
+        url: '/pages/prompt/modelRealScore/modelRealScore?score=' + score + "&rightNums=" + rightNums + "&wrongNums=" + wrongNums + "&undone=" + undone + "&totalscore=" + totalscore + "&id=" + id + "&gone_time=" + gone_time + "&jibai=" + jibai + "&category=" + category
       })
     })
 

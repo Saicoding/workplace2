@@ -85,12 +85,11 @@ Page({
     let times = e.currentTarget.dataset.times;//考试总时间
     let title = e.currentTarget.dataset.title;//点击的试卷标题
     let totalscore = e.currentTarget.dataset.totalscore;//总分数
-    console.log(totalscore)
     let tiType = self.data.tiType;
     let category = self.data.category;
 
-    let url = encodeURIComponent('/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType + "&test_score=" + test_score);
-    let url1 = '/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType + "&test_score=" + test_score;
+    let url = encodeURIComponent('/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType + "&test_score=" + test_score + "&category=" + category);
+    let url1 = '/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType + "&test_score=" + test_score + "&category=" + category;
 
 
     //获取是否有登录权限
@@ -139,7 +138,6 @@ Page({
     buttonClicked = false;
 
     if (back){
-      console.log('我回来了')
       let modelList = self.data.modelList;
       for (let i = 0; i < modelList.length; i++) {
         let model = modelList[i];
@@ -157,7 +155,6 @@ Page({
       self.setData({
         modelList: modelList, //真题列表
       })
-
     }
   },
 

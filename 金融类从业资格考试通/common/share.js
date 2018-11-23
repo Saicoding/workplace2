@@ -76,16 +76,22 @@ function getColors(category){
       colors[0] = "#fd6131";//主颜色
       colors[1] = "#eb3321";//渐变颜色1
       colors[2] = "#fe8c09";//渐变颜色2
+      colors[3] = "#B3EE3A";//多选颜色
+      colors[4] = "#fea386";//提交答案后上面空白处的颜色
       break;
     case "jj":
       colors[0] = "#ffc722";//主颜色
       colors[1] = "#bc8e03";//渐变颜色1
       colors[2] = "#f6db8a";//渐变颜色2
+      colors[3] = "#B3EE3A";//多选颜色
+      colors[4] = "#ffdd7f";//提交答案后正确文字的颜色
       break;
     case "qh":
       colors[0] = "#C71585";//主颜色
       colors[1] = "#860356";//渐变颜色1
       colors[2] = "#ef51b4";//渐变颜色2
+      colors[3] = "#B3EE3A";//多选颜色
+      colors[4] = "#dd77b8";//提交答案后正确文字的颜色
       break;
   }
 

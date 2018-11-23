@@ -11,6 +11,14 @@ Component({
     windowWidth:{
       type:Number,
       value:0
+    },
+    colors:{
+      type:Array,
+      value:[]
+    },
+    category:{
+      type:String,
+      value:""
     }
   },
 
@@ -91,6 +99,20 @@ Component({
       let index = e.detail.value;
       let options = this.data.options;
       let reason = options[index].title;
+      let category = this.data.category;
+
+      let select_img = "";
+      switch(category){
+        case "zq":
+          select_img = "/imgs/zq-s.png";
+        break;
+        case "jj":
+          select_img = "/imgs/jj-s.png";
+          break;
+        case "qh":
+          select_img = "/imgs/qh-s.png";
+          break;
+      }
       reason = "【"+reason+"】";
      
       for(let i = 0 ;i<options.length;i++){
@@ -98,7 +120,7 @@ Component({
         option.src = "/imgs/error_select1.png";
       }
 
-      options[index].src = "/imgs/error_select.png";
+      options[index].src = select_img;
       
       this.setData({
         options:options,

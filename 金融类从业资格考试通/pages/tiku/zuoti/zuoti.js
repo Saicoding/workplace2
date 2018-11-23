@@ -2,6 +2,7 @@
 const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 let common = require('../../../common/shiti.js');
 let animate = require('../../../common/animate.js')
+let share = require('../../../common/share.js')
 let easeOutAnimation = animate.easeOutAnimation();
 let easeInAnimation = animate.easeInAnimation();
 let post = require('../../../common/post.js');
@@ -32,11 +33,17 @@ Page({
     isSubmit: false, //是否已提交答卷
     circular: true, //默认slwiper可以循环滚动
     myFavorite: 0, //默认收藏按钮是0
+    isHasShiti:true,//是否有试题
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    let category = options.category;//试题种类
+    let colors = share.getColors(category);//配色方案
+
+    share.setColor(category,false,false);//设置tabbar颜色
+
     wx.setNavigationBarTitle({
       title: options.title
     }) //设置标题
@@ -66,8 +73,10 @@ Page({
       page = ((px - 1) - (px - 1) % 10) / 10 + 1;//当前页
     }
 
+    
+
     app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + options.z_id + "&zcode=" + zcode + "&page="+page, false, false, "","",false,self).then((res) => {
-      post.zuotiOnload(options, px, circular, myFavorite, res, user, page,self) //对数据进行处理和初始化
+      post.zuotiOnload(options, px, circular, myFavorite, res, user, page, colors,category,self) //对数据进行处理和初始化
     }).catch((errMsg) => {
       wx.hideLoading();
     });
@@ -109,8 +118,10 @@ Page({
     let pageall = self.data.pageall; //当前题库错题页总页数
 
     let z_id = self.data.z_id;
-    let LoginRandom = self.data.LoginRandom;
-    let zcode = self.data.zcode;
+
+    let user = self.data.user;
+    let LoginRandom = user.Login_random;
+    let zcode = user.zcode;
 
     let px = self.data.px;
     let direction = "";
@@ -281,6 +292,7 @@ Page({
     let sliderShitiArray = self.data.sliderShitiArray;
     let current = self.data.lastSliderIndex //当前滑动编号
     let currentShiti = sliderShitiArray[current];
+    let user = self.data.user;
 
     let shiti = shitiArray[px - 1]; //本试题对象
 
@@ -306,7 +318,7 @@ Page({
 
     common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
 
-    common.postAnswerToServer(self.data.LoginRandom, self.data.zcode, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结
+    common.postAnswerToServer(user.Login_random, user.zcode, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结
     common.storeAnswerStatus(shiti, self); //存储答题状态
 
     common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self) //更新答题板状态
@@ -385,8 +397,10 @@ Page({
    */
   _toogleMark: function(e) {
     let self = this;
-    let username = self.data.username;
-    let acode = self.data.acode;
+    let user = self.data.user;
+
+    let LoginRandom = user.Login_random;
+    let zcode = user.zcode;
     let myFavorite = self.data.myFavorite;
     let px = self.data.px;
     let shitiArray = self.data.shitiArray;
@@ -398,7 +412,7 @@ Page({
       myFavorite: shiti.favorite,
       shitiArray: shitiArray
     })
-    app.post(API_URL, "action=FavoriteShiti&tid=" + shiti.id + "&username=" + username + "&acode=" + acode, false).then((res) => {
+    app.post(API_URL, "action=FavoriteShiti&tid=" + shiti.id + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false).then((res) => {
 
     })
   },
@@ -417,8 +431,10 @@ Page({
     let doneAnswerArray = self.data.doneAnswerArray;
 
     let z_id = self.data.z_id;
-    let LoginRandom = self.data.LoginRandom;
-    let zcode = self.data.zcode;
+
+    let user = self.data.user;
+    let LoginRandom = user.Login_random;
+    let zcode = user.zcode;
 
     let pageArray = self.data.pageArray; //当前所有已经渲染的页面数组
     let pageall = self.data.pageall; //当前题库错题页总页数

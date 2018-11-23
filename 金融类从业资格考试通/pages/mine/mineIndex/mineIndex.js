@@ -56,10 +56,6 @@ Page({
       self.setData({
         user: user
       })
-    } else {
-      wx.navigateTo({
-        url: '/pages/login1/login1?url=' + url + '&ifGoPage=false',
-      })
     }
   },
 
@@ -76,7 +72,7 @@ Page({
       switch (typesid) {
         case 274:
           products[0] = {
-            'title': '【证券】 学习进度',
+            'title': '【证券从业资格】 学习进度',
             'rate': 'zq',
             'angle': 0,
             'isFold': true,
@@ -86,7 +82,7 @@ Page({
           break;
         case 277:
           products[1] = {
-            'title': '【基金】 学习进度',
+            'title': '【基金从业资格】 学习进度',
             'rate': 'jj',
             'angle': 0,
             'isFold': true,
@@ -96,7 +92,7 @@ Page({
           break;
         case 281:
           products[2] = {
-            'title': '【期货】 学习进度',
+            'title': '【期货从业资格】 学习进度',
             'rate': 'qh',
             'angle': 0,
             'isFold': true,
@@ -246,33 +242,34 @@ Page({
     let self = this;
     buttonClicked = false;
     let user = wx.getStorageSync('user');
+    let url = encodeURIComponent('/pages/mine/mineIndex/mineIndex');
 
     if (user != "") {
       let LoginRandom = user.Login_random;
       let zcode = user.zcode;
-      let url = encodeURIComponent('/pages/mine/mineIndex/mineIndex');
 
       app.post(API_URL, "action=GetNoticesNums&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "", url).then((res) => {
         let nums = res.data.nums;
         self.setData({
-          nums: nums
+          nums: nums,
+          user:user
         })
       })
+    } else {
+      wx.navigateTo({
+        url: '/pages/login1/login1?url=' + url + '&ifGoPage=false',
+      })
     }
+},
 
-    this.setData({
-      user: user
-    })
-  },
-
-  /**
-   * 导航到关于我们界面
-   */
-  GOabout: function() {
-    if (buttonClicked) return;
-    buttonClicked = true;
-    wx.navigateTo({
-      url: '/pages/mine/about/about',
-    })
-  }
+/**
+ * 导航到关于我们界面
+ */
+GOabout: function() {
+  if (buttonClicked) return;
+  buttonClicked = true;
+  wx.navigateTo({
+    url: '/pages/mine/about/about',
+  })
+}
 })

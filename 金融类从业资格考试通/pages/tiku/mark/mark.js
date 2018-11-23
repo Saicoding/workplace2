@@ -2,7 +2,8 @@
 const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 let common = require('../../../common/shiti.js');
 
-let animate = require('../../../common/animate.js')
+let animate = require('../../../common/animate.js');
+let share = require('../../../common/share.js');
 let easeOutAnimation = animate.easeOutAnimation();
 let easeInAnimation = animate.easeInAnimation();
 let isFold = true; //默认都是折叠的
@@ -38,6 +39,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    let category = options.category;//试题种类
+    let colors = share.getColors(category);//配色方案
+
+    share.setColor(category,false,false);//设置tabbar颜色
+
     wx.setNavigationBarTitle({
       title: '我的收藏'
     }) //设置标题
@@ -54,7 +60,7 @@ Page({
 
     app.post(API_URL, "action=GetFavoriteShiti&kid=" + kid + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "", "", true, self).then((res) => {
 
-      post.markOnload(options, px, circular, myFavorite, res, user, self)
+      post.markOnload(options, px, circular, myFavorite, res, user, colors, category,self)
     }).catch((errMsg) => {
       console.log(errMsg); //错误提示信息
       wx.hideLoading();
@@ -79,42 +85,6 @@ Page({
         })
       }
     });
-  },
-
-  /**
-   * 切换问题的动画
-   */
-  _toogleAnimation: function() {
-    let self = this;
-
-    let px = self.data.px; //当前px
-    let str = "#q" + px; //当前问题组件id
-    let question = self.selectComponent(str); //当前问题组件
-
-    let lastSliderIndex = self.data.lastSliderIndex; //当前滑块index
-    let shitiArray = self.data.shitiArray; //当前试题数组
-    let sliderShitiArray = self.data.sliderShitiArray; //当前滑块试题数组
-    let shiti = shitiArray[px - 1]; //当前试题
-    let height = self.data.height;
-    let sliderShiti = sliderShitiArray[lastSliderIndex]; //当前滑块试题
-
-    if (!shiti.confirm && !shiti.isAnswer) return;
-
-    if (isFold) {
-      question.setData({
-        style2: "positon: fixed; left: 20rpx;height:" + height + "rpx"
-      })
-      // animate.questionSpreadAnimation(90, height, question);
-      animate.blockSpreadAnimation(90, height, question);
-      isFold = false;
-    } else {
-      question.setData({
-        style2: "positon: fixed; left: 20rpx;height:90rpx"
-      })
-      // animate.questionFoldAnimation(height, 90, question);
-      animate.blockFoldAnimation(height, 90, question);
-      isFold = true;
-    }
   },
 
   /**
@@ -257,6 +227,7 @@ Page({
     let sliderShitiArray = self.data.sliderShitiArray;
     let current = self.data.lastSliderIndex //当前滑动编号
     let currentShiti = sliderShitiArray[current];
+    let user = self.data.user;
 
     let shiti = shitiArray[px - 1]; //本试题对象
 
@@ -282,7 +253,7 @@ Page({
 
     common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
 
-    common.postAnswerToServer(self.data.LoginRandom, self.data.zcode, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结果
+    common.postAnswerToServer(user.Login_random, user.zcode, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结果
 
     common.storeAnswerArray(shiti, self) //存储已答题数组
 
@@ -490,8 +461,10 @@ Page({
    */
   _toogleMark: function(e) {
     let self = this;
-    let username = self.data.username;
-    let acode = self.data.acode;
+    let user = self.data.user;
+
+    let LoginRandom = user.Login_random;
+    let zcode = user.zcode;
     let myFavorite = self.data.myFavorite;
 
     let px = self.data.px;
@@ -503,7 +476,7 @@ Page({
       myFavorite: shiti.favorite,
       shitiArray: shitiArray
     })
-    app.post(API_URL, "action=FavoriteShiti&tid=" + shiti.id + "&username=" + username + "&acode=" + acode, false, true, "").then((res) => {})
+    app.post(API_URL, "action=FavoriteShiti&tid=" + shiti.id + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "").then((res) => {})
   },
   /**
    * 答题板点击编号事件,设置当前题号为点击的题号

@@ -23,6 +23,10 @@ Component({
     hidden:{
       type:Boolean,
       value:true
+    },
+    colors:{
+      type:Object,
+      value:[]
     }
 
   },

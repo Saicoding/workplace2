@@ -1,8 +1,8 @@
 <view id="myscroll" class="outContainer" style="{{style3}}">
   <view style="{{style2}}"  class="mycontainer" bindtap="toogleShow">
     <view class="question-block1">
-      <view class="qustion-num-text" style="background:{{num_color}}">{{px}}</view>
-      <view class="qustion-select" style="color:{{num_color}}">【{{tx}}】</view>
+      <view class="qustion-num-text" style="background:{{tx=='单选题'?colors[0]:colors[3]}}">{{px}}</view>
+      <view class="qustion-select" style="color:{{tx=='单选题'?colors[0]:colors[3]}}">【{{tx}}】</view>
     </view>
     <text>{{question}}</text>
   </view>

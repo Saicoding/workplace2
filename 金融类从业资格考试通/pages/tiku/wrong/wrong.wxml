@@ -6,7 +6,7 @@
         <view style="border:1rpx solid white">
           <view class="container">
             <!--问题-->
-            <question bindtoogleAnimation="_toogleAnimation" id="q{{shiti.px}}" num_color="{{shiti.num_color}}" px="{{shiti.px}}" tx="{{shiti.tx}}" question="{{shiti.question}}"></question>
+            <question colors = "{{colors}}" bindtoogleAnimation="_toogleAnimation" id="q{{shiti.px}}" num_color="{{shiti.num_color}}" px="{{shiti.px}}" tx="{{shiti.tx}}" question="{{shiti.question}}"></question>
 
             <!--单选题-->
             <view wx:if="{{shiti.TX == 1}}">

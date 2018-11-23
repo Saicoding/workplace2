@@ -4,7 +4,7 @@ let animate = require('animate.js')
 /**
  * 练习题
  */
-function zuotiOnload(options, px, circular, myFavorite, res, user, page,self){
+function zuotiOnload(options, px, circular, myFavorite, res, user, page, colors,category,self){
   let shitiArray = res.data.shiti;
 
   let all_nums = res.data.all_nums;
@@ -105,9 +105,11 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, page,self){
 
     px:px,
     user:user,
+    colors: colors,//配色方案
     title: options.title,//标题
     circular:circular,
     myFavorite: myFavorite,//是否收藏
+    category: category,//试题种类
 
     nums: all_nums, //题数
     pageall: pageall,//总页数
@@ -117,9 +119,6 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, page,self){
     sliderShitiArray: sliderShitiArray,//滑动数组
     lastSliderIndex: lastSliderIndex,//默认滑动条一开始是0
     isLoaded: true, //是否已经载入完毕,用于控制过场动画
-    username: username, //用户账号名称
-    LoginRandom: LoginRandom,
-    zcode:zcode
   });
 
   wx.hideLoading();
@@ -129,7 +128,7 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, page,self){
  * 收藏题
  */
 
-function markOnload(options, px, circular, myFavorite,res, user, self){
+function markOnload(options, px, circular, myFavorite,res, user, colors,category,self){
   let shitiArray = res.data.shiti;
   let username = user.username;
   let LoginRandom = user.Login_random;
@@ -164,6 +163,10 @@ function markOnload(options, px, circular, myFavorite,res, user, self){
     winH: wx.getSystemInfoSync().windowHeight,
     opacity: 1,
     px: px,
+
+    colors: colors,//配色方案
+    category: category,//试题种类
+
     nums: shitiArray.length, //题数
     shitiArray: shitiArray, //整节的试题数组
     sliderShitiArray: sliderShitiArray,//滑动数组
@@ -171,10 +174,7 @@ function markOnload(options, px, circular, myFavorite,res, user, self){
     myFavorite: myFavorite,//是否收藏
     lastSliderIndex: 0,//默认滑动条一开始是0
     isLoaded: true, //是否已经载入完毕,用于控制过场动画
-
-    username: username, //用户账号名称
-    LoginRandom: LoginRandom,
-    zcode:zcode
+    user:user
   });
   
   wx.hideLoading();
@@ -185,7 +185,7 @@ function markOnload(options, px, circular, myFavorite,res, user, self){
  * 错题
  */
 
-function wrongOnload(options, px, circular, myFavorite, res, user,  requesttime, self) {
+function wrongOnload(options, px, circular, myFavorite, res, user,  requesttime,colors, category,self) {
   let shitiArray = res.data.shiti;
   let all_nums = res.data.all_nums;
   let pageall = res.data.pageall;
@@ -224,6 +224,10 @@ function wrongOnload(options, px, circular, myFavorite, res, user,  requesttime,
     winH: wx.getSystemInfoSync().windowHeight,
     opacity: 1,
     px: px,
+
+    colors:colors,//配色方案
+    category: category,//试题种类
+    
     kid:options.kid,//题库编号
     nums: all_nums, //题数
     shitiArray: shitiArray, //整节的试题数组
@@ -236,10 +240,6 @@ function wrongOnload(options, px, circular, myFavorite, res, user,  requesttime,
     isLoaded: true, //是否已经载入完毕,用于控制过场动画
 
     user:user,
-    username: username, //用户账号名称
-    LoginRandom: LoginRandom,
-    zcode:zcode,
-
     requesttime: requesttime,//第一次请求的时间
   });
 

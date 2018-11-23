@@ -400,8 +400,8 @@ Page({
       nums = zhangjie[zhangIdx].nums;
     }
 
-    let url = encodeURIComponent('/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title);
-    let url1 = '/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title 
+    let url = encodeURIComponent('/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title + "&category=qh");
+    let url1 = '/pages/tiku/zuoti/zuoti?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx + "&title=" + title + "&category=qh" 
 
     //获取是否有登录权限
     wx.getStorage({
@@ -430,8 +430,8 @@ Page({
     buttonClicked = true;
     let self = this;
     let kid = self.data.zhangjie_id;
-    let url = encodeURIComponent('/pages/tiku/wrong/wrong?kid=' + kid)
-    let url1 = '/pages/tiku/wrong/wrong?kid=' + kid;
+    let url = encodeURIComponent('/pages/tiku/wrong/wrong?kid=' + kid + "&category=qh" )
+    let url1 = '/pages/tiku/wrong/wrong?kid=' + kid + "&category=qh" ;
     //获取是否有登录权限
     wx.getStorage({
       key: 'user',
@@ -459,8 +459,8 @@ Page({
     buttonClicked = true;
     let self = this;
     let kid = self.data.zhangjie_id;
-    let url = encodeURIComponent('/pages/tiku/mark/mark?kid=' + kid)
-    let url1 = '/pages/tiku/mark/mark?kid=' + kid;
+    let url = encodeURIComponent('/pages/tiku/mark/mark?kid=' + kid + "&category=qh" )
+    let url1 = '/pages/tiku/mark/mark?kid=' + kid + "&category=qh" ;
     //获取是否有登录权限
     wx.getStorage({
       key: 'user',

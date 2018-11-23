@@ -1,29 +1,29 @@
 <!--pages/prompt/modelRealScore/modelRealScore.wxml-->
 <view class="mycontainer">
-  <view class="upper">
+  <view class="upper" style = "background:{{colors[4]}}; border:1rpx solid {{colors[4]}};">
     <view class="upper-in">
       <view class="time">
         <image src="/imgs/time.png" mode="aspectFit" class="time-img"></image>
-        <text class="time-text">用时 {{timeStr}}</text>
+        <text class="time-text" style = "color:#fd7e65">用时 {{timeStr}}</text>
       </view>
-      <view class="score">
-        <text class="score-top">{{score}}</text>
+      <view class="score" style = "color:#fd6131">
+        <text class="score-top" >{{score}}</text>
         <text class="score-bottom">{{ifGood}}</text>
       </view>
       <view class="line">
-        <view class="line-left"></view>
-        <view class="line-middle">
-          <view class="line-middle-in"></view>
+        <view class="line-left" style = "background:{{colors[4]}}"></view>
+        <view class="line-middle" >
+          <view class="line-middle-in" style = "border-top:1px dashed {{colors[4]}};"></view>
         </view>
-        <view class="line-right"></view>
+        <view class="line-right" style = "background:{{colors[4]}}"></view>
       </view>
       <view class="count">
         <view class="right" style="margin-left:60rpx;">
-          <text class="count-text-up" style="color:#b1c914">{{rightNums}}</text>
+          <text class="count-text-up" style="color:#52d2ab">{{rightNums}}</text>
           <text class="count-text-down">正确</text>
         </view>
         <view class="wrong" style="margin-left:133rpx;">
-          <text class="count-text-up" style="color:#a6325a">{{wrongNums}}</text>
+          <text class="count-text-up" style="color:#ff4231">{{wrongNums}}</text>
           <text class="count-text-down">答错</text>
         </view>
         <view class="undone" style="margin-right:60rpx;margin-left:133rpx;">
@@ -44,10 +44,10 @@
       </view>
     </view>
     <view class = "downer-middle">
-      <button class = "view-wrong" bindtap = "viewWrong">查看错题</button>
-      <button class = "restart" bindtap = "restart">重新测评</button>
+      <button class = "view-wrong" bindtap = "viewWrong" style = "border: 1px solid {{colors[4]}};">查看错题</button>
+      <button class = "restart" bindtap = "restart" style= " background: {{colors[4]}};color:{{colors[0]}}" >重新测评</button>
     </view>
-    <button open-type="share" class = "share1" >
+    <button open-type="share" class = "share1" style = "  background: {{colors[0]}}">
       分享成绩
     </button>
   </view>

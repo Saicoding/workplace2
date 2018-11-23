@@ -2,6 +2,7 @@
 const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 let common = require('../../../common/shiti.js');
 let animate = require('../../../common/animate.js');
+let share = require('../../../common/share.js');
 let easeOutAnimation = animate.easeOutAnimation();
 let easeInAnimation = animate.easeInAnimation();
 let time = require('../../../common/time.js');
@@ -38,6 +39,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    let category = options.category;//试题种类
+    let colors = share.getColors(category);//配色方案
+
+    share.setColor(category, false, false);//设置tabbar颜色
+
     wx.setNavigationBarTitle({
       title: '我的错题'
     }) //设置标题
@@ -54,7 +60,7 @@ Page({
     let requesttime = time.formatDateTime((new Date()).valueOf());//请求时间（第一次请求的时间）
 
     app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&requesttime=" + requesttime, false, true, "","", true, self).then((res) => {
-      post.wrongOnload(options, px, circular, myFavorite, res, user,requesttime,self);
+      post.wrongOnload(options, px, circular, myFavorite, res, user, requesttime, colors, category,self);
     }).catch((errMsg) => {
       wx.hideLoading();
     });
@@ -266,6 +272,7 @@ Page({
     let sliderShitiArray = self.data.sliderShitiArray;
     let current = self.data.lastSliderIndex //当前滑动编号
     let currentShiti = sliderShitiArray[current];
+    let user = self.data.user;
 
     let shiti = shitiArray[px - 1]; //本试题对象
 
@@ -290,7 +297,7 @@ Page({
 
     common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
 
-    common.postAnswerToServer(self.data.LoginRandom, self.data.zcode, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结果
+    common.postAnswerToServer(user.Login_random, user.zcode, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结果
 
     common.storeAnswerArray(shiti, self) //存储已答题数组
 

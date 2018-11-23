@@ -14,7 +14,6 @@ function initShiti(shiti, self) {
   shiti.isAnswer = false;
 
   if (TX == 1) { //单选
-    shiti.num_color = "#ffcc33";
     shiti.tx = "单选题"
     shiti.srcs = { //定义初始图片对象(单选)
       "A": "/imgs/A.png",
@@ -24,7 +23,6 @@ function initShiti(shiti, self) {
       "E": "/imgs/E.png"
     }
   } else if (TX == 2) { //多选
-    shiti.num_color = "#FF6666";
     shiti.tx = "多选题"
     shiti.srcs = { //定义初始图片对象(多选)
       "A": "/imgs/A.png",

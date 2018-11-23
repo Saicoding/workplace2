@@ -17,7 +17,7 @@
 
     <textarea bindinput = "saveContent" show-confirm-bar cursor-spacing = "{{80*(windowWidth/750)}}" placeholder = "请输入详细错误信息,我们会尽快处理." placeholder-class = "placeholder" class="content" style = "margin-top:50rpx;"></textarea>
 
-    <view class="submit" bindtap = "_submit">
+    <view class="submit" bindtap = "_submit" style = "background:{{colors[0]}}">
       提交
     </view>
 

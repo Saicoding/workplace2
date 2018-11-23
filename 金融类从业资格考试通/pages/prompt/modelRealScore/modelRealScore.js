@@ -1,6 +1,7 @@
 // pages/prompt/modelRealScore/modelRealScore.js
 let common = require('../../../common/shiti.js');
 let time = require('../../../common/time.js');
+let share = require('../../../common/share.js');
 
 Page({
 
@@ -15,6 +16,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let category = options.category;
+    let colors = share.getColors(category);
+    share.setColor(category,false,false);
+
     wx.setNavigationBarTitle({ title: "考试成绩" })  //设置标题
     let self = this;
     let user = wx.getStorageSync('user');
@@ -44,15 +49,17 @@ Page({
       timeStr:timeStr,
       totalscore: totalscore,
       ifGood:ifGood,
-      jibai:jibai
+      jibai:jibai,
+      colors: colors
     })
   },
   /**
    * 当点击分享按钮
    */
   onShareAppMessage: function (res1) {
+    let jibai = self.data.jibai;
     return {
-      title: '金融类从业资格考试通',
+      title: '我在本次测试中打败全国'+jibai+'的用户',
       path: '/pages/index/index', //这里设定都是以"/page"开头,并拼接好传递的参数
       imageUrl:'/imgs/login1.png',
       success: (res)=> {

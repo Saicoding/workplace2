@@ -81,7 +81,6 @@
 }
 
 .submit{
-  background: #0197f6;
   font-size:32rpx;
   width:75%;
   height:70rpx;

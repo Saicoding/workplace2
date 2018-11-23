@@ -6,11 +6,7 @@
 
 .upper {
   width: 100%;
-  background: #f78c6b;
   align-content: center;
-  border: 1px solid #f78c6b;
-
-  
 }
 
 .upper-in {
@@ -43,7 +39,6 @@
   display: inline-flex;
   margin-left: 20rpx;
   font-size: 35rpx;
-  color: #ff9900;
   vertical-align: top;
 }
 
@@ -56,7 +51,6 @@
 .score-top {
   width: 100%;
   display: block;
-  color: #f78c6b;
   font-size: 180rpx;
   text-align: center;
 }
@@ -64,7 +58,6 @@
 .score-bottom {
   width: 100%;
   display: block;
-  color: #f78c6b;
   font-size: 45rpx;
   text-align: center;
   letter-spacing: 6rpx;
@@ -80,7 +73,6 @@
   height: 60rpx;
   width: 60rpx;
   border-radius: 60rpx;
-  background: #f78c6b;
 }
 
 .line-left{
@@ -99,7 +91,6 @@
 .line-middle-in{
   display: float;
   float:left;
-  border-top:1px dashed #f78c6b;
   width:100%;
   height:30rpx;
 }
@@ -183,7 +174,6 @@
   float:left;
   width:300rpx;
   height:100rpx;
-  border: 1px solid #f8873c;
   border-radius: 16rpx;
   background: white;
 }
@@ -195,13 +185,11 @@
   height:100rpx;
   border-radius: 16rpx;
   color:white;
-  background: linear-gradient(to right, #f8873c, #fae195);
 }
 
 .share1{
   color:white;
   width:87%;
-  background: linear-gradient(to right, #ff9900, #ffbc58);
   border-radius: 18rpx;
   letter-spacing: 5rpx;
   margin-top:40rpx;
