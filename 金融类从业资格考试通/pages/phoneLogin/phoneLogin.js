@@ -1,5 +1,5 @@
 // pages/phoneLogin/phoneLogin.js
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 let md5 = require('../../common/MD5.js')
 const app = getApp();
 

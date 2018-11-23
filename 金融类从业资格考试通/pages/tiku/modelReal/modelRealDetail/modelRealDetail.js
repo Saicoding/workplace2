@@ -426,6 +426,10 @@ Page({
     let pages = getCurrentPages();
     let prevPage = pages[pages.length - 2]; //上一个页面
 
+    prevPage.setData({//设置回去标记，当返回页面时onshow可以监测到
+      back:true
+    })
+
     if (!self.data.isSubmit) {
       let time = modelCount.data.time;
 

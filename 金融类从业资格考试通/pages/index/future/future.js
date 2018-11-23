@@ -7,6 +7,9 @@
 const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 const app = getApp(); //获取app对象
 let validate = require('../../../common/validate.js');
+let share = require('../../../common/share.js');
+let colors = share.getColors('qh');
+
 let buttonClicked = false;
 
 Page({
@@ -20,8 +23,8 @@ Page({
     loaded: false, //是否已经载入一次,用于答题时点击返回按钮,首页再次展现后更新做题数目
     zhangjie: "", //章节信息
     z_id: 0, //题库id
-    title: "期货从业资格考试通",
-    line_graden: "background: linear-gradient(to right, #830053, #f556ba);"
+    colors:colors,
+    line_graden: " background: linear-gradient(to right, " + colors[1] + ", " + colors[2] + ")"
   },
 
   /**
@@ -31,19 +34,7 @@ Page({
 
     let self = this;
 
-    wx.setNavigationBarColor({ //设置窗口颜色
-      frontColor: "#ffffff",
-      backgroundColor: "#C71585",
-    })
-
-    wx.setNavigationBarTitle({
-      title: '期货从业资格考试通',
-    })
-
-    wx.setTabBarStyle({
-      selectedColor: "#C71585"
-    })
-
+    share.setColor("qh",true,true);
 
     let user = wx.getStorageSync('user');
     this.setWindowWidthHeightScrollHeight(); //获取窗口高度 宽度 并计算章节滚动条的高度
@@ -532,7 +523,7 @@ Page({
     let ti = e.currentTarget.dataset.ti; //题型(押题,真题)
 
     let kid = self.data.zhangjie_id;
-    let url1 = '/pages/tiku/modelReal/modelRealList/modelRealList?kid=' + kid + "&ti=" + ti;
+    let url1 = '/pages/tiku/modelReal/modelRealList/modelRealList?kid=' + kid + "&ti=" + ti + "&category=qh";
 
     wx.navigateTo({
       url: url1
@@ -550,18 +541,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    wx.setNavigationBarColor({ //设置窗口颜色
-      frontColor: "#ffffff",
-      backgroundColor: "#C71585",
-    })
-
-    wx.setNavigationBarTitle({
-      title: '期货从业资格考试通',
-    })
-
-    wx.setTabBarStyle({
-      selectedColor: "#C71585"
-    })
+    share.setColor("qh", true, true);
 
     let self = this;
     buttonClicked = false;

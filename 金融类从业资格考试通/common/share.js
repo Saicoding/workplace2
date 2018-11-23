@@ -73,13 +73,19 @@ function getColors(category){
   let colors = [];
   switch (category) {
     case "zq":
-      colors[0] = "#fd6131";
+      colors[0] = "#fd6131";//主颜色
+      colors[1] = "#eb3321";//渐变颜色1
+      colors[2] = "#fe8c09";//渐变颜色2
       break;
     case "jj":
-      colors[0] = "#ffc722";
+      colors[0] = "#ffc722";//主颜色
+      colors[1] = "#bc8e03";//渐变颜色1
+      colors[2] = "#f6db8a";//渐变颜色2
       break;
     case "qh":
-      colors[0] = "#C71585";
+      colors[0] = "#C71585";//主颜色
+      colors[1] = "#860356";//渐变颜色1
+      colors[2] = "#ef51b4";//渐变颜色2
       break;
   }
 

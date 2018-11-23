@@ -1,5 +1,5 @@
 <view class="index-top">
-  <picker range="{{array}}" range-key="title" class='picker changeType' value="{{Index}}" bindchange="bindPickerChange" data-selecthx="{{array[index].title}}">
+  <picker range="{{array}}" range-key="title" class='picker changeType' value="{{Index}}" style = "color:{{colors[0]}}" bindchange="bindPickerChange" data-selecthx="{{array[index].title}}">
     <image src="/imgs/jj_dingwei.png" class="dingwei" mode="aspectFit"></image>
     <text class='mulu'>当前题库</text>
     <view value="{{index}}">

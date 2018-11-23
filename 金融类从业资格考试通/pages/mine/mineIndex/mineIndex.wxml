@@ -29,7 +29,7 @@
         <view class="jie" animation="{{item.foldData}}">
           <view wx:for="{{item.jie}}" wx:for-item="xiaojie" wx:key="k">
             <view class="line" hover-class='select' hover-stay-time='100'>
-              <view data-category = "{{item.rate}}" data-title="{{xiaojie.title}}" data-kmid="{{xiaojie.id}}" class="jie-block" bindtap="GOradar" hover-class='select' hover-stay-time='100'>
+              <view data-category="{{item.rate}}" data-title="{{xiaojie.title}}" data-kmid="{{xiaojie.id}}" class="jie-block" bindtap="GOradar" hover-class='select' hover-stay-time='100'>
                 <view class="jie-text ">《{{xiaojie.title}}》 </view>
                 <image class="right-img" src="/imgs/more.png " mode="aspectFit "></image>
               </view>
@@ -43,22 +43,22 @@
     <!-- 最底下关于房地产经纪人考试通 -->
 
     <view class="mycontainer">
-     <view class="line" hover-class='select' hover-stay-time='100'>
-      <view class="block" >
-        <image class="left-img" src="/imgs/set.png" mode="aspectFit" style="width:40rpx;height:40rpx;margin-top:31rpx;margin-left:9rpx;"></image>
-        <view class="mytext" bindtap='GOset'>
-          设置
-        </view>
-      </view>
-      </view>
       <view class="line" hover-class='select' hover-stay-time='100'>
-      <view class="block" >
-        <image class="left-img" src="/imgs/my_error.jpg" mode="aspectFit" style="width:40rpx;height:40rpx;margin-top:30rpx;margin-left:9rpx;"></image>
-        <view class="mytext" bindtap="GOabout">
-          关于金融类从业资格考试通
+        <view class="block" style = "border-bottom:none">
+          <image class="left-img" src="/imgs/set.png" mode="aspectFit" style="width:40rpx;height:40rpx;margin-top:31rpx;margin-left:9rpx;"></image>
+          <view class="mytext" bindtap='GOset'>
+            设置
+          </view>
         </view>
       </view>
-      </view>
+      <!-- <view class="line" hover-class='select' hover-stay-time='100'>
+        <view class="block">
+          <image class="left-img" src="/imgs/my_error.jpg" mode="aspectFit" style="width:40rpx;height:40rpx;margin-top:30rpx;margin-left:9rpx;"></image>
+          <view class="mytext" bindtap="GOabout">
+            关于金融类从业资格考试通
+          </view>
+        </view>
+      </view> -->
     </view>
   </scroll-view>
 </view>
