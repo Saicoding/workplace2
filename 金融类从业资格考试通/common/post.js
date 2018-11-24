@@ -4,21 +4,10 @@ let animate = require('animate.js')
 /**
  * 练习题
  */
-function zuotiOnload(options, px, circular, myFavorite, res, user, page, colors,category,self){
-  let shitiArray = res.data.shiti;
-
-  let all_nums = res.data.all_nums;
-  let pageall = res.data.pageall;
-
+function zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, colors, category, all_nums, pageall,self){
   let username = user.username;
   let LoginRandom = user.Login_random;
   let zcode = user.zcode;
-
-  common.initNewWrongArrayDoneAnswer(shitiArray, page - 1);//将试题的所有done_daan置空
-  
-  shitiArray = common.initShitiArray(shitiArray, all_nums, page);
-
-  common.initMarkAnswer(all_nums, self); //初始化答题板数组
 
   //得到swiper数组
   let preShiti = undefined;//前一题
@@ -113,7 +102,6 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, page, colors,
 
     nums: all_nums, //题数
     pageall: pageall,//总页数
-    pageArray: [page],//当前所有已经渲染的页面数组
 
     shitiArray: shitiArray, //整节的试题数组
     sliderShitiArray: sliderShitiArray,//滑动数组
@@ -121,7 +109,8 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, page, colors,
     isLoaded: true, //是否已经载入完毕,用于控制过场动画
   });
 
-  wx.hideLoading();
+  console.log(self.data.pageArray);
+  console.log(self.data.shitiArray)
 }
 
 /**

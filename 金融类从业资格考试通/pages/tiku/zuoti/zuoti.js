@@ -33,16 +33,16 @@ Page({
     isSubmit: false, //是否已提交答卷
     circular: true, //默认slwiper可以循环滚动
     myFavorite: 0, //默认收藏按钮是0
-    isHasShiti:true,//是否有试题
+    isHasShiti: true, //是否有试题
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    let category = options.category;//试题种类
-    let colors = share.getColors(category);//配色方案
+    let category = options.category; //试题种类
+    let colors = share.getColors(category); //配色方案
 
-    share.setColor(category,false,false);//设置tabbar颜色
+    share.setColor(category, false, false); //设置tabbar颜色
 
     wx.setNavigationBarTitle({
       title: options.title
@@ -52,7 +52,8 @@ Page({
 
     let user = wx.getStorageSync('user');
 
-    let page = 1;//默认是第一页
+    let page = 1; //默认是第一页
+    let pageArray = []; //页面缓存数组
     let LoginRandom = user.Login_random == undefined ? "" : user.Login_random;
     let zcode = user.zcode == undefined ? "" : user.zcode;
     let username = user.username;
@@ -69,15 +70,58 @@ Page({
     if (px == undefined) {
       px = 1 //如果没有这个px说明这个章节首次访问
       circular: false
-    }else{
-      page = ((px - 1) - (px - 1) % 10) / 10 + 1;//当前页
+    } else {
+      page = ((px - 1) - (px - 1) % 10) / 10 + 1; //当前页
     }
 
-    
+    app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + options.z_id + "&zcode=" + zcode + "&page=" + page, false, false, "", "", false, self).then((res) => {
+      let shitiArray = res.data.shiti;
+      let all_nums = res.data.all_nums;
+      let pageall = res.data.pageall;
+      let prepage = page - 1; //上一页
+      let nextPage = page + 1; //下一页
+      pageArray.push(page);
 
-    app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + options.z_id + "&zcode=" + zcode + "&page="+page, false, false, "","",false,self).then((res) => {
-      post.zuotiOnload(options, px, circular, myFavorite, res, user, page, colors,category,self) //对数据进行处理和初始化
-      console.log(self.data.shitiArray)
+      common.initNewWrongArrayDoneAnswer(shitiArray, page - 1); //将试题的所有done_daan置空
+      shitiArray = common.initShitiArray(shitiArray, all_nums, page);
+      common.initMarkAnswer(all_nums, self); //初始化答题板数组
+
+      if (px % 10 >= 1 && px % 10 <= 4 && prepage >= 1) { //px为前半部分并且有上一页时，请求上一页
+        app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + options.z_id + "&zcode=" + zcode + "&page=" + prepage, false, false, "", "", false, self).then((res) => {
+          pageArray.push(prepage);
+
+          self.setData({
+            pageArray: pageArray
+          })
+
+          let newWrongShitiArray = res.data.shiti;
+          common.initNewWrongArrayDoneAnswer(newWrongShitiArray, prepage - 1); //将试题的所有done_daan置空
+          for (let i = 0; i < newWrongShitiArray.length; i++) { //更新shitiArray
+            shitiArray[i + (prepage - 1) * 10] = newWrongShitiArray[i];
+          }
+          post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, colors, category, all_nums, pageall, self) //对数据进行处理和初始化
+        })
+      } else if ((px % 10 >= 6 || px % 10 == 0) && nextPage <= pageall) {
+        app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + options.z_id + "&zcode=" + zcode + "&page=" + nextPage, false, false, "", "", false, self).then((res) => {
+          pageArray.push(nextPage);
+
+          self.setData({
+            pageArray: pageArray
+          })
+
+          let newWrongShitiArray = res.data.shiti;
+          common.initNewWrongArrayDoneAnswer(newWrongShitiArray, nextPage - 1); //将试题的所有done_daan置空
+          for (let i = 0; i < newWrongShitiArray.length; i++) { //更新shitiArray
+            shitiArray[i + (nextPage - 1) * 10] = newWrongShitiArray[i];
+          }
+          post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, colors, category, all_nums, pageall, self) //对数据进
+        })
+      } else{
+        self.setData({
+          pageArray: pageArray
+        })
+        post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, colors, category, all_nums, pageall, self) //对数据进
+      }
     })
   },
   /**
@@ -137,7 +181,7 @@ Page({
 
     if (direction == "左滑") {
       px++;
-      if (px % 10 >= 7) { //滑动到号大于7，这时判断有没有下一个page
+      if (px % 10 >= 6) { //滑动到号大于7，这时判断有没有下一个page
         let nextPage = ((px - 1) - (px - 1) % 10) / 10 + 2;
 
         if (pageArray.indexOf(nextPage) == -1 && nextPage <= pageall) { //已渲染数组不包含下一页面
@@ -145,11 +189,11 @@ Page({
           pageArray.push(nextPage); //请求后就添加到已渲染数组
           self.setData({
             pageArray: pageArray,
-            isLoading: true//设置正在载入中
+            isLoading: true //设置正在载入中
           })
 
-            app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + z_id + "&zcode=" + zcode + "&page="+nextPage, false, false, "", true, self).then((res) => {
-            
+          app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + z_id + "&zcode=" + zcode + "&page=" + nextPage, false, false, "", true, self).then((res) => {
+
             let newWrongShitiArray = res.data.shiti;
 
             common.initNewWrongArrayDoneAnswer(newWrongShitiArray, nextPage - 1); //将试题的所有done_daan置空
@@ -160,14 +204,14 @@ Page({
 
             self.setData({
               shitiArray: shitiArray,
-              isLoading:false//设置已经载入完毕
+              isLoading: false //设置已经载入完毕
             })
           })
         }
       }
     } else {
       px--;
-      if (px % 10 <= 3) { //滑动到小于等于3时，这时判断有没有上一个page
+      if (px % 10 <= 4) { //滑动到小于等于3时，这时判断有没有上一个page
 
         let prePage = ((px - 1) - (px - 1) % 10) / 10;
 
@@ -413,7 +457,7 @@ Page({
   /**
    * 得到新一组试题
    */
-  getNewShiti: function (LoginRandom, z_id, zcode, page, midShiti, preShiti, nextShiti, px, current, circular){
+  getNewShiti: function(LoginRandom, z_id, zcode, page, midShiti, preShiti, nextShiti, px, current, circular) {
     let self = this;
     let shitiArray = self.data.shitiArray;
 
@@ -429,17 +473,17 @@ Page({
 
       let allLoaded = self.data.allLoaded;
 
-      if(allLoaded.length == 1){//说明已经载入完毕一个
+      if (allLoaded.length == 1) { //说明已经载入完毕一个
         midShiti = shitiArray[px - 1];
         common.processTapLianxiAnswer(midShiti, preShiti, nextShiti, px, current, circular, shitiArray, self);
         allLoaded = [];
-      }else{
+      } else {
         allLoaded.push(1);
       }
 
       self.setData({
         allLoaded: allLoaded,
-        shitiArray:shitiArray   
+        shitiArray: shitiArray
       })
     })
   },
@@ -474,10 +518,10 @@ Page({
     let nextShiti = undefined; //后一题
     let midShiti = shitiArray[px - 1]; //中间题
 
-    let page = ((px - 1) - (px - 1) % 10) / 10 + 1;//当前页
+    let page = ((px - 1) - (px - 1) % 10) / 10 + 1; //当前页
 
-    let prepage = page - 1;//上一页
-    let nextPage = page + 1;//下一页
+    let prepage = page - 1; //上一页
+    let nextPage = page + 1; //下一页
 
     self._hideMarkAnswer();
 
@@ -486,11 +530,11 @@ Page({
       pageArray.push(page);
 
       self.setData({
-        allLoaded:[],//设置正在载入的page个数 0 1 2 ，当个数为2时说明已经载入完毕
+        allLoaded: [], //设置正在载入的page个数 0 1 2 ，当个数为2时说明已经载入完毕
         isLoaded: false,
       })
 
-      if (px % 10 >= 1 && px % 10 <=4 && prepage >= 1 && pageArray.indexOf(prepage) == -1) {//如果是页码的第一题,并且有上一页,并且不在已渲染数组中
+      if (px % 10 >= 1 && px % 10 <= 4 && prepage >= 1 && pageArray.indexOf(prepage) == -1) { //如果是页码的第一题,并且有上一页,并且不在已渲染数组中
         pageArray.push(prepage);
         self.setData({
           pageArray: pageArray
@@ -499,7 +543,7 @@ Page({
         self.getNewShiti(LoginRandom, z_id, zcode, page, midShiti, preShiti, nextShiti, px, current, circular);
         self.getNewShiti(LoginRandom, z_id, zcode, prepage, midShiti, preShiti, nextShiti, px, current, circular);
 
-      } else if ((px % 10 >= 6 || px % 10 == 0) &&  nextPage <= pageall && pageArray.indexOf(nextPage) == -1) {//如果是页码的最后一题,并且有下一页，并且不在已渲染数组中
+      } else if ((px % 10 >= 6 || px % 10 == 0) && nextPage <= pageall && pageArray.indexOf(nextPage) == -1) { //如果是页码的最后一题,并且有下一页，并且不在已渲染数组中
         pageArray.push(nextPage);
         self.setData({
           pageArray: pageArray
@@ -511,26 +555,28 @@ Page({
       } else {
         self.setData({
           pageArray: pageArray,
-          allLoaded: [1],//设置正在载入的page个数 0 1 2,只请求一个页面，这时把allLoaded长度直接设为1
+          allLoaded: [1], //设置正在载入的page个数 0 1 2,只请求一个页面，这时把allLoaded长度直接设为1
         })
         self.getNewShiti(LoginRandom, z_id, zcode, page, midShiti, preShiti, nextShiti, px, current, circular);
       }
 
-    } else if (px % 10 == 1 && prepage >= 1 && pageArray.indexOf(prepage) == -1){//如果本页已经渲染，但上一页没有渲染
+    } else if (px % 10 >= 1 && px % 10 <= 4 && prepage >= 1 && pageArray.indexOf(prepage) == -1) { //如果本页已经渲染，但上一页没有渲染
       pageArray.push(prepage);
       self.setData({
+        isLoaded:false,
         pageArray: pageArray,
-        allLoaded: [1],//设置正在载入的page个数 0 1 2,只请求一个页面，这时把allLoaded长度直接设为1
+        allLoaded: [1], //设置正在载入的page个数 0 1 2,只请求一个页面，这时把allLoaded长度直接设为1
       })
       self.getNewShiti(LoginRandom, z_id, zcode, prepage, midShiti, preShiti, nextShiti, px, current, circular);
-    } else if (px % 10 == 0 && nextPage <= pageall && pageArray.indexOf(nextPage) == -1) {////如果本页已经渲染，但上一页没有渲染
+    } else if ((px % 10 >= 6 || px % 10 == 0) && nextPage <= pageall && pageArray.indexOf(nextPage) == -1) { ////如果本页已经渲染，但上一页没有渲染
       pageArray.push(nextPage);
       self.setData({
+        isLoaded: false,
         pageArray: pageArray,
-        allLoaded: [1],//设置正在载入的page个数 0 1 2,只请求一个页面，这时把allLoaded长度直接设为1
+        allLoaded: [1], //设置正在载入的page个数 0 1 2,只请求一个页面，这时把allLoaded长度直接设为1
       })
       self.getNewShiti(LoginRandom, z_id, zcode, nextPage, midShiti, preShiti, nextShiti, px, current, circular);
-    }else{
+    } else {
       common.processTapLianxiAnswer(midShiti, preShiti, nextShiti, px, current, circular, shitiArray, self);
     }
 
