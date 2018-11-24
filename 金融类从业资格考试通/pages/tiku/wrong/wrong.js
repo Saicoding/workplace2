@@ -431,8 +431,6 @@ Page({
 
     let shitiArray = self.data.shitiArray;
 
-    let doneAnswerArray = self.data.doneAnswerArray;
-
     let kid = self.data.kid;
     let user = self.data.user;
     let LoginRandom = user.Login_random;
