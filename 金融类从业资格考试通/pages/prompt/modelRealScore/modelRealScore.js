@@ -80,24 +80,23 @@ Page({
   },
 
   viewWrong:function(){
-    let self = this;
     let pages = getCurrentPages();
     var prevPage = pages[pages.length - 2];  //上一个页面
     let doneAnswerArray = prevPage.data.doneAnswerArray;
     let nums = prevPage.data.nums;
     let isModelReal = prevPage.data.isModelReal;
-    let px = prevPage.data.px;
-    let shitiArray = prevPage.data.shitiArray;
-    let shiti = shitiArray[px-1];
 
-    
-    if (shiti.done_daan == ""){//如果没作答，就显示正确答案
-      common.changeModelRealSelectStatus(shiti.answer, shiti, prevPage)//改变试题的图片状态(有错误提示)
-    }else{
-      common.changeSelectStatus(shiti.done_daan, shiti, prevPage)//改变试题的图片状态(有错误提示)
-    }
+    let lastSliderIndex = prevPage.data.lastSliderIndex;
+    let sliderShitiArray = prevPage.data.sliderShitiArray;
+    let shiti = sliderShitiArray[lastSliderIndex];
+
+    common.processModelRealDoneAnswer(shiti.done_daan, shiti, prevPage);
 
     common.setModelRealMarkAnswerItems(doneAnswerArray, nums, isModelReal, true, prevPage); //更新答题板状态 
+
+    prevPage.setData({
+      sliderShitiArray: sliderShitiArray
+    })
 
     wx.navigateBack({})
   },

@@ -9,6 +9,9 @@
       </view>
     </view>
   </scroll-view>
+  <view wx:if="{{isLianxi}}" class="bottom" style="top:{{windowHeight-80-500+answerHeight}}rpx;">
+    <view class="restart" hover-class='select2' bindtap='_restart'>重新做题</view>
+  </view>
 </view>
 
 <view wx:if="{{isShow}}" class="modal" bindtap="tapBlank">

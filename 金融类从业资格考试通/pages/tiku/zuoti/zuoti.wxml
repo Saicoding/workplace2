@@ -37,7 +37,7 @@
 <count id="count" rightNum="{{rightNum}}" wrongNum="{{wrongNum}}" nums="{{nums}}" px="{{px}}" isMark="{{myFavorite}}" class="bottom" bindtoogleMark="_toogleMark" bindtoogleMarkAnswer="_toogleMarkAnswer" bindtoggleErrorRecovery="_toggleErrorRecovery">
 </count>
 <!-- 答题板 -->
-<markAnswer id="markAnswer" done_answers="{{jieDoneAnswerArray}}" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">
+<markAnswer isLianxi="true" id="markAnswer" done_answers="{{jieDoneAnswerArray}}" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent" bind:restart = "_restart">
 </markAnswer>
 
 <view wx:if="{{!isHasShiti}}">

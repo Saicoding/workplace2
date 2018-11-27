@@ -243,8 +243,8 @@ Page({
 
     if (shiti.isAnswer) return;
 
-    common.changeSelectStatus(done_daan, shiti, self); //改变试题状态
-    common.changeSelectStatus(done_daan, currentShiti, self); //改变试题状态
+    common.changeSelectStatus(done_daan, shiti,false); //改变试题状态
+    common.changeSelectStatus(done_daan, currentShiti,false); //改变试题状态
 
     this.setData({
       shitiArray: shitiArray,
@@ -290,136 +290,6 @@ Page({
     })
   },
 
-  /**
-   * 材料题点击开始作答按钮
-   */
-  CLZuoti: function(e) {
-    let self = this;
-
-    let str = "#q" + self.data.px;
-    let question = self.selectComponent(str);
-
-    let px = self.data.px;
-    let lastSliderIndex = self.data.lastSliderIndex;
-    let shitiArray = self.data.shitiArray;
-    let sliderShitiArray = self.data.sliderShitiArray;
-    let shiti = shitiArray[px - 1];
-    let height = self.data.height;
-
-    let sliderShiti = sliderShitiArray[lastSliderIndex];
-    shiti.confirm = true;
-    sliderShiti.confirm = true;
-
-    question.setData({
-      style2: "positon: fixed; left: 20rpx;height:90rpx", //问题框"   
-    })
-    animate.blockFoldAnimation(height, 90, question);
-    isFold = true;
-
-    self.setData({
-      shitiArray: shitiArray,
-      sliderShitiArray: sliderShitiArray
-    })
-  },
-
-  /**
-   * 材料题多选点击一个选项
-   */
-  _CLCheckVal: function(e) {
-    let self = this;
-    let px = e.currentTarget.dataset.px;
-    let done_daan = e.detail.done_daan.sort();
-    let shitiArray = self.data.shitiArray;
-    let shitiPX = self.data.px;
-    let shiti = shitiArray[shitiPX - 1]; //本试题对象
-
-    let sliderShitiArray = self.data.sliderShitiArray;
-    let current = self.data.lastSliderIndex //当前滑动编号
-    let currentShiti = sliderShitiArray[current];
-    let currentXiaoti = currentShiti.xiaoti
-
-    let xiaoti = shiti.xiaoti; //材料题下面的小题
-    for (let i = 0; i < xiaoti.length; i++) {
-      if (px - 1 == i) { //找到对应小题
-        if (xiaoti[i].isAnswer) return;
-        //初始化多选的checked值
-        common.initMultiSelectChecked(currentXiaoti[i]);
-        //遍历这个答案，根据答案设置shiti的checked属性
-        done_daan = common.changeShitiChecked(done_daan, currentXiaoti[i]);
-
-        common.changeMultiShiti(done_daan, xiaoti[i]);
-        common.changeMultiShiti(done_daan, currentXiaoti[i]);
-      }
-    }
-    this.setData({
-      sliderShitiArray: sliderShitiArray,
-      shitiArray: shitiArray
-    })
-  },
-
-  /**
-   * 材料题作答
-   */
-  _CLAnswerSelect: function(e) {
-    let self = this;
-    let px = e.currentTarget.dataset.px;
-
-    let done_daan = "";
-
-    let shitiPX = self.data.px; //试题的px
-    let shitiArray = self.data.shitiArray
-    let shiti = shitiArray[shitiPX - 1]; //本试题对象
-    let xiaoti = shiti.xiaoti;
-
-    let sliderShitiArray = self.data.sliderShitiArray;
-    let current = self.data.lastSliderIndex //当前滑动编号
-    let currentShiti = sliderShitiArray[current];
-    let currentXiaoti = currentShiti.xiaoti
-
-    if (shiti.isAnswer) return;
-
-    for (let i = 0; i < xiaoti.length; i++) {
-      if (px - 1 == i) { //找到对应的小题
-        if (xiaoti[i].isAnswer) return;
-        done_daan = xiaoti[i].TX == 1 ? e.detail.done_daan : xiaoti[i].selectAnswer; //根据单选还是多选得到done_daan,多选需要排序
-        if (xiaoti[i].TX == 2 && xiaoti[i].selectAnswer == undefined) {
-          wx.showToast({
-            title: '还没有作答 !',
-            icon: 'none',
-          })
-          return;
-        }
-        common.changeSelectStatus(done_daan, xiaoti[i], self); //改变试题状态
-        common.changeSelectStatus(done_daan, currentXiaoti[i], self); //改变试题状态
-
-        if (xiaoti[i].flag == 1) shiti.flag = 1; //如果小题错一个,整个材料题就是错的
-        shiti.doneAnswer.push({
-          'px': px,
-          'done_daan': done_daan
-        }); //向本材料题的已答数组中添加已答题目px 和 答案信息
-
-        if (shiti.doneAnswer.length == xiaoti.length) { //说明材料题已经全部作答
-
-          shiti.done_daan = shiti.doneAnswer; //设置该试题已作答的答案数组
-
-          common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
-
-          common.postAnswerToServer(self.data.acode, self.data.username, shiti.id, shiti.flag, "测试", app, API_URL); //向服务器提交答题结果
-
-          common.storeAnswerArray(shiti, self); //只存储答题状态,不做本地存储
-
-          common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self) //更新答题板状态
-
-          common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
-        }
-      }
-    }
-
-    this.setData({
-      sliderShitiArray: sliderShitiArray,
-      shitiArray: shitiArray
-    })
-  },
   /**
    * 刚载入时的动画
    */

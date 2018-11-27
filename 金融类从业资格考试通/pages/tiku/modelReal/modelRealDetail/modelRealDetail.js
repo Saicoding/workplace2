@@ -301,6 +301,8 @@ Page({
     let nextShiti = undefined; //后一题
     let midShiti = shitiArray[px - 1]; //中间题
 
+    common.processModelRealDoneAnswer(midShiti.done_daan, midShiti, self);
+
 
     //每次滑动结束后初始化前一题和后一题
     if (direction == "左滑") {
@@ -393,8 +395,8 @@ Page({
 
     done_daan = shiti.TX == 1 ? e.detail.done_daan : e.detail.done_daan.sort(); //根据单选还是多选得到done_daan
 
-    common.changeModelRealSelectStatus(done_daan, currentShiti, self); //改变试题状态
-    common.changeModelRealSelectStatus(done_daan, shiti, self); //改变试题状态
+    common.changeModelRealSelectStatus(done_daan, currentShiti,false); //改变试题状态
+    common.changeModelRealSelectStatus(done_daan, shiti,false); //改变试题状态
 
     this.setData({
       shitiArray: shitiArray,

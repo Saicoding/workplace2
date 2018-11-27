@@ -15,7 +15,7 @@ const app = getApp();
 
 Page({
   /**
-   * 页面的初始数据
+   * 页面的初始数据i
    */
   data: {
     id: 0, //书的编号,默认为0
@@ -287,8 +287,8 @@ Page({
 
     if (shiti.isAnswer) return;
 
-    common.changeSelectStatus(done_daan, shiti, self); //改变试题状态
-    common.changeSelectStatus(done_daan, currentShiti, self); //改变试题状态
+    common.changeSelectStatus(done_daan, shiti, false); //改变试题状态
+    common.changeSelectStatus(done_daan, currentShiti, false); //改变试题状态
 
     this.setData({
       shitiArray: shitiArray,

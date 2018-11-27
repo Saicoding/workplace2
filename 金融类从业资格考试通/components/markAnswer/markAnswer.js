@@ -11,14 +11,9 @@ Component({
       type:Number,
       value:0
     },
-    isModelReal:{
-      type:Boolean,
-      value:false,
-      observer:function(isModelReal){
-        this.setData({
-          isModelReal: isModelReal
-        })
-      }
+    isLianxi: {
+      type: Boolean,
+      value: false
     }
   },
 
@@ -50,6 +45,11 @@ Component({
       this.setData({
         isShow: !this.data.isShow
       })
+    },
+
+    //重新练题
+    _restart() {
+      this.triggerEvent("restart");
     },
  
     //点击编号事件
