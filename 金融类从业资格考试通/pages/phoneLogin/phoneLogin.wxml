@@ -3,7 +3,7 @@
     验证码登录
   </view>
   <view class ="phoneNum">
-    <input class ="phoneNUm-input" placeholder='请输入手机号码' auto-focus bindinput="phoneInput"/>
+    <input type = "number" class ="phoneNUm-input" placeholder='请输入手机号码' auto-focus bindinput="phoneInput"/>
   </view>
   <view class ="code">
     <input class = "code-input" placeholder = '请输入验证码' bindinput="codeInput"/>

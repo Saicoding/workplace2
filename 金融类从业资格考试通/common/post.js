@@ -188,7 +188,7 @@ function wrongOnload(options, px, circular, myFavorite, res, user,  requesttime,
 
   common.initMarkAnswer(all_nums, self); //初始化答题板数组
 
-  common.initShitiArray(shitiArray, all_nums);
+  shitiArray = common.initShitiArray(shitiArray, all_nums,1);
 
   //得到swiper数组
   let nextShiti = undefined;//后一题

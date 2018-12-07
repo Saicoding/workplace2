@@ -146,6 +146,7 @@ Page({
             self.setData({
               shitiArray: shitiArray,
             })
+            wx.hideLoading();
           }).catch((errMsg) => {
             console.log(errMsg); //错误提示信息
             wx.hideLoading();
@@ -177,6 +178,7 @@ Page({
             self.setData({
               shitiArray: shitiArray,
             })
+            wx.hideLoading();
           }).catch((errMsg) => {
             console.log(errMsg); //错误提示信息
             wx.hideLoading();
@@ -202,12 +204,30 @@ Page({
         //先处理是否是已经回答的题    
         common.processDoneAnswer(nextShiti.done_daan, nextShiti, self);
       }
+      if (px + 1 < shitiArray.length) {//如果有下下题
+        if (shitiArray[px + 1].id == undefined) {
+          wx.showToast({
+            title: '载入试题中...',
+            icon: 'none',
+            mask: true
+          })
+        }
+      }
       preShiti = shitiArray[px - 2]; //肯定会有上一题
     } else { //右滑
       if (px > 1) { //如果还有上一题
         preShiti = shitiArray[px - 2];
         common.initShiti(preShiti, self); //初始化试题对象
         common.processDoneAnswer(preShiti.done_daan, preShiti, self);
+      }
+      if (px > 2) {//如果有上上题
+        if (shitiArray[px - 3].id == undefined) {
+          wx.showToast({
+            title: '载入试题中...',
+            icon: 'none',
+            mask: true
+          })
+        }
       }
       nextShiti = shitiArray[px];
     }

@@ -3,8 +3,6 @@ const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 let common = require('../../../common/shiti.js');
 let animate = require('../../../common/animate.js')
 let share = require('../../../common/share.js')
-let easeOutAnimation = animate.easeOutAnimation();
-let easeInAnimation = animate.easeInAnimation();
 let post = require('../../../common/post.js');
 
 let data = require('../../../data/data.js')
@@ -206,6 +204,8 @@ Page({
               shitiArray: shitiArray,
               isLoading: false //设置已经载入完毕
             })
+
+            wx.hideLoading();
           })
         }
       }
@@ -234,6 +234,8 @@ Page({
             self.setData({
               shitiArray: shitiArray,
             })
+
+            wx.hideLoading();
           })
         }
       }
@@ -253,12 +255,31 @@ Page({
         //先处理是否是已经回答的题    
         common.processDoneAnswer(nextShiti.done_daan, nextShiti, self);
       }
+
+      if (px + 1 < shitiArray.length) {//如果有下下题
+        if (shitiArray[px + 1].id == undefined) {
+          wx.showToast({
+            title: '载入试题中...',
+            icon: 'none',
+            mask: true
+          })
+        }
+      }
       preShiti = shitiArray[px - 2]; //肯定会有上一题
     } else { //右滑
       if (px > 1) { //如果还有上一题
         preShiti = shitiArray[px - 2];
         common.initShiti(preShiti, self); //初始化试题对象
         common.processDoneAnswer(preShiti.done_daan, preShiti, self);
+      }
+      if (px > 2) {//如果有上上题
+        if (shitiArray[px - 3].id == undefined) {
+          wx.showToast({
+            title: '载入试题中...',
+            icon: 'none',
+            mask: true
+          })
+        }
       }
       nextShiti = shitiArray[px];
     }
@@ -447,7 +468,6 @@ Page({
 
     let LoginRandom = user.Login_random;
     let zcode = user.zcode;
-    let myFavorite = self.data.myFavorite;
     let px = self.data.px;
     let shitiArray = self.data.shitiArray;
     let shiti = shitiArray[px - 1];
@@ -504,11 +524,7 @@ Page({
     let self = this;
     let px = e.detail.px;
 
-    let zhangIdx = self.data.zhangIdx;
-    let jieIdx = self.data.jieIdx;
-
     let shitiArray = self.data.shitiArray;
-    let doneAnswerArray = self.data.doneAnswerArray;
 
     let z_id = self.data.z_id;
 
