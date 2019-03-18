@@ -22,6 +22,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    console.log('ok')
     wx.setNavigationBarColor({//设置窗口颜色
       frontColor: "#ffffff",
       backgroundColor: "#f78c6b",

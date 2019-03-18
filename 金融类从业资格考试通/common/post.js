@@ -38,12 +38,14 @@ function zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, 
       //根据章是否有子节所有已经回答的题
       let doneAnswerArray = self.data.jieIdx != "undefined" ? res1.data[self.data.zhangIdx][self.data.jieIdx] : res1.data[self.data.zhangIdx]
       common.setMarkAnswerItems(doneAnswerArray, options.nums, self.data.isModelReal, self.data.isSubmit, self); //设置答题板数组     
-
+      console.log('a')
       //映射已答题目的已作答的答案到shitiArray
       for (let i = 0; i < doneAnswerArray.length; i++) {
         let doneAnswer = doneAnswerArray[i];
         shitiArray[doneAnswer.px - 1].done_daan = doneAnswer.done_daan;//设置已答试题的答案
       }
+
+      console.log('b')
       
       //先处理是否是已经回答的题,渲染3个
       if (preShiti != undefined) common.processDoneAnswer(preShiti.done_daan, preShiti, self);

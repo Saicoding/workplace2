@@ -15,7 +15,7 @@
   line-height: 45rpx;
   padding-top:10rpx;
   padding-left:15rpx;
-  font-size:35rpx;
+  font-size:30rpx;
   overflow: hidden;
 }
 
@@ -29,8 +29,8 @@
 .qustion-num-text {
   display: float;
   float: left;
-  width: 45rpx;
-  height: 45rpx;
+  width: 40rpx;
+  height: 40rpx;
   border-radius: 40rpx;
   color:white;
   background: #1b9af7;

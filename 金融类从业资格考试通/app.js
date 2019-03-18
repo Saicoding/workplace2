@@ -35,6 +35,9 @@ App({
           'content-type': 'application/x-www-form-urlencoded'
         },
         success: function(res) { //服务器返回数据
+          if (ifShow) { //隐藏载入
+            wx.hideLoading();
+          }
           let status = res.data.status;
           let message = res.data.message;
           if (status == 1) {//请求成功
@@ -44,6 +47,12 @@ App({
             wx.navigateTo({
               url: '/pages/pay/pay',
             })
+            wx.showToast({
+              title: '没有权限',
+              icon: 'none',
+              duration: 3000
+            })
+            
           } else if(status == -5){//重复登录
             console.log('重复登录')
             wx.navigateTo({
@@ -56,16 +65,28 @@ App({
               isLoaded:true,
               message: message
             })
-          }else if(status == -201){
-            console.log('余额不足')
+
             wx.showToast({
-              title: '余额不足',
+              title: '没有试题',
+              icon: 'none',
+              duration: 3000
+            })
+          }else if(status == -201){
+            console.log('权限不足')
+            console.log(message)
+            wx.showToast({
+              title:message,
               icon:'none',
               duration:3000
             })
+          }else{
+            console.log(res);
+            wx.showToast({
+              title: message,
+              icon: 'none',
+              duration: 3000
+            })
           }
-
-          wx.hideLoading();
         },
         error: function(e) {
           reject('网络出错');
