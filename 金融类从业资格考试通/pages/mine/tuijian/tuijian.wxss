@@ -12,3 +12,7 @@
   height: 120rpx;
   margin:400rpx auto;
 }
+
+.select1{
+  background: rgba(202, 202, 202,0.5);
+}

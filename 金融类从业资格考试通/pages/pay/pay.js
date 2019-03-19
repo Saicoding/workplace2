@@ -48,7 +48,9 @@ Page({
     wx.getUserInfo({
       success: function(res) {
         let city = res.userInfo.city;
-        app.post(API_URL, "action=getDlInfo&city=" + city, false, true, "").then((res) => {
+        let province = res.userInfo.province;
+   
+        app.post(API_URL, "action=getDlInfo&city=" + city + "&province=" + province, false, true, "").then((res) => {
           if (res.data.data.length == 0) { //如果没有城市代理
             self.setData({ //设置成没有城市代理
               hasCompany: false

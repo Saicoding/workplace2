@@ -23,6 +23,10 @@ Page({
     wx.setNavigationBarColor({ //设置窗口颜色
       frontColor: "#ffffff",
       backgroundColor: "#fd6131",
+      animation: {
+        duration: 1000,
+        timingFunc: 'easeIn',
+      }
     })
 
 

@@ -4,6 +4,10 @@ function setColor(category, setSelect, setTitle) {
       wx.setNavigationBarColor({ //设置窗口颜色
         frontColor: "#ffffff",
         backgroundColor: "#fd6131",
+        animation: {
+          duration: 1000,
+          timingFunc: 'easeIn',
+        }
       })
 
       if (setTitle) {
@@ -26,6 +30,10 @@ function setColor(category, setSelect, setTitle) {
       wx.setNavigationBarColor({ //设置窗口颜色
         frontColor: "#ffffff",
         backgroundColor: "#ffc722",
+        animation: {
+          duration: 1000,
+          timingFunc: 'easeIn',
+        }
       })
 
       if (setTitle) {
@@ -48,6 +56,10 @@ function setColor(category, setSelect, setTitle) {
       wx.setNavigationBarColor({ //设置窗口颜色
         frontColor: "#ffffff",
         backgroundColor: "#C71585",
+        animation: {
+          duration: 1000,
+          timingFunc: 'easeIn',
+        }
       })
 
       if (setTitle) {

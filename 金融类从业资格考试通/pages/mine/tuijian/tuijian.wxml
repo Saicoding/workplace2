@@ -13,7 +13,7 @@
       <view class='f15 hui info'>{{list.info}}</view>
      
       <text class='f12' style='color:#bbb'>累计帮助学员{{list.nums}}+</text>
-      <view class='btn fr' data-id='{{list.appid}}' bindtap='toapp'>立即查看</view>
+      <view class='btn fr' data-id='{{list.appid}}' bindtap='toapp' hover-class = "select1" hover-stay-time='500'>立即查看</view>
       <view class='clear'></view>
     </view>
     <view class='clear height10'></view>
