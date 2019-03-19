@@ -1,12 +1,14 @@
-      <view class ="container">
-      <view class="jiexi_border" hidden="{{!isAnswer}}">
-        <view class="line" style = "margin-left:60rpx;"></view>
-        <text class="txt">解析</text>
-        <view class="line"></view>
-      </view>
+<view class="container">
+  <view class="jiexi_border" hidden="{{!isAnswer}}">
+    <view class="line"></view>
+    <text class="txt">试题详解</text>
+    <view class="line"></view>
+  </view>
 
-      <!-- 解析描述 -->
-      <view class='jiexi' hidden="{{!isAnswer}}">
-        {{jiexi}}
-      </view>
-      </view>
+  <!-- 解析描述 -->
+  <view class='jiexi' hidden="{{!isAnswer}}">
+    <text space='nbsp' class="jiexi-text1">答案  {{answer}}</text>
+    <view class="jiexi-text2">
+      <span style="color:black;">宝典秘籍：</span>{{jiexi}}</view>
+  </view>
+</view>

@@ -109,7 +109,7 @@
   width:690rpx;
   padding-top:20rpx;
   text-align: center;
-  top:630rpx;
+  top:330rpx;
   box-shadow: rgb(211, 206, 206) 3rpx 3rpx 8rpx 1rpx ;
 }
 
@@ -150,4 +150,12 @@
   width:36rpx;
   height:36rpx;
   margin-top:7rpx;
+}
+
+.select1{
+  background: #98d2f7;
+}
+
+.select2{
+  background: #fabe7d;
 }

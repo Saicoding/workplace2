@@ -16,14 +16,14 @@
     </label>
     <label>
       <radio hidden value="C" checked="{{checked}}" />
-      <view class="imgAndText">
+      <view wx:if="{{shiti.C}}" class="imgAndText">
         <image src="{{shiti.srcs.C}}" mode="aspectFit" class="icon"></image>
         <view class="answer-text">{{shiti.C}}</view>
       </view>
     </label>
     <label>
       <radio hidden value="D" checked="{{checked}}" />
-      <view class="imgAndText">
+      <view wx:if="{{shiti.D}}" class="imgAndText">
         <image src="{{shiti.srcs.D}}" mode="aspectFit" class="icon"></image>
         <view class="answer-text">{{shiti.D}}</view>
       </view>

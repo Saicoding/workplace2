@@ -42,9 +42,9 @@ Page({
     })
     let category = options.category; //试题种类
     let colors = share.getColors(category); //配色方案
-    // wx.navigateTo({
-    //   url: '/pages/pay/pay',
-    // })
+    wx.navigateTo({
+      url: '/pages/pay/pay?category=' + category,
+    })
 
     share.setColor(category, false, false); //设置tabbar颜色
 

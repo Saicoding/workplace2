@@ -11,6 +11,10 @@ Component({
     jiexi:{
       type:String,
       value:"该题没有解析"
+    },
+    answer: {
+      type: String,
+      value: ""
     }
   },
 

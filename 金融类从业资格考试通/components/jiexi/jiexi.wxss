@@ -1,40 +1,56 @@
-.container{
-  margin-top:50rpx;
+.container {
+  margin-top: 50rpx;
 }
 
 .jiexi_border {
-  width: 100%;
-  height:50rpx;
-  clear:both;
+  width: 93%;
+  height: 50rpx;
+  clear: both;
   display: block;
   align-content: center;
-  padding-left:90rpx;
+  margin:0 auto;
 }
 
 .line {
   display: float;
-  float:left;
-  width: 150rpx;
-  border-top: 1px solid #ccc;
-  margin-top:20rpx;
+  float: left;
+  width: 278rpx;
+  height:30rpx;
+  margin-top: 20rpx;
+  border-top: 1rpx solid rgb(226, 226, 226);
 }
 
 .txt {
   display: float;
-  float:left;
-  color: #686868;
+  float: left;
+  color: #000000;
   margin: 0 20rpx;
   font-size: 25rpx;
 }
 
 .jiexi {
   margin: 0 auto;
-  margin-top:25rpx;
+  margin-top: 25rpx;
+  margin-bottom:50rpx;
   text-align: left;
   clear: both;
-  width: 80%;
+  width: 88%;
   color: #666;
   line-height: 40rpx;
-  font-size: 25rpx;
-  text-indent: 40rpx;
+  font-size: 26rpx;
+  border-radius: 10rpx;
+  box-shadow: #d1d1d1 3rpx 3rpx 8rpx 1rpx ;
+  background: white;
+  padding:30rpx 20rpx 40rpx 35rpx;
 }
+
+.jiexi-text1{
+  font-size:28rpx;
+  color:black;
+}
+
+.jiexi-text2{
+  margin-top:30rpx;
+}
+
+

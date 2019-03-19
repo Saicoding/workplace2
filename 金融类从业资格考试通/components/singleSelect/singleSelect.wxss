@@ -10,7 +10,7 @@
 
 .imgAndText {
   width: 100%;
-  font-size: 35rpx;
+  font-size: 25rpx;
   padding-top:25rpx;
   padding-bottom:25rpx;
   vertical-align: top;
@@ -19,17 +19,17 @@
 .icon{
   display: float;
   float:left;
-  width:50rpx;
-  height:50rpx;
+  width:40rpx;
+  height:40rpx;
   margin-left:20rpx;
-  margin-top:5rpx;
+  margin-top:6rpx;
 }
 
 /* 答案选项的文字 */
 
 .answer-text {
   display: inline-flex;
-  font-size: 30rpx;
+  font-size: 25rpx;
   margin-left:40rpx;
   line-height:50rpx;
   width: 563rpx;

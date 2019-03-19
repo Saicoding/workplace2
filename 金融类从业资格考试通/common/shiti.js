@@ -13,7 +13,7 @@ function initShiti(shiti, self) {
   //给试题设置章idx 节idx 和默认已做答案等
   shiti.isAnswer = false;
 
-  if (TX == 1 || TX ==3) { //单选
+  if (TX == 1 ) { //单选
     shiti.tx = "单选题"
     shiti.srcs = { //定义初始图片对象(单选)
       "A": "/imgs/A.png",
@@ -36,6 +36,15 @@ function initShiti(shiti, self) {
     shiti.C_checked = false;
     shiti.D_checked = false;
     shiti.E_checked = false;
+  } else if(TX =3){//判断
+    shiti.tx = "判断题"
+    shiti.srcs = { //定义初始图片对象(多选)
+      "A": "/imgs/A.png",
+      "B": "/imgs/B.png",
+      "C": "/imgs/C.png",
+      "D": "/imgs/D.png",
+      "E": "/imgs/E.png"
+    };
   }
 }
 /**

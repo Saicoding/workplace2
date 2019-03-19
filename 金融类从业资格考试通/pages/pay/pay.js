@@ -16,6 +16,31 @@ Page({
   onLoad: function(options) {
     let self = this;
 
+    // 设置标题
+    let category = "";
+    let title = "";
+    switch(options.category){
+      case 'zq':
+        category = '证券从业资格套餐';
+        title = "证券";
+        break;
+      case 'jj':
+        category = '基金从业资格套餐';
+        title = "基金";
+        break;
+      case 'qh':
+        category = '期货从业资格套餐';
+        title = "期货";
+        break;
+
+    }
+    wx.setNavigationBarTitle({
+      title: title,
+    })
+    self.setData({
+      category:category
+    })
+
     wx.getUserInfo({
       success: function(res) {
         let city = res.userInfo.city;
@@ -96,18 +121,26 @@ Page({
    */
   showPayDetail:function(e){
     let product = e.currentTarget.dataset.product;
+    let platform = this.data.platform;
 
-    if (product == "jjr"){
-      this.payDetail.setData({
-        product:"jjr"
+    if(platform == 'ios'){//如果是苹果系统
+      wx.showModal({
+        title: '提示',
+        content: '因Apple政策原因，IOS暂不支持小程序内付费服务，苹果用户请使用安卓设备开通！服务电话：4006-456-114',
+        confirmText: '拨打电话',
+        confirmColor: '#2983fe',
+        success:function(e){
+          if(e.confirm){
+            wx.makePhoneCall({
+              phoneNumber: '4006-456-114',
+            })
+          }
+        }
       })
-      this.payDetail.showDialog();
     }else{
-      this.payDetail.setData({
-        product: "xl"
-      })
-      this.payDetail.showDialog();
+      console.log( '去支付');
     }
+    
   },
 
   /**

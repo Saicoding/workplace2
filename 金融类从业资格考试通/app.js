@@ -72,8 +72,9 @@ App({
               duration: 3000
             })
           }else if(status == -201){
+            options.category
             wx.navigateTo({
-              url: '/pages/pay/pay',
+              url: '/pages/pay/pay?category='+self.data.options.category,
               success:function(){
                 wx.showToast({
                   title: message,

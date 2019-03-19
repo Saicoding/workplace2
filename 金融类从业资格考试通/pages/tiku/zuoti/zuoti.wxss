@@ -40,15 +40,6 @@ page{
   height:100%;
 }
 
-.container{
-  box-shadow: rgb(231, 230, 230) 3rpx 3rpx 8rpx 1rpx ;
-  border-radius: 20rpx;
-  width:93%;
-  height:90%;
-  margin:20rpx auto;
-  overflow-x: hidden;
-  padding-bottom:30rpx;
-}
 
 .swiper-xiaoti{
   width: 100%;
@@ -96,4 +87,9 @@ page{
   color:white;
   margin-top:40rpx;
   line-height: 80rpx;
+}
+
+
+.select2{
+  background: #8ebef8;
 }
