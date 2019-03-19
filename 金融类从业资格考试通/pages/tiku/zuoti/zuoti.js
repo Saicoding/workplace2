@@ -40,93 +40,6 @@ Page({
     this.setData({//先存储起来,触发权限问题时带过去区分页面
       options:options
     })
-    let category = options.category; //试题种类
-    let colors = share.getColors(category); //配色方案
-    wx.navigateTo({
-      url: '/pages/pay/pay?category=' + category,
-    })
-
-    share.setColor(category, false, false); //设置tabbar颜色
-
-    wx.setNavigationBarTitle({
-      title: options.title
-    }) //设置标题
-
-    let self = this;
-
-    let user = wx.getStorageSync('user');
-
-    let page = 1; //默认是第一页
-    let pageArray = []; //页面缓存数组
-    let LoginRandom = user.Login_random == undefined ? "" : user.Login_random;
-    let zcode = user.zcode == undefined ? "" : user.zcode;
-    let username = user.username;
-
-    let circular = false;
-    let myFavorite = 0;
-
-    //根据章是否有字节来定制最后一次访问的key
-    let last_view_key = 'last_view' + options.zhangjie_id + options.zhangIdx + (options.jieIdx != "undefined" ? options.jieIdx : "") + user.username;
-
-    let last_view = wx.getStorageSync(last_view_key); //得到最后一次的题目
-    let px = last_view.px; //最后一次浏览的题的编号
-
-    if (px == undefined) {
-      px = 1 //如果没有这个px说明这个章节首次访问
-      circular: false
-    } else {
-      page = ((px - 1) - (px - 1) % 10) / 10 + 1; //当前页
-    }
-
-    app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + options.z_id + "&zcode=" + zcode + "&page=" + page, false, false, "", "", false, self).then((res) => {
-      let shitiArray = res.data.shiti;
-      let all_nums = res.data.all_nums;
-      let pageall = res.data.pageall;
-      let prepage = page - 1; //上一页
-      let nextPage = page + 1; //下一页
-      pageArray.push(page);
-
-      common.initNewWrongArrayDoneAnswer(shitiArray, page - 1); //将试题的所有done_daan置空
-      shitiArray = common.initShitiArray(shitiArray, all_nums, page);
-      common.initMarkAnswer(all_nums, self); //初始化答题板数组
-
-      if (px % 10 >= 1 && px % 10 <= 4 && prepage >= 1) { //px为前半部分并且有上一页时，请求上一页
-        app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + options.z_id + "&zcode=" + zcode + "&page=" + prepage, false, false, "", "", false, self).then((res) => {
-          pageArray.push(prepage);
-
-          self.setData({
-            pageArray: pageArray
-          })
-
-          let newWrongShitiArray = res.data.shiti;
-          common.initNewWrongArrayDoneAnswer(newWrongShitiArray, prepage - 1); //将试题的所有done_daan置空
-          for (let i = 0; i < newWrongShitiArray.length; i++) { //更新shitiArray
-            shitiArray[i + (prepage - 1) * 10] = newWrongShitiArray[i];
-          }
-          post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, colors, category, all_nums, pageall, self) //对数据进行处理和初始化
-        })
-      } else if ((px % 10 >= 6 || px % 10 == 0) && nextPage <= pageall) {
-        app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + options.z_id + "&zcode=" + zcode + "&page=" + nextPage, false, false, "", "", false, self).then((res) => {
-          pageArray.push(nextPage);
-
-          self.setData({
-            pageArray: pageArray
-          })
-
-          let newWrongShitiArray = res.data.shiti;
-          common.initNewWrongArrayDoneAnswer(newWrongShitiArray, nextPage - 1); //将试题的所有done_daan置空
-          for (let i = 0; i < newWrongShitiArray.length; i++) { //更新shitiArray
-            shitiArray[i + (nextPage - 1) * 10] = newWrongShitiArray[i];
-          }
-          post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, colors, category, all_nums, pageall, self) //对数据进
-        })
-      } else{
-        self.setData({
-          pageArray: pageArray
-        })
-        post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, colors, category, all_nums, pageall, self) //对数据进
-      }
-    })
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -424,8 +337,95 @@ Page({
    */
   onShow: function(e) {
     let self = this;
+    console.log(1)
+    let options = self.data.options;
+    let category = options.category; //试题种类
+    let colors = share.getColors(category); //配色方案
+    console.log(2)
 
-    // common.lianxiRestart(self); //重新开始作答
+    share.setColor(category, false, false); //设置tabbar颜色
+    console.log(3)
+
+    wx.setNavigationBarTitle({
+      title: options.title
+    }) //设置标题
+    console.log(4)
+
+    let user = wx.getStorageSync('user');
+
+    let page = 1; //默认是第一页
+    let pageArray = []; //页面缓存数组
+    let LoginRandom = user.Login_random == undefined ? "" : user.Login_random;
+    let zcode = user.zcode == undefined ? "" : user.zcode;
+    let username = user.username;
+
+    let circular = false;
+    let myFavorite = 0;
+
+    //根据章是否有字节来定制最后一次访问的key
+    let last_view_key = 'last_view' + options.zhangjie_id + options.zhangIdx + (options.jieIdx != "undefined" ? options.jieIdx : "") + user.username;
+
+    let last_view = wx.getStorageSync(last_view_key); //得到最后一次的题目
+    let px = last_view.px; //最后一次浏览的题的编号
+
+    if (px == undefined) {
+      px = 1 //如果没有这个px说明这个章节首次访问
+      circular: false
+    } else {
+      page = ((px - 1) - (px - 1) % 10) / 10 + 1; //当前页
+    }
+
+    console.log("action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + options.z_id + "&zcode=" + zcode + "&page=" + page)
+    app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + options.z_id + "&zcode=" + zcode + "&page=" + page, false, false, "", "", false, self).then((res) => {
+      console.log(res)
+      let shitiArray = res.data.shiti;
+      let all_nums = res.data.all_nums;
+      let pageall = res.data.pageall;
+      let prepage = page - 1; //上一页
+      let nextPage = page + 1; //下一页
+      pageArray.push(page);
+
+      common.initNewWrongArrayDoneAnswer(shitiArray, page - 1); //将试题的所有done_daan置空
+      shitiArray = common.initShitiArray(shitiArray, all_nums, page);
+      common.initMarkAnswer(all_nums, self); //初始化答题板数组
+
+      if (px % 10 >= 1 && px % 10 <= 4 && prepage >= 1) { //px为前半部分并且有上一页时，请求上一页
+        app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + options.z_id + "&zcode=" + zcode + "&page=" + prepage, false, false, "", "", false, self).then((res) => {
+          pageArray.push(prepage);
+
+          self.setData({
+            pageArray: pageArray
+          })
+
+          let newWrongShitiArray = res.data.shiti;
+          common.initNewWrongArrayDoneAnswer(newWrongShitiArray, prepage - 1); //将试题的所有done_daan置空
+          for (let i = 0; i < newWrongShitiArray.length; i++) { //更新shitiArray
+            shitiArray[i + (prepage - 1) * 10] = newWrongShitiArray[i];
+          }
+          post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, colors, category, all_nums, pageall, self) //对数据进行处理和初始化
+        })
+      } else if ((px % 10 >= 6 || px % 10 == 0) && nextPage <= pageall) {
+        app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + options.z_id + "&zcode=" + zcode + "&page=" + nextPage, false, false, "", "", false, self).then((res) => {
+          pageArray.push(nextPage);
+
+          self.setData({
+            pageArray: pageArray
+          })
+
+          let newWrongShitiArray = res.data.shiti;
+          common.initNewWrongArrayDoneAnswer(newWrongShitiArray, nextPage - 1); //将试题的所有done_daan置空
+          for (let i = 0; i < newWrongShitiArray.length; i++) { //更新shitiArray
+            shitiArray[i + (nextPage - 1) * 10] = newWrongShitiArray[i];
+          }
+          post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, colors, category, all_nums, pageall, self) //对数据进
+        })
+      } else {
+        self.setData({
+          pageArray: pageArray
+        })
+        post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, colors, category, all_nums, pageall, self) //对数据进
+      }
+    })
   },
 
   /**

@@ -33,6 +33,7 @@ Page({
 
     let user = wx.getStorageSync("user");
     let LoginRandom = user.Login_random;
+    console.log(user)
     let zcode = user.zcode;
 
     console.log("action=GetKaodianShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kdid=" + kdid)

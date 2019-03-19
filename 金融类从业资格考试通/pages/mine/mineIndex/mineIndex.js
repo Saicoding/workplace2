@@ -252,7 +252,7 @@ Page({
         let nums = res.data.nums;
         self.setData({
           nums: nums,
-          user:user
+          user: user
         })
       })
     } else {
@@ -260,16 +260,24 @@ Page({
         url: '/pages/login1/login1?url=' + url + '&ifGoPage=false',
       })
     }
-},
+  },
 
-/**
- * 导航到关于我们界面
- */
-GOabout: function() {
-  if (buttonClicked) return;
-  buttonClicked = true;
-  wx.navigateTo({
-    url: '/pages/mine/about/about',
-  })
-}
+  /**
+   * 导航到关于我们界面
+   */
+  GOabout: function() {
+    if (buttonClicked) return;
+    buttonClicked = true;
+    wx.navigateTo({
+      url: '/pages/mine/about/about',
+    })
+  },
+  /**
+   * 导航到精品推荐
+   */
+  GOtuijian: function() {
+    wx.navigateTo({
+      url: '/pages/mine/tuijian/tuijian',
+    })
+  }
 })

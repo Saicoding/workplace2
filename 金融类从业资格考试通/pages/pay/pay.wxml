@@ -8,7 +8,7 @@
 
     <view class="block1">
       <text class="text1"> {{category?category:'金融类从业资格考试'}}</text>
-      <view class="text2">冲刺班 3980
+      <view class="text2">全试题解锁 399
         <span style="font-size:23rpx;margin-left:5rpx;">元</span>
       </view>
       <view class="bt-block">
@@ -18,7 +18,7 @@
           </view>
           <text bindtap='call400' class="bt-text" hover-class ="select2" hover-stay-time='300'>详情咨询</text>
         </view>
-        <button  open-type="getUserInfo" bindgetuserinfo='showPayDetail' class="bt2" hover-class ="select2" hover-stay-time='300'>立即开通</button>
+        <button bindtap ='_submit' class="bt2" hover-class ="select2" hover-stay-time='300'>立即开通</button>
       </view>
     </view>
   </view>

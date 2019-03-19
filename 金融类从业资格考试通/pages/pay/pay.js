@@ -1,5 +1,7 @@
 // pages/pay/pay.js
 const API_URL = 'https://xcx2.chinaplat.com'; //接口地址
+const API_URL1 = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
+
 const app = getApp(); //获取app对象
 let md5 = require('../../common/MD5.js');
 Page({
@@ -18,6 +20,7 @@ Page({
 
     // 设置标题
     let category = "";
+
     let title = "";
     switch(options.category){
       case 'zq':
@@ -38,15 +41,14 @@ Page({
       title: title,
     })
     self.setData({
-      category:category
+      category:category,
+      options: options
     })
 
     wx.getUserInfo({
       success: function(res) {
         let city = res.userInfo.city;
-        console.log("action=getDlInfo&city=" + city)
         app.post(API_URL, "action=getDlInfo&city=" + city, false, true, "").then((res) => {
-          console.log(res)
           if (res.data.data.length == 0) { //如果没有城市代理
             self.setData({ //设置成没有城市代理
               hasCompany: false
@@ -120,6 +122,7 @@ Page({
    * 弹出支付详细信息
    */
   showPayDetail:function(e){
+    console.log(e)
     let product = e.currentTarget.dataset.product;
     let platform = this.data.platform;
 
@@ -138,9 +141,8 @@ Page({
         }
       })
     }else{
-      console.log( '去支付');
-    }
-    
+      this._submit();
+    }  
   },
 
   /**
@@ -148,22 +150,29 @@ Page({
    */
   _submit:function(e){
     let self = this;
-  
-    let product = e.detail.product;
+    console.log(self.data.options)
+    let product = self.data.options.category;
     let code = "";
     let user = wx.getStorageSync('user');
     let Login_random = user.Login_random; //用户登录随机值
     let zcode = user.zcode; //客户端id号
+
+    wx.showLoading({
+      title: '购买中',
+      mask:true
+    })
 
     // 登录
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         code = res.code;
-        app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
+        console.log("action=getSessionKey&code=" + code)
+        app.post(API_URL1, "action=getSessionKey&code=" + code, false, false, "").then((res) => {
+          console.log(res)
           let openid = res.data.openid;
-
-          app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "购买中").then((res) => {
+          console.log("action=unifiedorder&loginrandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid)
+          app.post(API_URL1, "action=unifiedorder&loginrandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, false, false, "","",false,self).then((res) => {
 
             let status = res.data.status;
 
@@ -173,13 +182,13 @@ Page({
               timestamp = timestamp.toString();
               let nonceStr = "TEST";
               let prepay_id = res.data.prepay_id;
-              let appId = "wxf90a298a65cfaca8";
+              let appId = "wx1264a65218ad1fab";
               let myPackage = "prepay_id=" + prepay_id;
               let key = "e625b97ae82c3622af5f5a56d1118825";
 
               let str = "appId=" + appId + "&nonceStr=" + nonceStr + "&package=" + myPackage + "&signType=MD5&timeStamp=" + timestamp + "&key=" + key;
               let paySign = md5.md5(str).toUpperCase();
-
+              wx.hideLoading();
               let myObject = {
                 'timeStamp': timestamp,
                 'nonceStr': nonceStr,
@@ -188,12 +197,15 @@ Page({
                 'signType': "MD5",
                 success: function (res) {
                   if (res.errMsg == "requestPayment:ok") { //成功付款后
-                    app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中", ).then((res) => {
-                      let pages = getCurrentPages();
-                      let  prevPage = pages[pages.length - 2];  //上一个页面
-                      prevPage.setData({
-                        buied: product
-                      })
+                    console.log("action=BuyTC&loginrandom=" + Login_random + "&zcode=" + zcode + "&product=" + product)
+                    app.post(API_URL1, "action=BuyTC&loginrandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中", "",false,self).then((res) => {
+                      console.log(res)
+                      // let pages = getCurrentPages();
+                      // let  prevPage = pages[pages.length - 2];  //上一个页面
+                      // prevPage.setData({
+                      //   buied: product
+                      // })
+    
                       wx.navigateBack({})
                       wx.showToast({
                         title: '购买成功',

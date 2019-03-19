@@ -31,20 +31,6 @@ Page({
       url1: options.url,
       ifGoPage: options.ifGoPage
     })
-
-    wx.login({
-      success: res => {
-        let code = res.code;
-        app.post(API_URL, "action=getSessionKey&code=" + code, false, false, "").then((res) => {
-          let sesstion_key = res.data.sessionKey;
-          let openid = res.data.openid;
-          self.setData({
-            sesstion_key: sesstion_key,
-            openid: openid
-          })
-        })
-      }
-    })
   },
   /**
    * 手机登录
@@ -60,44 +46,55 @@ Page({
    */
   wxLogin: function (e) {
     let self = this;
-    let wxid = ""; //openId
-    let session_key = ""; //
-    let ifGoPage = self.data.ifGoPage //是否返回上一级菜单
-    let url = self.data.url; //需要导航的url
+    wx.showLoading({
+      title: '登录中',
+    })
+    wx.login({
+      success: res => {
+        let code = res.code;
+        app.post(API_URL, "action=getSessionKey&code=" + code, false, false, "").then((res) => {
+          let sesstion_key = res.data.sessionKey;
+          let openid = res.data.openid;
 
-    let encryptedData = e.detail.encryptedData;
-    let iv = e.detail.iv;
-    let signature = e.detail.signature; //签名
-    let nickname = e.detail.userInfo.nickName; //昵称
-    let headurl = e.detail.userInfo.avatarUrl; //头像
-    let sex = e.detail.userInfo.gender //性别
-    let code = self.data.code;
+          wx.getUserInfo({
+            success: function (res) {
+              let wxid = ""; //openId
+              let session_key = ""; //
+              let ifGoPage = self.data.ifGoPage //是否返回上一级菜单
+              let url = self.data.url; //需要导航的url
 
-    //得到openId和session_key
+              let encryptedData = res.encryptedData;
+              let iv = res.iv;
+              let signature = res.signature; //签名
+              let nickname = res.userInfo.nickName; //昵称
+              let headurl = res.userInfo.avatarUrl; //头像
+              let sex = res.userInfo.gender //性别
+              //拿到session_key实例化WXBizDataCrypt（）这个函数在下面解密用
+              let pc = new WXBizDataCrypt(appId, sesstion_key);
+              let data = pc.decryptData(encryptedData, iv);
+              let unionId = data.unionId;
 
-    let sesstion_key = self.data.sesstion_key;
-    let openid = self.data.openid;
+              app.post(API_URL, "action=Login_wx&unionId=" + unionId + "&openid=" + openid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex, false, false, "").then((res) => {
 
-    //拿到session_key实例化WXBizDataCrypt（）这个函数在下面解密用
-    let pc = new WXBizDataCrypt(appId, sesstion_key);
-    let data = pc.decryptData(encryptedData, iv);
-    let unionId = data.unionId;
+                let user = res.data.list[0];
 
-    app.post(API_URL, "action=Login_wx&unionId=" + unionId + "&openid=" + openid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex, true, false, "登录中").then((res) => {
+                wx.setStorage({
+                  key: 'user',
+                  data: user
+                })
 
-      let user = res.data.list[0];
+                wx.hideLoading();
 
-      wx.setStorage({
-        key: 'user',
-        data: user
-      })
+                wx.navigateBack({}) //先回到登录前的页面
 
-      wx.navigateBack({}) //先回到登录前的页面
-
-      if (ifGoPage == 'true') {
-        console.log(url)
-        wx.navigateTo({
-          url: url,
+                if (ifGoPage == 'true') {
+                  wx.navigateTo({
+                    url: url,
+                  })
+                }
+              })
+            }
+          })
         })
       }
     })

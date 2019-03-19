@@ -126,7 +126,7 @@
 }
 
 .jie-text{
-  font-size:30rpx;
+  font-size:25rpx;
   width:520rpx;
   height:90rpx;
   padding-left:87rpx;

@@ -46,22 +46,24 @@
     <!-- 最底下关于房地产经纪人考试通 -->
 
     <view class="mycontainer">
-      <view class="line" hover-class='select' hover-stay-time='100'>
+      <view class="line" bindtap='GOset' hover-class='select' hover-stay-time='100'>
         <view class="block" style="border-bottom:none">
           <image class="left-img" src="/imgs/set.png" mode="aspectFit" style="width:35rpx;height:35rpx;margin-top:34rpx;margin-left:9rpx;"></image>
-          <view class="mytext" bindtap='GOset'>
+          <view class="mytext" >
             设置
           </view>
         </view>
       </view>
-      <!-- <view class="line" hover-class='select' hover-stay-time='100'>
-        <view class="block">
-          <image class="left-img" src="/imgs/my_error.jpg" mode="aspectFit" style="width:40rpx;height:40rpx;margin-top:30rpx;margin-left:9rpx;"></image>
-          <view class="mytext" bindtap="GOabout">
-            关于金融类从业资格考试通
+      <view class="mycontainer">
+        <view class="line" bindtap="GOtuijian" hover-class='select' hover-stay-time='100'>
+          <view class="block" style="border-bottom:none">
+            <image class="left-img" src="/imgs/xiaochengxu.png" mode="aspectFit" style="width:35rpx;height:35rpx;margin-top:34rpx;margin-left:9rpx;"></image>
+            <view class="mytext">
+              精品推荐
+            </view>
           </view>
         </view>
-      </view> -->
+      </view>
     </view>
   </scroll-view>
 </view>

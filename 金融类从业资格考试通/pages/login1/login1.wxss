@@ -21,20 +21,24 @@
 
 .login-button-1 {
   width: 500rpx;
-  height: 90rpx;
+  height: 80rpx;
+  line-height: 80rpx;
   margin-top: 50rpx;
   border-radius: 45rpx;
   color: white;
   background: linear-gradient(to right,#ffd181,#fca40d);
+  border:none;
 }
 
 .login-button-2 {
   width: 500rpx;
-  height: 90rpx;
+  height: 80rpx;
   margin-top: 50rpx;
   border-radius: 45rpx;
+  line-height: 80rpx;
   color: white;
   background: linear-gradient(to right,#47c24f,#01ca0e);
+  border:none;
 }
 
 .small-img-container {
@@ -49,13 +53,13 @@
 .small-img-1 {
   width: 40rpx;
   height: 40rpx;
-  margin-top: 25rpx;
+  margin-top: 20rpx;
 }
 
 .small-img-2 {
   width: 40rpx;
   height: 40rpx;
-  margin-top: 25rpx;
+  margin-top: 20rpx;
 }
 
 .login-text {
