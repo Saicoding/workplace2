@@ -33,7 +33,7 @@
   font-size: 30rpx;
   margin-left:40rpx;
   line-height:50rpx;
-  width: 53rpx;
+  width: 535rpx;
   margin-top:0rpx;
   vertical-align: top;
 }

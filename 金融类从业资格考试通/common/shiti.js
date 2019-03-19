@@ -13,7 +13,7 @@ function initShiti(shiti, self) {
   //给试题设置章idx 节idx 和默认已做答案等
   shiti.isAnswer = false;
 
-  if (TX == 1) { //单选
+  if (TX == 1 || TX ==3) { //单选
     shiti.tx = "单选题"
     shiti.srcs = { //定义初始图片对象(单选)
       "A": "/imgs/A.png",
@@ -46,6 +46,7 @@ function initNewWrongArrayDoneAnswer(shitiArray, page) {
     shitiArray[i].px = i + 1 + page * 10; //设置每个试题的px号
     switch (shitiArray[i].TX) {
       case 1:
+      case 3:
         shitiArray[i].done_daan = "";
         break;
       case 2:
@@ -282,7 +283,7 @@ function initModelRealMarkAnswer(newShitiArray, self) {
       });
     }
 
-    markAnswerItems[i].radius = newShiti.TX == 1 ? 50 : 10; //映射试题种类
+    markAnswerItems[i].radius = newShiti.TX == 1 || newShiti.TX == 3? 50 : 10; //映射试题种类
   }
 
   self.markAnswer.setData({
@@ -300,7 +301,7 @@ function getNewShitiArray(shitiArray) {
   for (let i = 0; i < shitiArray.length; i++) {
     let shiti = shitiArray[i]; //原试题
 
-    if (shiti.TX == 1 || shiti.TX == 2) {
+    if (shiti.TX == 1 || shiti.TX == 2 || shiti.TX == 3) {
       newShitiArray.push(shiti);
     } else {
       for (let j = 0; j < shiti.xiaoti.length; j++) {
@@ -964,6 +965,7 @@ function initShitiArrayDoneAnswer(shitiArray) {
     shitiArray[i].px = i + 1; //设置每个试题的px号
     switch (shitiArray[i].TX) {
       case 1:
+      case 3:
         shitiArray[i].done_daan = "";
         break;
       case 2:
@@ -1085,6 +1087,7 @@ function getDoneAnswers(shitiArray) {
     let done_daan = myShiti.done_daan; //试题答案["A","B","C"]   
     switch (myShiti.TX) {
       case 1:
+      case 3:
         userAnswer1 += done_daan + ","; //拼接字符串
         tid1 += myShiti.id + ",";
 
@@ -1115,7 +1118,7 @@ function getDoneAnswers(shitiArray) {
         for (let k = 0; k < xiaoti.length; k++) {
           let ti = xiaoti[k]; //材料题的每个小题
 
-          if (ti.TX == 1) {
+          if (ti.TX == 1 || ti.TX == 3) {
             userAnswer99 += ti.done_daan + ","; //拼接字符串
           } else if (ti.TX == 2) {
             let xt_done_daan = ti.done_daan; //试题答案["A","B","C"]

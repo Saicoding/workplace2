@@ -37,8 +37,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    this.setData({//先存储起来,触发权限问题时带过去区分页面
+      options:options
+    })
     let category = options.category; //试题种类
     let colors = share.getColors(category); //配色方案
+    // wx.navigateTo({
+    //   url: '/pages/pay/pay',
+    // })
 
     share.setColor(category, false, false); //设置tabbar颜色
 

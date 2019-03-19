@@ -41,7 +41,6 @@ App({
           let status = res.data.status;
           let message = res.data.message;
           if (status == 1) {//请求成功
-     
             resolve(res);
           } else if(status == -2){//没有权限
             console.log('没有权限')

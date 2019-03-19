@@ -1,15 +1,15 @@
 <!--components/Dialog/dialog.wxml-->
-<view hidden="{{!isShow}}" class="container-out" catchtap='stopBubbling'>
-  <scroll-view scroll-y="true" class="container-in" style='top:{{windowHeight-80-500}}rpx;height:{{answerHeight}}rpx'>
+<view hidden="{{!isShow}}" class="container-out" catchtap='stopBubbling' >
+  <scroll-view  scroll-y="true" class="container-in" style="top:{{windowHeight-80-550}}rpx;height:{{answerHeight}}rpx;{{isLianxi?'border-radius: 15rpx 15rpx 0rpx 0rpx':'border-radius: 15rpx 15rpx 15rpx 15rpx'}}">
     <view wx:for="{{markAnswerItems}}" wx:key="item">
-      <view data-cl="{{item.cl}}" data-px="{{index+1}}" catchtap='_tapEvent' class="icon" style="{{item.style}};border-radius:{{item.radius}}rpx;">
+      <view data-cl="{{item.cl}}" data-px="{{index+1}}" catchtap='_tapEvent' class="icon" style="{{item.style}};border-radius:{{item.radius}}rpx;" hover-class='select'>
         <view style="margin:0 auto;">
           {{index+1}}
         </view>
       </view>
     </view>
   </scroll-view>
-  <view wx:if="{{isLianxi}}" class="bottom" style="top:{{windowHeight-80-500+answerHeight}}rpx;">
+  <view animation= "{{showAnimate}}" wx:if = "{{isLianxi}}"  class="bottom" style = "top:{{windowHeight-80-550+answerHeight}}rpx;">
     <view class="restart" hover-class='select2' bindtap='_restart'>重新做题</view>
   </view>
 </view>
