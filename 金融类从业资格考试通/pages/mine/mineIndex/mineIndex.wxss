@@ -9,6 +9,9 @@
   color:white;
   padding-top:30rpx;
   text-align: center;
+    position: relative;
+  align-items: center;
+  z-index: 0;
 }
 
 .pic{
@@ -90,17 +93,36 @@
 }
 
 .left-img{
-  width: 50rpx;
-  height:50rpx;
-  margin-top:25rpx;
+  width: 40rpx;
+  height:40rpx;
+  margin-top:30rpx;
 }
 
 .mytext{
-  font-size:32rpx;
+  font-size:25rpx;
   width:530rpx;
   height:100rpx;
   margin-left:38rpx;
   line-height: 100rpx;
+}
+
+.up-backimg1 {
+    position: absolute;
+    left: 24rpx;
+    bottom: 0;
+    width: 702rpx;
+    height: 114rpx;
+    z-index: 10;
+    opacity: 0.1;
+}
+
+.up-backimg2 {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 20rpx;
+    z-index: 10000;
 }
 
 .jie-text{

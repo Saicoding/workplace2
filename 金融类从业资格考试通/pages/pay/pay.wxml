@@ -23,28 +23,6 @@
     </view>
   </view>
 
-  <!-- 第二块 -->
-  <view class="down">
-    <image class="bg" src="/imgs/bg2.png" mode="aspectFit">
-    </image>
-
-    <view class="block2">
-      <text class="text1"> 房地产经纪人协理</text>
-      <view class="text2">冲刺班 2580
-        <span style="font-size:23rpx;margin-left:5rpx;">元</span>
-      </view>
-      <view class="bt-block">
-        <view class="bt1" style="background:#bdedc1;">
-          <view class="phone-container">
-            <image class="phone" mode="aspectFit" src="/imgs/phone2.png"></image>
-          </view>
-          <text bindtap='call400' class="bt-text" style="color:#54a54c;">详情咨询</text>
-        </view>
-        <button data-product="xl" open-type="getUserInfo" bindgetuserinfo='showPayDetail' class="bt2" style="background:#ff8b0e">立即开通</button>
-      </view>
-    </view>
-  </view>
-
   <!-- 联系本地运营商,享受专属折扣优惠 -->
   <view wx:if="{{hasCompany}}" class="service" bindtap='tel'>
     <view class="service-text1">联系本地运营商,享受专属折扣优惠</view>

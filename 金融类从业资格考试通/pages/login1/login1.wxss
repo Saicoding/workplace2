@@ -61,7 +61,7 @@
 .login-text {
   display: float;
   float: left;
-  font-size: 35rpx;
+  font-size: 30rpx;
   letter-spacing: 7rpx;
 }
 

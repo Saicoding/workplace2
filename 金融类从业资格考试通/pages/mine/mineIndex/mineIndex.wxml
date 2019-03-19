@@ -11,6 +11,9 @@
     <view class="nickname">{{user.Nickname}}
       <span style="font-size:25rpx;">({{user.username}})</span>
     </view>
+
+    <image class="up-backimg1" src="/imgs/img-head.png"></image>
+    <image class="up-backimg2" src="/imgs/front-back.png"></image>
   </view>
 
   <scroll-view scroll-y style="height:{{windowHeight-310}}rpx;">
@@ -44,8 +47,8 @@
 
     <view class="mycontainer">
       <view class="line" hover-class='select' hover-stay-time='100'>
-        <view class="block" style = "border-bottom:none">
-          <image class="left-img" src="/imgs/set.png" mode="aspectFit" style="width:40rpx;height:40rpx;margin-top:31rpx;margin-left:9rpx;"></image>
+        <view class="block" style="border-bottom:none">
+          <image class="left-img" src="/imgs/set.png" mode="aspectFit" style="width:35rpx;height:35rpx;margin-top:34rpx;margin-left:9rpx;"></image>
           <view class="mytext" bindtap='GOset'>
             设置
           </view>

@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+            "pages/pay/pay",
     "pages/logs/logs",
     "pages/tiku/zuoti/zuoti",
     "pages/login1/login1",
@@ -16,7 +17,6 @@
     "pages/esoterica/esoterica",
     "pages/mine/mineIndex/mineIndex",
     "pages/phoneLogin/phoneLogin",
-    "pages/pay/pay",
     "pages/kaodianDetail/kaodianDetail",
     "pages/mine/mineRadar/mineRadar",
     "pages/mine/message/message",

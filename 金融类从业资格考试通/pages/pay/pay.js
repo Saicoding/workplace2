@@ -1,5 +1,5 @@
 // pages/pay/pay.js
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com'; //接口地址
 const app = getApp(); //获取app对象
 let md5 = require('../../common/MD5.js');
 Page({
@@ -15,13 +15,13 @@ Page({
    */
   onLoad: function(options) {
     let self = this;
-    let goBack = options.goBack;
-    goBack = goBack == undefined?"false":goBack;
 
     wx.getUserInfo({
       success: function(res) {
         let city = res.userInfo.city;
+        console.log("action=getDlInfo&city=" + city)
         app.post(API_URL, "action=getDlInfo&city=" + city, false, true, "").then((res) => {
+          console.log(res)
           if (res.data.data.length == 0) { //如果没有城市代理
             self.setData({ //设置成没有城市代理
               hasCompany: false
@@ -31,9 +31,8 @@ Page({
             let tel = res.data.data[0].Tel
             self.setData({
               company: company,
-              tel: tel,
-              goBack: goBack,
-              hasCompany: true
+              hasCompany: true,
+              tel: tel
             })
           }
         })
@@ -65,16 +64,18 @@ Page({
    */
   onReady:function(){
     let self = this;
-    this.payDetail = this.selectComponent("#payDetail");
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function (res) { //转换窗口高度
         let windowHeight = res.windowHeight;
         let windowWidth = res.windowWidth;
+        let platform = res.platform;
+
         windowHeight = (windowHeight * (750 / windowWidth));
         self.setData({
           windowWidth: windowWidth,
-          windowHeight: windowHeight
+          windowHeight: windowHeight,
+          platform: platform 
         })
       }
     });

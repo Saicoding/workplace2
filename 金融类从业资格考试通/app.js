@@ -41,6 +41,7 @@ App({
           let status = res.data.status;
           let message = res.data.message;
           if (status == 1) {//请求成功
+     
             resolve(res);
           } else if(status == -2){//没有权限
             console.log('没有权限')
@@ -72,13 +73,17 @@ App({
               duration: 3000
             })
           }else if(status == -201){
-            console.log('权限不足')
-            console.log(message)
-            wx.showToast({
-              title:message,
-              icon:'none',
-              duration:3000
+            wx.navigateTo({
+              url: '/pages/pay/pay',
+              success:function(){
+                wx.showToast({
+                  title: message,
+                  icon: 'none',
+                  duration: 3000
+                })
+              }
             })
+            
           }else{
             console.log(res);
             wx.showToast({
