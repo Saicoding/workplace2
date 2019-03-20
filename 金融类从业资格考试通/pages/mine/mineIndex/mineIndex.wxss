@@ -19,6 +19,7 @@
   height:150rpx;
   border-radius: 150rpx;
   margin: 0 auto;
+  border:1rpx solid rgb(202, 202, 202);
 }
 
 .message{
