@@ -1,7 +1,6 @@
 // pages/hasNoErrorShiti/hasNoErrorShiti.js
 const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 const app = getApp(); //获取app对象
-let validate = require('../../common/validate.js');
 let buttonClicked = false;
 Page({
 
@@ -263,8 +262,9 @@ Page({
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
-
-        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true) //验证重复登录
+        wx.navigateTo({
+          url: url1,
+        })
       },
       fail: function(res) { //如果没有username就跳转到登录界面
         wx.navigateTo({

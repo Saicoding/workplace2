@@ -49,8 +49,8 @@ Page({
       success: function(res) {
         let city = res.userInfo.city;
         let province = res.userInfo.province;
-   
-        app.post(API_URL, "action=getDlInfo&city=" + city + "&province=" + province, false, true, "").then((res) => {
+        
+        app.post(API_URL, "action=getDlInfo&city=" + city + "&province=" + province+"&xcx=jinrong", false, true, "").then((res) => {
           if (res.data.data.length == 0) { //如果没有城市代理
             self.setData({ //设置成没有城市代理
               hasCompany: false
@@ -114,9 +114,11 @@ Page({
    * 点击返回按钮
    */
   onUnload: function() {
-    let goBack = this.data.goBack;
-    if(goBack == "false"){
-      wx.navigateBack({})
+    let isPay = this.data.isPay;
+    if (!isPay){
+      wx.navigateBack({
+        delta: 2
+      })
     }
   },
 
@@ -207,7 +209,9 @@ Page({
                       // prevPage.setData({
                       //   buied: product
                       // })
-    
+                      self.setData({
+                        isPay:true
+                      })
                       wx.navigateBack({})
                       wx.showToast({
                         title: '购买成功',

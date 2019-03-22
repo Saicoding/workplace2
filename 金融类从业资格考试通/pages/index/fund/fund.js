@@ -6,7 +6,6 @@
  */
 const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 const app = getApp(); //获取app对象
-let validate = require('../../../common/validate.js');
 let share = require('../../../common/share.js');
 let colors = share.getColors('jj');
 let buttonClicked = false;
@@ -411,7 +410,9 @@ Page({
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
-        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true)
+        wx.navigateTo({
+          url: url1,
+        })
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
@@ -440,7 +441,6 @@ Page({
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
-        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true)
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
@@ -469,7 +469,6 @@ Page({
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
-        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true)
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
@@ -502,7 +501,6 @@ Page({
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
-        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true)
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({

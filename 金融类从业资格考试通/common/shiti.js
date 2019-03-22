@@ -600,6 +600,7 @@ function changeSelectStatus(done_daan, shiti, ifSubmit) {
 
   switch (shiti.tx) {
     case "单选题":
+    case "判断题":
       srcs[shiti.answer] = "/imgs/right_answer.png" //将正确答案的图标变为正确图标
       //先判断是否正确
       if (done_daan != shiti.answer) {
@@ -657,6 +658,7 @@ function changeModelRealSelectStatus(done_daan, shiti, ifSubmit) {
 
   switch (shiti.tx) {
     case "单选题":
+    case "判断题":
       shiti.srcs[done_daan] = "/imgs/right_answer.png";
       //先判断是否正确
       if (done_daan != shiti.answer) {

@@ -84,7 +84,7 @@ App({
             })
             
           }else{
-            console.log(res);
+            console.log(res)
             wx.showToast({
               title: message,
               icon: 'none',

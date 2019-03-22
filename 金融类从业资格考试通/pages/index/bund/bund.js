@@ -6,7 +6,6 @@
  */
 const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 const app = getApp(); //获取app对象
-let validate = require('../../../common/validate.js');
 let share = require('../../../common/share.js');
 let colors = share.getColors('zq');
 let buttonClicked = false;
@@ -37,12 +36,12 @@ Page({
 
     let user = wx.getStorageSync('user');
     this.setWindowWidthHeightScrollHeight(); //获取窗口高度 宽度 并计算章节滚动条的高度
-
+    console.log(2)
     app.post(API_URL, "action=SelectZj&typesid=274").then((res) => {
       this.setZhangjie(res.data.list); //得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
-
+      console.log(3)
       app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id, true, true, "请稍后").then((res) => { //得到上一步设置的题库下的所有章节
-
+        console.log('haha')
         let zhangjie = res.data.list //得到所有章节
         let answer_nums_array = [] //答题数目array
         this.initZhangjie(zhangjie, answer_nums_array) //初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
@@ -155,6 +154,7 @@ Page({
       });
     }
 
+    console.log(1)
     app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id, true, false, "载入题库中").then((res) => {
       let answer_nums_array = [] //答题数目array
 
@@ -389,6 +389,7 @@ Page({
       title = title.replace(/第\S{0,2}节\s*(\S+)/g, "$1"); //把第几节字样去掉
     }
 
+
     //如果章节没有字节,将章节总题数置为做题数
     let nums = 0;
     if (zhangjie[zhangIdx].zhangjie_child.length != 0) {
@@ -407,7 +408,9 @@ Page({
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
-        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true)
+        wx.navigateTo({
+          url: url1,
+        })
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
@@ -436,7 +439,6 @@ Page({
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
-        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true)
       },
       fail: function(res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
@@ -466,7 +468,6 @@ Page({
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
-        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true)
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
@@ -499,7 +500,6 @@ Page({
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
-        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true)
       },
       fail: function(res) { //如果没有username就跳转到登录界面
         wx.navigateTo({

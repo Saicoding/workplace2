@@ -8,7 +8,7 @@
   <view class="bottom-text" style="color:#666666;font-size:30rpx;">收藏</view>
 </view>
 
-<view class="bottom-block" style = "margin-left:50rpx;">
+<view class="bottom-block" style = "margin-left:40rpx;">
   <image src="/imgs/right.png" mod="aspectFit" class="bottom-img"></image>
   <view class="bottom-text" style="color:#5ebded;width:30rpx;height:30rpx;margin-left:20rpx;">{{rightNum}}</view>
 </view>

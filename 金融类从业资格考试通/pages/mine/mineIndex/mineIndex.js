@@ -2,7 +2,6 @@
 const API_URL = 'https://xcx2.chinaplat.com/jinrong/'; //接口地址
 const app = getApp();
 let animate = require('../../../common/animate.js');
-let validate = require('../../../common/validate.js');
 let util = require('../../../utils/util.js');
 
 let easeOutAnimation = animate.easeOutAnimation();
@@ -218,8 +217,6 @@ Page({
     let zcode = user.zcode;
     let LoginRandom = user.Login_random;
     let pwd = user.pwd
-
-    validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true) //验证重复登录
 
   },
   /**

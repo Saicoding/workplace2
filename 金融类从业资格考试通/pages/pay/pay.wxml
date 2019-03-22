@@ -8,7 +8,7 @@
 
     <view class="block1">
       <text class="text1"> {{category?category:'金融类从业资格考试'}}</text>
-      <view class="text2">全试题解锁 399
+      <view class="text2">全试题解锁 499
         <span style="font-size:23rpx;margin-left:5rpx;">元</span>
       </view>
       <view class="bt-block">

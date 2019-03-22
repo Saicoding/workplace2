@@ -4,7 +4,6 @@ const app = getApp(); //获取app对象
 let common = require('../../../../common/shiti.js');
 let share = require('../../../../common/share.js');
 
-let validate = require('../../../../common/validate.js');
 let buttonClicked = false;
 
 Page({
@@ -100,9 +99,9 @@ Page({
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
-
-        //验证重复登录:  参数:1.url1  没转码的url  2.url 转码的url 3.true 代码验证如果是重复登录是否跳转到要导向的页面
-        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true)
+        wx.navigateTo({
+          url: url1,
+        })
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
