@@ -4,6 +4,8 @@ let myTime = require('time.js');
 let animate = require('animate.js')
 let easeOutAnimation = animate.easeOutAnimation();
 let easeInAnimation = animate.easeInAnimation();
+let share = require('share.js')
+
 /**
  * 初始化试题
  */
@@ -36,7 +38,7 @@ function initShiti(shiti, self) {
     shiti.C_checked = false;
     shiti.D_checked = false;
     shiti.E_checked = false;
-  } else if(TX =3){//判断
+  } else if(TX ==3){//判断
     shiti.tx = "判断题"
     shiti.srcs = { //定义初始图片对象(多选)
       "A": "/imgs/A.png",
@@ -45,6 +47,40 @@ function initShiti(shiti, self) {
       "D": "/imgs/D.png",
       "E": "/imgs/E.png"
     };
+  } else if (TX == 99) { //材料
+    shiti.tx = "材料题";
+    shiti.doneAnswer = [];
+    let xiaoti = shiti.xiaoti;
+    for (let i = 0; i < xiaoti.length; i++) {
+      let ti = xiaoti[i];
+      ti.isAnswer = false; //默认不回答
+
+      if (ti.TX == 1) {
+        ti.tx = "单选题";
+        ti.checked = false;
+        ti.srcs = { //定义初始图片对象(单选)
+          "A": "/imgs/A.png",
+          "B": "/imgs/B.png",
+          "C": "/imgs/C.png",
+          "D": "/imgs/D.png"
+        };
+      } else if (ti.TX == 2) {
+        ti.tx = "多选题";
+        ti.checked = false;
+        ti.srcs = { //定义初始图片对象(多选)
+          "A": "/imgs/A.png",
+          "B": "/imgs/B.png",
+          "C": "/imgs/C.png",
+          "D": "/imgs/D.png",
+          "E": "/imgs/E.png"
+        };
+        ti.A_checked = false;
+        ti.B_checked = false;
+        ti.C_checked = false;
+        ti.D_checked = false;
+        ti.E_checked = false;
+      }
+    }
   }
 }
 /**
@@ -60,6 +96,18 @@ function initNewWrongArrayDoneAnswer(shitiArray, page) {
         break;
       case 2:
         shitiArray[i].done_daan = [];
+        break;
+      case 99:
+        shitiArray[i].done_daan = [];
+        shitiArray[i].confirm = false;
+        for (let j = 0; j < shitiArray[i].xiaoti.length; j++) {
+          let ti = shitiArray[i].xiaoti[j];
+          if (ti.TX == 1) {
+            ti.done_daan = "";
+          } else {
+            ti.done_daan = [];
+          }
+        }
         break;
     }
   }
@@ -138,6 +186,27 @@ function processTapLianxiAnswer(midShiti, preShiti, nextShiti, px, current, circ
     checked: false,
     isLoaded: true,
   })
+  //如果是材料题就判断是否动画
+  if (midShiti.TX == 99) {
+    let str = "#q" + px;
+    share.ifOverHeight(self, midShiti.xiaoti[0], sliderShitiArray)
+    let questionStr = midShiti.question;//问题的str
+    let height = getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+
+    height = height >= 400 ? 400 : height;
+
+    let question = self.selectComponent(str);
+
+    animate.blockSpreadAnimation(90, height, question);
+
+    question.setData({//每切换到材料题就把占位框复位
+      style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"   
+    })
+
+    self.setData({
+      height: height
+    })
+  }
 }
 
 /**
@@ -211,6 +280,27 @@ function processTapWrongAnswer(midShiti, preShiti, nextShiti, px, current, circu
     lastSliderIndex: current,
     checked: false
   })
+
+  //如果是材料题就判断是否动画
+  if (midShiti.TX == 99) {
+    let str = "#q" + px;
+    let questionStr = midShiti.question; //问题的str
+    let height = getQuestionHeight(questionStr); //根据问题长度，计算应该多高显示
+
+    height = height >= 400 ? 400 : height;
+
+    let question = self.selectComponent(str);
+
+    animate.blockSpreadAnimation(90, height, question); //占位框动画
+
+    question.setData({
+      style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"
+    })
+
+    self.setData({
+      height: height
+    })
+  }
 }
 
 
@@ -310,15 +400,8 @@ function getNewShitiArray(shitiArray) {
   for (let i = 0; i < shitiArray.length; i++) {
     let shiti = shitiArray[i]; //原试题
 
-    if (shiti.TX == 1 || shiti.TX == 2 || shiti.TX == 3) {
-      newShitiArray.push(shiti);
-    } else {
-      for (let j = 0; j < shiti.xiaoti.length; j++) {
-        let ti = shiti.xiaoti[j]; //小题
-        ti.cl = i + 1;
-        newShitiArray.push(ti);
-      }
-    }
+    newShitiArray.push(shiti);
+    
   }
   return newShitiArray;
 }
@@ -459,6 +542,7 @@ function setMarkAnswer(shiti, isModelReal, isSubmit, self) {
   if (isModelReal && isSubmit == false) { //如果是真题或者押题
     style = "color:white;border:1rpx solid #fd7f2b;background: linear-gradient(to right, #fd781f, #f9ba91);"
   } else if (shiti.flag == 0) { //如果题是正确的
+    console.log('jind')
     style = "background:#90dd35;color:white;border:1rpx solid #90dd35; "
   } else if (shiti.flag == 1) { //如果题是错误的
     style = "background:#fa4b5c;color:white;border:1rpx solid #fa4b5c; "
@@ -484,7 +568,6 @@ function storeAnswerStatus(shiti, self) {
   let user = self.data.user;
   let username = user.username
 
-  console.log("shiti" + self.data.zhangjie_id + username)
   let answer_nums_array = wx.getStorageSync("shiti" + self.data.zhangjie_id + username);
 
   let obj = {
@@ -536,7 +619,6 @@ function storeModelRealAnswerStatus(shiti, self) {
     "isRight": shiti.flag,
     "px": shiti.px,
   }
-
 
 
   for (let i = 0; i < answer_nums_array.length; i++) {
@@ -701,9 +783,30 @@ function changeModelRealSelectStatus(done_daan, shiti, ifSubmit) {
  * 对已答试题进行处理（练习题）
  */
 function processDoneAnswer(done_daan, shiti, self) {
-  if (done_daan != "") {
-    changeSelectStatus(done_daan, shiti) //根据得到的已答数组更新试题状态
-    shiti.isAnswer = true;
+
+  switch (shiti.tx) {
+    case "单选题":
+    case "多选题":
+    case "判断题":
+      if (done_daan != "") {
+        changeSelectStatus(done_daan, shiti) //根据得到的已答数组更新试题状态
+        shiti.isAnswer = true;
+      }
+      break;
+    case "材料题":
+      if (done_daan != "") { //如果材料题已答
+        for (let i = 0; i < shiti.xiaoti.length; i++) {
+          let ti = shiti.xiaoti[i]; //小题
+          for (let j = 0; j < done_daan.length; j++) {
+            let xt_done_daan = done_daan[j]; //小题已答答案对象
+            if (i + 1 == xt_done_daan.px) { //找到对应小题
+              changeSelectStatus(xt_done_daan.done_daan, ti) //根据得到的已答数组更新试题状态
+              break;
+            }
+          }
+        }
+      }
+      break;
   }
 }
 /**
@@ -776,9 +879,8 @@ function changeMultiShiti(done_daan, shiti) {
  */
 function postAnswerToServer(LoginRandom, zcode, id, flag, done_daan, app, API_URL) {
   //向服务器提交做题结果
-  console.log("action=saveShitiResult&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&tid=" + id + "&flag=" + flag + "&answer=" + done_daan)
   app.post(API_URL, "action=saveShitiResult&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&tid=" + id + "&flag=" + flag + "&answer=" + done_daan, false).then((res) => {
-    console.log(res)
+ 
   })
 }
 
@@ -799,7 +901,6 @@ function storeLastShiti(px, self) {
   } else { //如果没有子节
     last_view_key = 'last_view' + self.data.zhangjie_id + zhangIdx + username;
   }
-  console.log(last_view_key)
   //本地存储最后一次访问的题目
   wx.setStorage({
     key: last_view_key,
@@ -981,6 +1082,18 @@ function initShitiArrayDoneAnswer(shitiArray) {
         break;
       case 2:
         shitiArray[i].done_daan = [];
+        break;
+      case 99:
+        shitiArray[i].done_daan = [];
+        shitiArray[i].confirm = false;
+        for (let j = 0; j < shitiArray[i].xiaoti.length; j++) {
+          let ti = shitiArray[i].xiaoti[j];
+          if (ti.TX == 1) {
+            ti.done_daan = "";
+          } else {
+            ti.done_daan = [];
+          }
+        }
         break;
     }
   }
@@ -1195,6 +1308,7 @@ function getQuestionHeight(str) {
   let total_length = word_length + Math.ceil(num / 2) + 7;
 
   let height = Math.ceil(total_length / 19) * 45; //行高是45rpx
+
   return height;
 }
 

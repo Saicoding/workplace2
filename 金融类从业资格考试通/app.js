@@ -84,6 +84,7 @@ App({
             })
             
           }else{
+            console.log(url+"?"+data)
             console.log(res)
             wx.showToast({
               title: message,

@@ -4,6 +4,7 @@ let common = require('../../../common/shiti.js');
 let animate = require('../../../common/animate.js')
 let share = require('../../../common/share.js')
 let post = require('../../../common/post.js');
+let isFold = true; //默认都是折叠的
 
 let data = require('../../../data/data.js')
 
@@ -49,6 +50,7 @@ Page({
     //获得dialog组件
     this.markAnswer = this.selectComponent("#markAnswer");
     this.errorRecovery = this.selectComponent("#errorRecovery");
+    this.clJiexi = this.selectComponent("#clJiexi");
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
         let windowHeight = res.windowHeight;
@@ -60,6 +62,39 @@ Page({
         })
       }
     });
+  },
+
+  /**
+ * 切换问题的动画
+ */
+  _toogleAnimation: function () {
+    let self = this;
+
+    let px = self.data.px; //当前px
+    let str = "#q" + px; //当前问题组件id
+    let question = self.selectComponent(str); //当前问题组件
+
+    let shitiArray = self.data.shitiArray; //当前试题数组
+    let shiti = shitiArray[px - 1]; //当前试题
+    let height = self.data.height;
+
+    if (!shiti.isAnswer && !shiti.confirm) return;
+
+    if (isFold) {
+      question.setData({
+        style2: "positon: fixed; left: 20rpx;height:" + height + "rpx"
+      })
+      // animate.questionSpreadAnimation(90, height, question);
+      animate.blockSpreadAnimation(90, height, question);
+      isFold = false;
+    } else {
+      question.setData({
+        style2: "positon: fixed; left: 20rpx;height:90rpx"
+      })
+      // animate.questionFoldAnimation(height, 90, question);
+      animate.blockFoldAnimation(height, 90, question);
+      isFold = true;
+    }
   },
 
   /**
@@ -163,6 +198,7 @@ Page({
     let preShiti = undefined; //前一题
     let nextShiti = undefined; //后一题
     let midShiti = shitiArray[px - 1]; //中间题
+    
     myFavorite = midShiti.favorite;
 
     //每次滑动结束后初始化前一题和后一题
@@ -254,6 +290,165 @@ Page({
       checked: false
     })
 
+    //如果是材料题就判断是否动画
+    if (midShiti.TX == 99) {
+      let str = "#q" + px;
+      share.ifOverHeight(self, midShiti.xiaoti[0], sliderShitiArray)
+      let questionStr = midShiti.question;//问题的str
+      let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+
+      height = height >= 400 ? 400 : height;
+
+      let question = self.selectComponent(str);
+
+      animate.blockSpreadAnimation(90, height, question);
+
+      question.setData({//每切换到材料题就把占位框复位
+        style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"   
+      })
+
+      self.setData({
+        height: height
+      })
+    }
+
+  },
+
+  /**
+   * 小题滑块改动时
+   */
+  xtSliderChange: function (e) {
+    if (e.detail.source != 'touch') return;//如果不是手动滑动就返回
+    let self = this;
+    let lastSliderIndex = self.data.lastSliderIndex;
+    let sliderShitiArray = self.data.sliderShitiArray;
+    let sliderShiti = sliderShitiArray[lastSliderIndex];//当前材料题
+    let xtCurrent = e.detail.current;
+    let xt = sliderShiti.xiaoti[xtCurrent];//当前小题
+
+    share.ifOverHeight(self, xt, sliderShitiArray)
+
+    this.setData({
+      xtCurrent: xtCurrent
+    })
+  },
+
+  /**
+ * 材料题点击查看解析
+ */
+  viewJiexi: function (e) {
+    let jiexi = e.currentTarget.dataset.jiexi;
+    let answer = e.currentTarget.dataset.answer;
+
+    this.setData({
+      cl_jiexi: jiexi,
+      cl_answer: answer
+    })
+
+    this.clJiexi.showDialog();
+  },
+
+  /**
+    * 材料题作答
+    */
+  _CLAnswerSelect: function (e) {
+    let self = this;
+    let px = e.currentTarget.dataset.px;
+
+    let shitiPX = self.data.px;//试题的px
+    let shitiArray = self.data.shitiArray
+    let shiti = shitiArray[shitiPX - 1]; //本试题对象
+    let done_daan = "";
+    let xiaoti = shiti.xiaoti;
+    let user = self.data.user;
+
+    let sliderShitiArray = self.data.sliderShitiArray;
+    let current = self.data.lastSliderIndex//当前滑动编号
+    let currentShiti = sliderShitiArray[current];
+    let currentXiaoti = currentShiti.xiaoti
+
+    if (shiti.isAnswer) return;
+
+    shiti.flag = 0;
+
+    for (let i = 0; i < xiaoti.length; i++) {
+      if (xiaoti[i].flag == 1) shiti.flag = 1;
+      if (px - 1 == i) { //找到对应的小题
+        if (xiaoti[i].isAnswer) return;
+        done_daan = xiaoti[i].TX == 1 || xiaoti[i].TX == 3? e.detail.done_daan : xiaoti[i].selectAnswer; //根据单选还是多选得到done_daan,多选需要排序
+        if (xiaoti[i].TX == 2 && xiaoti[i].selectAnswer == undefined) {
+          wx.showToast({
+            title: '还没有作答 !',
+            icon: 'none',
+          })
+          return;
+        }
+        common.changeSelectStatus(done_daan, xiaoti[i], self); //改变试题状态
+        common.changeSelectStatus(done_daan, currentXiaoti[i], self); //改变试题状态
+        if (xiaoti[i].flag == 1) shiti.flag = 1; //如果小题错一个,整个材料题就是错的
+
+        shiti.doneAnswer.push({
+          'px': px,
+          'done_daan': done_daan
+        }); //向本材料题的已答数组中添加已答题目px 和 答案信息
+
+        if (shiti.doneAnswer.length == xiaoti.length) { //说明材料题已经全部作答
+          shiti.done_daan = shiti.doneAnswer; //设置该试题已作答的答案数组
+          shiti.isAnswer = true;
+
+          common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
+          console.log(1)
+          console.log(user)
+          common.postAnswerToServer(user.Login_random, user.zcode, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结
+          console.log(2)
+          common.storeAnswerStatus(shiti, self); //存储答题状态
+          console.log(3)
+          common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self) //更新答题板状态
+          console.log(4)
+          common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
+          console.log(5)
+        }
+      }
+    }
+    this.setData({
+      sliderShitiArray: sliderShitiArray,
+      shitiArray: shitiArray
+    })
+  },
+
+  /**
+   * 材料题点击开始作答按钮
+   */
+  CLZuoti: function (e) {
+    let self = this;
+
+    let str = "#q" + self.data.px;
+    let question = self.selectComponent(str);
+
+    let px = self.data.px;
+    let lastSliderIndex = self.data.lastSliderIndex;
+    let shitiArray = self.data.shitiArray;
+    let sliderShitiArray = self.data.sliderShitiArray;
+    let shiti = shitiArray[px - 1];
+    let height = self.data.height;
+
+    let sliderShiti = sliderShitiArray[lastSliderIndex];
+    shiti.confirm = true;
+    sliderShiti.confirm = true;
+
+    question.setData({
+      style2: "positon: fixed; left: 20rpx;height:90rpx", //问题框"   
+    })
+
+    animate.blockFoldAnimation(height, 90, question);
+    isFold = true;
+
+    share.ifOverHeight(self, sliderShiti.xiaoti[0], sliderShitiArray);
+
+    self.setData({
+      shitiArray: shitiArray,
+      sliderShitiArray: sliderShitiArray
+    })
   },
 
 
@@ -338,19 +533,15 @@ Page({
    */
   onShow: function(e) {
     let self = this;
-    console.log(1)
     let options = self.data.options;
     let category = options.category; //试题种类
     let colors = share.getColors(category); //配色方案
-    console.log(2)
 
     share.setColor(category, false, false); //设置tabbar颜色
-    console.log(3)
 
     wx.setNavigationBarTitle({
       title: options.title
     }) //设置标题
-    console.log(4)
 
     let user = wx.getStorageSync('user');
 
@@ -376,9 +567,7 @@ Page({
       page = ((px - 1) - (px - 1) % 10) / 10 + 1; //当前页
     }
 
-    console.log("action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + options.z_id + "&zcode=" + zcode + "&page=" + page)
     app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + options.z_id + "&zcode=" + zcode + "&page=" + page, false, false, "", "", false, self).then((res) => {
-      console.log(res)
       let shitiArray = res.data.shiti;
       let all_nums = res.data.all_nums;
       let pageall = res.data.pageall;
@@ -611,8 +800,6 @@ Page({
     } else {
       common.processTapLianxiAnswer(midShiti, preShiti, nextShiti, px, current, circular, shitiArray, self);
     }
-
-    console.log(self.data.shitiArray)
 
   },
   /**

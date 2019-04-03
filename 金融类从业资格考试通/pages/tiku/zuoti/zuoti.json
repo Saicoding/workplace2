@@ -7,6 +7,7 @@
     "multiSelect": "/components/multiSelect/multiSelect",
     "jiexi": "/components/jiexi/jiexi",
     "errorRecovery":"/components/errorRecovery/errorRecovery",
-    "hasNoPage":"/components/hasNoPage/hasNoPage"
+    "hasNoPage":"/components/hasNoPage/hasNoPage",
+    "clJiexi": "/components/clJiexi/clJiexi"
   }
 }

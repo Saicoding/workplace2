@@ -1,0 +1,21 @@
+<!--components/Dialog/dialog.wxml-->
+<view hidden="{{!isShow}}" class="container-out" catchtap='stopBubbling'>
+  <view class="container-in">
+      <view class="jiexi_border" >
+        <view class="line"></view>
+        <text class="txt">试题详解</text>
+        <view class="line"></view>
+      </view>
+
+      <!-- 解析描述 -->
+      <view class='jiexi' >
+        <text space='nbsp' class="jiexi-text1">答案  {{cl_answer}}</text>
+        <view class="jiexi-text2">
+          <span style="color:black;">宝典秘籍：</span>{{cl_jiexi}}</view>
+      </view>
+    </view>
+
+</view>
+
+<view wx:if="{{isShow}}" class="modal" bindtap="tapBlank">
+</view>

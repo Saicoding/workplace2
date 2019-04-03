@@ -12,6 +12,7 @@
 }
 
 .mycontainer{
+  width:700rpx;
   line-height: 45rpx;
   padding-top:10rpx;
   padding-left:25rpx;

@@ -47,7 +47,6 @@ Page({
         let answer_nums_array = [] //答题数目array
         this.initZhangjie(zhangjie, answer_nums_array) //初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
 
-        // wx.clearStorage(self.data.zhangjie_id)
         // 得到存储答题状态
         wx.getStorage({
           key: 'user',

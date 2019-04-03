@@ -1,9 +1,12 @@
 <view id="myscroll" class="outContainer" style="{{style3}}">
-  <view style="{{style2}}"  class="mycontainer" bindtap="toogleShow">
+  <scroll-view style="{{style2}}" scroll-y="{{tx == '材料题'?true:false}}" class="mycontainer" bindtap="toogleShow">
     <view class="question-block1">
-      <view class="qustion-num-text" style="background:{{tx=='单选题'||tx=='判断题'?colors[0]:colors[3]}}">{{px}}</view>
-      <view class="qustion-select" style="color:{{tx=='单选题'||tx=='判断题'?colors[0]:colors[3]}}">【{{tx}}】</view>
+      <view class="qustion-num-text" style="background:{{bgColor}}">{{px}}</view>
+      <view class="qustion-select" style="color:{{bgColor}}">【{{tx}}】</view>
     </view>
     <text>{{question}}</text>
-  </view>
+  </scroll-view>
+</view>
+
+<view wx:if="{{tx=='材料题'}}" class="blank" style="{{style1}}">
 </view>
