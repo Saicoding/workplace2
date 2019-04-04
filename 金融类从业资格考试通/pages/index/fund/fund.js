@@ -441,6 +441,9 @@ Page({
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
+        wx.navigateTo({
+          url: url1,
+        })
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
@@ -469,6 +472,9 @@ Page({
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
+        wx.navigateTo({
+          url: url1,
+        })
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
@@ -501,6 +507,9 @@ Page({
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
+        wx.navigateTo({
+          url: url1,
+        })
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({

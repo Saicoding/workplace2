@@ -31,13 +31,24 @@
 }
 
 .container{
-  box-shadow: rgb(231, 230, 230) 3rpx 3rpx 8rpx 1rpx ;
   border-radius: 20rpx;
-  width:93%;
+  width:100%;
   height:90%;
   margin:20rpx auto;
   overflow-x: hidden;
   padding-bottom:30rpx;
+}
+
+.viewJiexi{
+  font-size:25rpx;
+  height:40rpx;
+  width:200rpx;
+  border:1rpx solid #0197f6;
+  line-height: 40rpx;
+  border-radius: 40rpx;
+  color:#0197f6;
+  margin:20rpx auto;
+  text-align: center;
 }
 
 
@@ -61,7 +72,7 @@
   margin:50rpx auto;
   height:80rpx;
   border-radius: 60rpx;
-  background: #388ff8;
+  background: #c71585;
   color:white;
   line-height: 80rpx;
   border:1rpx solid white;
@@ -91,10 +102,11 @@ page {
 
 .cailiaoZuoti-btn{
   width:300rpx;
-  height:80rpx;
+  height:60rpx;
   border-radius: 60rpx;
-  background: #388ff8;
+  background: #c71585;
   color:white;
   margin-top:40rpx;
-  line-height: 80rpx;
+  line-height: 60rpx;
+  font-size:28rpx;
 }

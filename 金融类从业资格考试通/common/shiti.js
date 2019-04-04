@@ -536,9 +536,11 @@ function setMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubmit, self)
  * 设置单个答题板
  */
 function setMarkAnswer(shiti, isModelReal, isSubmit, self) {
+  console.log('hasdhf')
   let markAnswerItems = self.markAnswer.data.markAnswerItems; //得到答题板组件的已答
   let px = shiti.px;
   let style = "";
+  console.log('hahah')
   if (isModelReal && isSubmit == false) { //如果是真题或者押题
     style = "color:white;border:1rpx solid #fd7f2b;background: linear-gradient(to right, #fd781f, #f9ba91);"
   } else if (shiti.flag == 0) { //如果题是正确的
@@ -1004,12 +1006,15 @@ function lianxiRestart(self) {
       isLoaded:false
     })
     app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + z_id + "&zcode=" + zcode + "&page=1", false, false, "", "", false, self).then((res) => {
+      console.log(res)
       pageArray.push(1);
 
       let newWrongShitiArray = res.data.shiti;
 
       initNewWrongArrayDoneAnswer(newWrongShitiArray, 0); //将试题的所有done_daan置空
-
+      for (let i = 0; i < newWrongShitiArray.length; i++) {
+        shitiArray[i] = newWrongShitiArray[i];
+      }
       //得到swiper数组
       let nextShiti = undefined;//后一题
       let midShiti = shitiArray[0];//中间题
@@ -1022,7 +1027,8 @@ function lianxiRestart(self) {
         initShiti(nextShiti, self); //初始化试题对象
       }
 
-      circular = false //如果滑动后编号是1,或者最后一个就禁止循环滑动
+      console.log(midShiti)
+
       let myFavorite = midShiti.favorite;
 
       if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;

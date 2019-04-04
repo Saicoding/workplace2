@@ -416,6 +416,8 @@ Page({
     })
   },
 
+  
+
   /**
    * 材料题点击开始作答按钮
    */
@@ -538,6 +540,8 @@ Page({
     let colors = share.getColors(category); //配色方案
 
     share.setColor(category, false, false); //设置tabbar颜色
+
+
 
     wx.setNavigationBarTitle({
       title: options.title

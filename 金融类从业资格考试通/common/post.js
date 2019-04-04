@@ -85,8 +85,6 @@ function zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, 
       myCurrent: 1
     })
   }
-  console.log(shitiArray)
-  console.log(midShiti)
 
   self.setData({
     z_id: options.z_id, //点击组件的id编号
@@ -134,7 +132,6 @@ function zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, 
     self.setData({
       height: height,
     })
-
   }
 }
 
@@ -190,8 +187,27 @@ function markOnload(options, px, circular, myFavorite, res, user, colors, catego
     isLoaded: true, //是否已经载入完毕,用于控制过场动画
     user: user
   });
+  //如果是材料题就有动画
+  if (midShiti.TX == 99) {
 
-  wx.hideLoading();
+    let str = "#q" + px;
+    share.ifOverHeight(self, midShiti.xiaoti[0], sliderShitiArray)
+    let questionStr = midShiti.question; //问题的str
+    let height = common.getQuestionHeight(questionStr); //根据问题长度，计算应该多高显示
+
+    height = height >= 400 ? 400 : height;
+
+    let question = self.selectComponent(str);
+
+    animate.blockSpreadAnimation(90, height, question); //占位框动画
+    question.setData({
+      style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"
+    })
+
+    self.setData({
+      height: height,
+    })
+  }
 }
 
 
@@ -257,7 +273,27 @@ function wrongOnload(options, px, circular, myFavorite, res, user, requesttime, 
     requesttime: requesttime, //第一次请求的时间
   });
 
-  wx.hideLoading();
+  //如果是材料题就有动画
+  if (midShiti.TX == 99) {
+
+    let str = "#q" + px;
+    share.ifOverHeight(self, midShiti.xiaoti[0], sliderShitiArray)
+    let questionStr = midShiti.question; //问题的str
+    let height = common.getQuestionHeight(questionStr); //根据问题长度，计算应该多高显示
+
+    height = height >= 400 ? 400 : height;
+
+    let question = self.selectComponent(str);
+
+    animate.blockSpreadAnimation(90, height, question); //占位框动画
+    question.setData({
+      style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"
+    })
+
+    self.setData({
+      height: height,
+    })
+  }
 }
 
 module.exports = {

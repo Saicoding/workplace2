@@ -426,6 +426,7 @@ Page({
    */
   GOAnswerWrong: function (e) {
     this.waterWave.containerTap(e);
+    console.log(buttonClicked)
     if (buttonClicked) return;
     buttonClicked = true;
     let self = this;
@@ -436,10 +437,9 @@ Page({
     wx.getStorage({
       key: 'user',
       success: function (res) { //如果已经登陆过
-        let user = res.data;
-        let zcode = user.zcode;
-        let LoginRandom = user.Login_random;
-        let pwd = user.pwd
+        wx.navigateTo({
+          url: url1,
+        })
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
@@ -468,6 +468,9 @@ Page({
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
+        wx.navigateTo({
+          url: url1,
+        })
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
@@ -500,6 +503,9 @@ Page({
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
+        wx.navigateTo({
+          url: 'url1',
+        })
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
@@ -541,6 +547,7 @@ Page({
     share.setColor("qh", true, true);
 
     let self = this;
+    console.log('haha')
     buttonClicked = false;
     let zhangjie = self.data.zhangjie;
     if (!self.data.loaded) return //如果没有完成首次载入就什么都不作
