@@ -88,12 +88,25 @@ page {
   text-align: center;
 }
 
+.viewJiexi{
+  font-size:25rpx;
+  height:40rpx;
+  width:200rpx;
+  border:1rpx solid #0197f6;
+  line-height: 40rpx;
+  border-radius: 40rpx;
+  color:#0197f6;
+  margin:20rpx auto;
+  text-align: center;
+}
+
 .cailiaoZuoti-btn{
   width:300rpx;
-  height:80rpx;
+  height:60rpx;
   border-radius: 60rpx;
-  background: #388ff8;
+  background: #c71585;
   color:white;
   margin-top:40rpx;
-  line-height: 80rpx;
+  line-height: 60rpx;
+  font-size:28rpx;
 }

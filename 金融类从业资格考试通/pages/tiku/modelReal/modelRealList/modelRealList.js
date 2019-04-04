@@ -42,6 +42,14 @@ Page({
     })
 
     let px = 1;
+    
+
+    //测试用
+    let modelList = [
+      {
+        score:20,
+      }
+    ]
 
     app.post(API_URL, "action=GetTestlist&kid=" + options.kid + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&types=" + tiType, false, true, "", "", true, self).then((res) => {
       let modelList = res.data.list;
@@ -89,7 +97,6 @@ Page({
 
     let url = encodeURIComponent('/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType + "&test_score=" + test_score + "&category=" + category);
     let url1 = '/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType + "&test_score=" + test_score + "&category=" + category;
-
 
     //获取是否有登录权限
     wx.getStorage({

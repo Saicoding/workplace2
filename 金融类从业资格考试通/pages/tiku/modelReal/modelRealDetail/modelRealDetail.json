@@ -6,6 +6,7 @@
     "singleSelect": "/components/singleSelect/singleSelect",
     "multiSelect": "/components/multiSelect/multiSelect",
     "jiexi": "/components/jiexi/jiexi",
-    "waterWave": "/components/waterWave/waterWave"
+    "waterWave": "/components/waterWave/waterWave",
+    "clJiexi": "/components/clJiexi/clJiexi"
   }
 }

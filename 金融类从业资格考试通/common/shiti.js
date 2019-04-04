@@ -781,6 +781,28 @@ function changeModelRealSelectStatus(done_daan, shiti, ifSubmit) {
   shiti.flag = flag; //答案是否正确
 }
 
+function setCLMarkAnswer(shiti, isSubmit, shitiPx, self) {
+  let markAnswerItems = self.markAnswer.data.markAnswerItems; //得到答题板组件的已答
+  let px = shiti.px;
+  let style = "";
+
+  if (isSubmit == false) { //如果是真题或者押题
+    style = "background:#0197f6;color:white;border:1rpx solid #0197f6; "
+  } else if (shiti.flag == 0) { //如果题是正确的
+    style = "background:#90dd35;color:white;border:1rpx solid #90dd35; "
+  } else if (shiti.flag == 1) { //如果题是错误的
+    style = "background:#fa4b5c;color:white;border:1rpx solid #fa4b5c; "
+  }
+
+  markAnswerItems[px - 1].select = shiti.tx;
+  markAnswerItems[px - 1].isRight = shiti.flag
+  markAnswerItems[px - 1].style = style;
+
+  self.markAnswer.setData({
+    markAnswerItems: markAnswerItems
+  })
+}
+
 /**
  * 对已答试题进行处理（练习题）
  */
