@@ -40,7 +40,7 @@
                       <question colors="{{colors}}" class="question"  px="{{index+1}}" tx="{{xiaoti.tx}}" question="{{xiaoti.question}}"></question>
 
                       <!--单选题-->
-                      <view wx:if="{{xiaoti.TX == 1}}">
+                      <view wx:if="{{xiaoti.TX == 1 || xiaoti.TX == 3}}">
                         <singleSelect data-px="{{index+1}}" shiti="{{xiaoti}}" checked="{{checked}}" bindanswerSelect="_CLAnswerSelect"> </singleSelect>
                         <view data-answer="{{xiaoti.answer}}" data-jiexi="{{xiaoti.jiexi}}" wx:if="{{xiaoti.isAnswer}}" class="viewJiexi" bindtap="viewJiexi" hover-class='select1' hover-stay-time='500'>查看解析</view>
                       </view>

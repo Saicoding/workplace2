@@ -1,71 +1,69 @@
 /* pages/tiku/zuoti/index.wxss */
 
-
 /******************** 提问 **********************/
 
-.loading-img{
+.loading-img {
   display: block;
   width: 120rpx;
   height: 120rpx;
-  margin:400rpx auto;
+  margin: 400rpx auto;
 }
 
 .question {
   line-height: 60rpx;
-  width: 96%;
-  margin: 15rpx auto 20rpx auto;
+  margin-top: 15rpx;
+  margin-bottom: 20rpx;
 }
 
 .question_cailiao1 {
   line-height: 60rpx;
-  width: 96%;
-  margin: 15rpx auto 20rpx auto;
+  margin-top: 15rpx;
+  width:100%;
+  margin-bottom: 20rpx;
 }
 
 .question_cailiao2 {
   line-height: 60rpx;
-  width: 96%;
-  height:60rpx;
-  margin: 15rpx auto 20rpx auto;
+  height: 60rpx;
+   margin-top: 15rpx;
+  width:100%;
+  margin-bottom: 20rpx;
 }
 
 .container{
-  box-shadow: rgb(231, 230, 230) 3rpx 3rpx 8rpx 1rpx ;
   border-radius: 20rpx;
-  width:93%;
-  height:90%;
-  margin:20rpx auto;
+  width: 750rpx;
+  height: 90%;
+  margin: 20rpx auto;
   overflow-x: hidden;
-  padding-bottom:30rpx;
+  padding-bottom: 30rpx;
 }
-
 
 /******************** 解析 **********************/
 
-.swiper{
-  width: 100%;
-  height:100%;
+.swiper {
+  width: 750rpx;
+  height: 100%;
 }
 
-.swiper-xiaoti{
+.swiper-xiaoti {
   width: 100%;
-  height:500rpx;
+  height: 500rpx;
 }
-
 
 /******************** 提交答案 **********************/
 
 .submit_answer {
   width: 50%;
-  margin:50rpx auto;
-  height:80rpx;
+  margin: 50rpx auto;
+  height: 80rpx;
   border-radius: 60rpx;
   background: #388ff8;
-  color:white;
+  color: white;
   line-height: 80rpx;
-  border:1rpx solid white;
+  border: 1rpx solid white;
   text-align: center;
-  font-size:28rpx;
+  font-size: 28rpx;
 }
 
 .bottom {
@@ -73,7 +71,7 @@
   width: 100%;
   position: fixed;
   height: 90rpx;
-  bottom:0rpx;
+  bottom: 0rpx;
   border-top: 1px solid#d8d8d8;
   background-color: #f5f5f5;
   z-index: 100;
@@ -84,29 +82,30 @@
 page {
   height: 100%;
 }
-.cailiaoZuoti{
+
+.cailiaoZuoti {
   text-align: center;
 }
 
-.viewJiexi{
-  font-size:25rpx;
-  height:40rpx;
-  width:200rpx;
-  border:1rpx solid #0197f6;
+.viewJiexi {
+  font-size: 25rpx;
+  height: 40rpx;
+  width: 200rpx;
+  border: 1rpx solid #0197f6;
   line-height: 40rpx;
   border-radius: 40rpx;
-  color:#0197f6;
-  margin:20rpx auto;
+  color: #0197f6;
+  margin: 20rpx auto;
   text-align: center;
 }
 
-.cailiaoZuoti-btn{
-  width:300rpx;
-  height:60rpx;
+.cailiaoZuoti-btn {
+  width: 300rpx;
+  height: 60rpx;
   border-radius: 60rpx;
   background: #c71585;
-  color:white;
-  margin-top:40rpx;
+  color: white;
+  margin-top: 40rpx;
   line-height: 60rpx;
-  font-size:28rpx;
+  font-size: 28rpx;
 }

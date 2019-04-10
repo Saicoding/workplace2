@@ -314,6 +314,8 @@ Page({
 
   },
 
+
+
   /**
    * 小题滑块改动时
    */
@@ -375,7 +377,7 @@ Page({
       if (xiaoti[i].flag == 1) shiti.flag = 1;
       if (px - 1 == i) { //找到对应的小题
         if (xiaoti[i].isAnswer) return;
-        done_daan = xiaoti[i].TX == 1 || xiaoti[i].TX == 3? e.detail.done_daan : xiaoti[i].selectAnswer; //根据单选还是多选得到done_daan,多选需要排序
+        done_daan = xiaoti[i].TX == 1 || xiaoti[i].TX == 3 ? e.detail.done_daan : e.detail.done_daan.sort(); //根据单选还是多选得到done_daan,多选需要排序
         if (xiaoti[i].TX == 2 && xiaoti[i].selectAnswer == undefined) {
           wx.showToast({
             title: '还没有作答 !',
@@ -397,17 +399,48 @@ Page({
           shiti.isAnswer = true;
 
           common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
-          console.log(1)
-          console.log(user)
           common.postAnswerToServer(user.Login_random, user.zcode, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结
-          console.log(2)
           common.storeAnswerStatus(shiti, self); //存储答题状态
-          console.log(3)
           common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self) //更新答题板状态
-          console.log(4)
           common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
-          console.log(5)
         }
+      }
+    }
+    this.setData({
+      sliderShitiArray: sliderShitiArray,
+      shitiArray: shitiArray
+    })
+  },
+
+  /**
+   * 材料题多选点击一个选项
+   */
+  _CLCheckVal: function (e) {
+    let self = this;
+    let xtpx = e.currentTarget.dataset.px;
+    let px = this.data.px;
+    let done_daan = e.detail.done_daan.sort();
+    let shitiArray = self.data.shitiArray;
+
+    let shiti = shitiArray[px - 1]; //本试题对象
+
+    let sliderShitiArray = self.data.sliderShitiArray;
+    let current = self.data.lastSliderIndex//当前滑动编号
+    let currentShiti = sliderShitiArray[current];
+    let currentXiaoti = currentShiti.xiaoti
+
+    let xiaoti = shiti.xiaoti; //材料题下面的小题
+
+    for (let i = 0; i < xiaoti.length; i++) {
+      if (xtpx - 1 == i) { //找到对应小题
+        if (xiaoti[i].isAnswer) return;
+        //初始化多选的checked值
+        common.initMultiSelectChecked(currentXiaoti[i]);
+        //遍历这个答案，根据答案设置shiti的checked属性
+        done_daan = common.changeShitiChecked(done_daan, currentXiaoti[i]);
+
+        common.changeMultiShiti(done_daan, xiaoti[i]);
+        common.changeMultiShiti(done_daan, currentXiaoti[i]);
       }
     }
     this.setData({
@@ -471,7 +504,6 @@ Page({
     let shiti = shitiArray[px - 1]; //本试题对象
 
     done_daan = shiti.TX == 1 || shiti.TX==3 ? e.detail.done_daan : shiti.selectAnswer; //根据单选还是多选得到done_daan
-    console.log(done_daan)
 
     if (shiti.TX == 2 && shiti.selectAnswer == undefined) {
       wx.showToast({

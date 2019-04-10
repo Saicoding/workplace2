@@ -106,17 +106,6 @@ page{
   text-align: center;
 }
 
-.swiper{
-  width: 100%;
-  height:100%;
-}
-
-.swiper-xiaoti{
-  width: 100%;
-  height:500rpx;
-}
-
-
 .select2{
   background: #8ebef8;
 }

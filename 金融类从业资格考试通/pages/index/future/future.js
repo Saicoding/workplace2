@@ -30,7 +30,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
-
     let self = this;
 
     share.setColor("qh",true,true);
@@ -426,7 +425,6 @@ Page({
    */
   GOAnswerWrong: function (e) {
     this.waterWave.containerTap(e);
-    console.log(buttonClicked)
     if (buttonClicked) return;
     buttonClicked = true;
     let self = this;
@@ -547,7 +545,6 @@ Page({
     share.setColor("qh", true, true);
 
     let self = this;
-    console.log('haha')
     buttonClicked = false;
     let zhangjie = self.data.zhangjie;
     if (!self.data.loaded) return //如果没有完成首次载入就什么都不作

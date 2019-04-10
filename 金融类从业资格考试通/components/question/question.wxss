@@ -1,24 +1,23 @@
-.blank{
-  width:100%;
+.blank {
+  width: 700rpx;
   padding-bottom: 20rpx;
-  padding-top:10rpx;
+  padding-top: 10rpx;
 }
 
-.outContainer{
+.outContainer {
   padding-bottom: 20rpx;
-  padding-top:10rpx;
-  background: #ffffff;
-  width:100%;
-}
-
-.mycontainer{
-  width:700rpx;
-  line-height: 45rpx;
-  padding-top:10rpx;
+  padding-top: 10rpx;
+  background: #fff;
+  width: 700rpx;
   padding-left:25rpx;
   padding-right:25rpx;
-  font-size:30rpx;
-  overflow: hidden;
+}
+
+.mycontainer {
+  line-height: 45rpx;
+  padding-top: 10rpx;
+  width: 100%;
+  font-size: 30rpx;
 }
 
 .question-block1 {
@@ -34,11 +33,11 @@
   width: 45rpx;
   height: 45rpx;
   border-radius: 45rpx;
-  color:white;
+  color: white;
   background: #1b9af7;
   font-size: 22rpx;
   text-align: center;
-  line-height:45rpx;
+  line-height: 45rpx;
 }
 
 .qustion-select {
@@ -47,6 +46,6 @@
   height: 40rpx;
   vertical-align: middle;
   text-align: right;
-  letter-spacing:9rpx;
-  margin-left:10rpx;
+  letter-spacing: 9rpx;
+  margin-left: 10rpx;
 }

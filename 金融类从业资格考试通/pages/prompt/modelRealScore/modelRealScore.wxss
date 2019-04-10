@@ -84,7 +84,7 @@
 
 .line-middle {
   display: inline-flex;
-  width:646rpx;
+  width:640rpx;
   height:60rpx;
 }
 

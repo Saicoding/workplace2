@@ -38,14 +38,13 @@
                         <question colors="{{colors}}" class="question" px="{{index+1}}" tx="{{xiaoti.tx}}" question="{{xiaoti.question}}"></question>
 
                         <!--单选题-->
-                        <view wx:if="{{xiaoti.TX == 1}}">
+                        <view wx:if="{{xiaoti.TX == 1 || xiaoti.TX == 3}}">
                           <singleSelect data-px="{{index+1}}" shiti="{{xiaoti}}" checked="{{checked}}" bindanswerSelect="_CLAnswerSelect"> </singleSelect>
                           <view data-answer="{{xiaoti.answer}}" data-jiexi="{{xiaoti.jiexi}}" wx:if="{{xiaoti.isAnswer}}" class="viewJiexi" bindtap="viewJiexi" hover-class='select1' hover-stay-time='500'>查看解析</view>
                         </view>
                         <!--多选题-->
                         <view wx:if="{{xiaoti.TX ==2}}">
-                          <multiSelect data-px="{{index+1}}" shiti="{{xiaoti}}" checked="{{checked}}" bindcheckVal="_CLCheckVal"></multiSelect>
-                          <button data-px="{{index+1}}" class='submit_answer' wx:if="{{!xiaoti.isAnswer}}" bindtap="_CLAnswerSelect">确认选择</button>
+                          <multiSelect data-px="{{index+1}}" shiti="{{xiaoti}}" checked="{{checked}}" bindcheckVal="_CLAnswerSelect"></multiSelect>
                           <view data-answer="{{xiaoti.answer}}" data-jiexi="{{xiaoti.jiexi}}" wx:if="{{xiaoti.isAnswer}}" class="viewJiexi" bindtap="viewJiexi" hover-class='select1' hover-stay-time='500'>查看解析</view>
                         </view>
                       </view>
@@ -67,7 +66,7 @@
 </view>
 
 <!-- 底部正确错误个数统计条 -->
-<modelCount colors="{{colors}}" hidden="{{!isLoaded}}" text="{{text}}" id="modelCount" nums="{{nums}}" px="{{shitiNum}}" class="bottom" bindrestart="_restart" bindsubmit="_submit" bindtoogleMarkAnswer="_toogleMarkAnswer">
+<modelCount colors="{{colors}}" hidden="{{!isLoaded}}" text="{{text}}" id="modelCount" nums="{{nums}}" px="{{px}}" class="bottom" bindrestart="_restart" bindsubmit="_submit" bindtoogleMarkAnswer="_toogleMarkAnswer">
 </modelCount>
 <!-- 答题板 -->
 <markAnswer id="markAnswer" done_answers="{{jieDoneAnswerArray}}" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">

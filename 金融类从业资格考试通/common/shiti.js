@@ -15,7 +15,7 @@ function initShiti(shiti, self) {
   //给试题设置章idx 节idx 和默认已做答案等
   shiti.isAnswer = false;
 
-  if (TX == 1 ) { //单选
+  if (TX == 1) { //单选
     shiti.tx = "单选题"
     shiti.srcs = { //定义初始图片对象(单选)
       "A": "/imgs/A.png",
@@ -38,7 +38,7 @@ function initShiti(shiti, self) {
     shiti.C_checked = false;
     shiti.D_checked = false;
     shiti.E_checked = false;
-  } else if(TX ==3){//判断
+  } else if (TX == 3) { //判断
     shiti.tx = "判断题"
     shiti.srcs = { //定义初始图片对象(多选)
       "A": "/imgs/A.png",
@@ -190,8 +190,8 @@ function processTapLianxiAnswer(midShiti, preShiti, nextShiti, px, current, circ
   if (midShiti.TX == 99) {
     let str = "#q" + px;
     share.ifOverHeight(self, midShiti.xiaoti[0], sliderShitiArray)
-    let questionStr = midShiti.question;//问题的str
-    let height = getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+    let questionStr = midShiti.question; //问题的str
+    let height = getQuestionHeight(questionStr); //根据问题长度，计算应该多高显示
 
     height = height >= 400 ? 400 : height;
 
@@ -199,7 +199,7 @@ function processTapLianxiAnswer(midShiti, preShiti, nextShiti, px, current, circ
 
     animate.blockSpreadAnimation(90, height, question);
 
-    question.setData({//每切换到材料题就把占位框复位
+    question.setData({ //每切换到材料题就把占位框复位
       style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"   
     })
 
@@ -382,7 +382,7 @@ function initModelRealMarkAnswer(newShitiArray, self) {
       });
     }
 
-    markAnswerItems[i].radius = newShiti.TX == 1 || newShiti.TX == 3? 50 : 10; //映射试题种类
+    markAnswerItems[i].radius = newShiti.TX == 1 || newShiti.TX == 3 ? 50 : 10; //映射试题种类
   }
 
   self.markAnswer.setData({
@@ -401,7 +401,7 @@ function getNewShitiArray(shitiArray) {
     let shiti = shitiArray[i]; //原试题
 
     newShitiArray.push(shiti);
-    
+
   }
   return newShitiArray;
 }
@@ -536,15 +536,12 @@ function setMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubmit, self)
  * 设置单个答题板
  */
 function setMarkAnswer(shiti, isModelReal, isSubmit, self) {
-  console.log('hasdhf')
   let markAnswerItems = self.markAnswer.data.markAnswerItems; //得到答题板组件的已答
   let px = shiti.px;
   let style = "";
-  console.log('hahah')
   if (isModelReal && isSubmit == false) { //如果是真题或者押题
     style = "color:white;border:1rpx solid #fd7f2b;background: linear-gradient(to right, #fd781f, #f9ba91);"
   } else if (shiti.flag == 0) { //如果题是正确的
-    console.log('jind')
     style = "background:#90dd35;color:white;border:1rpx solid #90dd35; "
   } else if (shiti.flag == 1) { //如果题是错误的
     style = "background:#fa4b5c;color:white;border:1rpx solid #fa4b5c; "
@@ -607,13 +604,12 @@ function storeModelRealAnswerStatus(shiti, self) {
   let user = self.data.user;
   let username = user.username;
   let doneAnswerArray = self.data.doneAnswerArray;
-
   let answer_nums_array = wx.getStorageSync(self.data.tiTypeStr + "modelReal" + id + username);
+  console.log(answer_nums_array)
 
   let flag = false;
 
   let obj = {};
-
   obj = {
     "id": shiti.id,
     "done_daan": shiti.done_daan,
@@ -624,7 +620,6 @@ function storeModelRealAnswerStatus(shiti, self) {
 
 
   for (let i = 0; i < answer_nums_array.length; i++) {
-
     let done_shiti_local = doneAnswerArray[i]; //本地已答试题
     let done_shiti_storage = answer_nums_array[i]; //已做试题（本地存储）
     if (done_shiti_storage.id == shiti.id) { //已经存储过
@@ -761,7 +756,7 @@ function changeModelRealSelectStatus(done_daan, shiti, ifSubmit) {
       changeMultiShiti(new_done_daan, shiti);
 
       let answers = shiti.answer.split(""); //将“ABD” 这种字符串转为字符数组
-      if (!ifSubmit)  shiti.done_daan = new_done_daan; //已经做的选择
+      if (!ifSubmit) shiti.done_daan = new_done_daan; //已经做的选择
 
       for (let i = 0; i < new_done_daan.length; i++) {
         shiti.srcs[new_done_daan[i]] = "/imgs/right_answer.png";
@@ -776,6 +771,57 @@ function changeModelRealSelectStatus(done_daan, shiti, ifSubmit) {
         flag = 1;
       }
       break;
+    case "材料题":
+      for (let i = 0; i < done_daan.length; i++) {
+        let daan = done_daan[i];
+        let xtflag = 0; //初始化正确还是错误
+
+        shiti.xiaoti[daan.px - 1].srcs = { //初始图片对象(多选)
+          "A": "/imgs/A.png",
+          "B": "/imgs/B.png",
+          "C": "/imgs/C.png",
+          "D": "/imgs/D.png",
+          "E": "/imgs/E.png",
+        };
+
+        if (typeof daan.done_daan == 'string') {
+          console.log('字符串')
+          shiti.xiaoti[daan.px - 1].srcs[daan.done_daan] = "/imgs/right_answer.png";
+          //先判断是否正确
+          if (daan.done_daan != shiti.xiaoti[daan.px - 1].answer) {
+            xtflag = 1;
+          } else {
+            xtflag = 0;
+          }
+
+          if (!ifSubmit) shiti.xiaoti[daan.px - 1].done_daan = daan.done_daan; //已经做的选择
+        } else if (typeof daan.done_daan == 'object') {
+          console.log('数组')
+          //初始化多选的checked值
+          initMultiSelectChecked(shiti.xiaoti[daan.px - 1]);
+          //遍历这个答案，根据答案设置shiti的checked属性
+          let new_done_daan = changeShitiChecked(daan.done_daan, shiti.xiaoti[daan.px - 1]);
+          changeMultiShiti(new_done_daan, shiti.xiaoti[daan.px - 1]);
+
+          let answers = shiti.xiaoti[daan.px - 1].answer.split(""); //将“ABD” 这种字符串转为字符数组
+          if (!ifSubmit) shiti.xiaoti[daan.px - 1].done_daan = new_done_daan; //已经做的选择
+
+          for (let i = 0; i < new_done_daan.length; i++) {
+            shiti.xiaoti[daan.px - 1].srcs[new_done_daan[i]] = "/imgs/right_answer.png";
+          }
+
+          /**
+           * 比较正确答案和已经选择选项，因为都是数组，数组比较内容需要转到字符串，因为数组也是对象，对象的比较默认为变量地址
+           */
+          if (answers.toString() == new_done_daan.toString()) {
+            xtflag = 0;
+          } else {
+            xtflag = 1;
+          }
+        }
+        shiti.xiaoti[daan.px - 1].flag = xtflag;
+      }
+    break;
   }
   // shiti.isAnswer = true;
   shiti.flag = flag; //答案是否正确
@@ -903,8 +949,9 @@ function changeMultiShiti(done_daan, shiti) {
  */
 function postAnswerToServer(LoginRandom, zcode, id, flag, done_daan, app, API_URL) {
   //向服务器提交做题结果
+  console.log("action=saveShitiResult&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&tid=" + id + "&flag=" + flag + "&answer=" + done_daan)
   app.post(API_URL, "action=saveShitiResult&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&tid=" + id + "&flag=" + flag + "&answer=" + done_daan, false).then((res) => {
- 
+
   })
 }
 
@@ -940,7 +987,7 @@ function storeModelRealLastShiti(px, self) {
   let user = self.data.user;
   let username = user.username;
   //存储当前最后一题
-  let last_view_key = self.data.tiTypeStr + 'lastModelReal' + self.data.id + username ; //存储上次访问的题目的key
+  let last_view_key = self.data.tiTypeStr + 'lastModelReal' + self.data.id + username; //存储上次访问的题目的key
   //本地存储最后一次访问的题目
   wx.setStorage({
     key: last_view_key,
@@ -1023,12 +1070,11 @@ function lianxiRestart(self) {
 
   storeLastShiti(1, self)
 
-  if(shitiArray[0].id == undefined){//该题还没有载入
+  if (shitiArray[0].id == undefined) { //该题还没有载入
     self.setData({
-      isLoaded:false
+      isLoaded: false
     })
     app.post(API_URL, "action=SelectShiti&LoginRandom=" + LoginRandom + "&z_id=" + z_id + "&zcode=" + zcode + "&page=1", false, false, "", "", false, self).then((res) => {
-      console.log(res)
       pageArray.push(1);
 
       let newWrongShitiArray = res.data.shiti;
@@ -1038,8 +1084,8 @@ function lianxiRestart(self) {
         shitiArray[i] = newWrongShitiArray[i];
       }
       //得到swiper数组
-      let nextShiti = undefined;//后一题
-      let midShiti = shitiArray[0];//中间题
+      let nextShiti = undefined; //后一题
+      let midShiti = shitiArray[0]; //中间题
       let sliderShitiArray = [];
 
       initShiti(midShiti, self); //初始化试题对象
@@ -1049,29 +1095,28 @@ function lianxiRestart(self) {
         initShiti(nextShiti, self); //初始化试题对象
       }
 
-      console.log(midShiti)
 
       let myFavorite = midShiti.favorite;
 
       if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
       sliderShitiArray[0] = midShiti;
-      
+
       self.setData({
         myCurrent: 0,
-        sliderShitiArray: sliderShitiArray,//滑动数组
+        sliderShitiArray: sliderShitiArray, //滑动数组
         shitiArray: shitiArray, //整节的试题数组
         doneAnswerArray: [], //已做答案数组
         myFavorite: myFavorite,
-        circular:false,
+        circular: false,
         pageArray: pageArray,
-        lastSliderIndex: 0,//默认滑动条一开始是0
+        lastSliderIndex: 0, //默认滑动条一开始是0
         isLoaded: true, //是否已经载入完毕,用于控制过场动画
-        px:1,
+        px: 1,
         rightNum: 0, //正确答案数
         wrongNum: 0, //错误答案数
       })
     })
-  }else{
+  } else {
     //得到swiper数组
     let midShiti = shitiArray[0]; //中间题
     let nextShiti = shitiArray[1]; //后一题
