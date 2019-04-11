@@ -798,41 +798,15 @@ Page({
       switch (doneAnswer.select) {
         case "单选题":
         case "判断题":
-          if (doneAnswer.isRight == 0) { //正确
-            rightNums += 1;
-            score += shitiArray[px - 1].score;
-          } else {
-            wrongNums += 1;
-          }
-          break;
         case "多选题":
           if (doneAnswer.isRight == 0) { //正确
             rightNums += 1;
             score += shitiArray[px - 1].score;
           } else {
             wrongNums += 1;
-
-            let has = true; //是否包含
-            let num = 0;
-            for (let m = 0; m < doneAnswer.done_daan.length; m++) {
-              let done = doneAnswer.done_daan[m];
-              if (shitiArray[px - 1].answer.indexOf(done) == -1) { //如果不包含
-                has = false;
-              } else {
-                num++;
-              }
-            }
-
-            if (has) { //如果部分正确
-              if (num == 1) {
-                score += 0.5;
-              } else if (num > 1) {
-                score += 1;
-              }
-            }
           }
-
           break;
+
         case "材料题":
           if (doneAnswer.isRight == 0) { //正确
             rightNums += 1;
@@ -844,30 +818,9 @@ Page({
             console.log(doneAnswer.done_daan)
             for (let k = 0; k < doneAnswer.done_daan.length; k++) {
               let da = doneAnswer.done_daan[k];
-              console.log(typeof da.done_daan)
               if (da.isRight == 0) {
                 score += shitiArray[px - 1].xiaoti[da.px - 1].score;
-              } else if (typeof da.done_daan == "object") { //如果不正确,而且是多选
-                console.log(shitiArray[px - 1].answer)
-                let has = true; //是否包含
-                let num = 0;
-                for (let m = 0; m < da.done_daan.length; m++) {
-                  let done = da.done_daan[m];
-                  if (shitiArray[px - 1].xiaoti[da.px - 1].answer.indexOf(done) == -1) { //如果不包含
-                    has = false;
-                  } else {
-                    num++;
-                  }
-                }
-
-                if (has) { //如果部分正确
-                  if (num == 1) {
-                    score += 0.5;
-                  } else if (num > 1) {
-                    score += 1;
-                  }
-                }
-              }
+              } 
             }
           }
           break;
