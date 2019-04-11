@@ -56,7 +56,7 @@ App({
           } else if(status == -5){//重复登录
             console.log('重复登录')
             wx.navigateTo({
-              url: '/pages/login1/login1?url=' + pageUrl+'&ifGoPage='+ifGoPage
+              url: '/pages/login1/login1?url1=' + pageUrl
             })
           } else if (status == -101){//没有试题
             console.log('没有试题')

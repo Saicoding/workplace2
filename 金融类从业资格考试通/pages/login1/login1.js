@@ -32,8 +32,8 @@ Page({
 
     this.setData({
       url: decodeURIComponent(options.url),
-      url1: options.url,
-      ifGoPage: options.ifGoPage
+      url1: options.url ? options.url:'',
+      ifGoPage: options.ifGoPage ? options.ifGoPage:false
     })
   },
   /**
@@ -50,6 +50,7 @@ Page({
    */
   wxLogin: function (e) {
     let self = this;
+
     wx.showLoading({
       title: '登录中',
     })
@@ -66,6 +67,7 @@ Page({
               let session_key = ""; //
               let ifGoPage = self.data.ifGoPage //是否返回上一级菜单
               let url = self.data.url; //需要导航的url
+              let url1 = self.data.url1;
 
               let encryptedData = res.encryptedData;
               let iv = res.iv;
@@ -89,12 +91,21 @@ Page({
 
                 wx.hideLoading();
 
-                wx.navigateBack({}) //先回到登录前的页面
-
-                if (ifGoPage == 'true') {
-                  wx.navigateTo({
-                    url: url,
-                  })
+                if(url1=="model"){
+                 wx.navigateBack({
+                   delta:2
+                 })
+                }else{
+                  wx.navigateBack({
+                    success: function () {
+                      if (ifGoPage == 'true') {
+                        console.log(url)
+                        wx.navigateTo({
+                          url: url,
+                        })
+                      }
+                    }
+                  }) //先回到登录前的页面
                 }
               })
             }

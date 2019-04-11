@@ -472,6 +472,8 @@ function changeShitiChecked(done_daan, shiti) {
 function setModelRealMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubmit, self) {
   let markAnswerItems = self.data.markAnswerItems; //得到答题板组件的已答
 
+  console.log(jie_answer_array)
+  console.log(isSubmit)
   for (let i = 0; i < jie_answer_array.length; i++) {
     let px = jie_answer_array[i].px;
     let select = jie_answer_array[i].select;
@@ -542,6 +544,9 @@ function setMarkAnswer(shiti, isModelReal, isSubmit, self) {
   if (isModelReal && isSubmit == false) { //如果是真题或者押题
     style = "color:white;border:1rpx solid #fd7f2b;background: linear-gradient(to right, #fd781f, #f9ba91);"
   } else if (shiti.flag == 0) { //如果题是正确的
+    if(shiti.TX==99){
+      console.log(shiti)
+    }
     style = "background:#90dd35;color:white;border:1rpx solid #90dd35; "
   } else if (shiti.flag == 1) { //如果题是错误的
     style = "background:#fa4b5c;color:white;border:1rpx solid #fa4b5c; "
@@ -605,7 +610,6 @@ function storeModelRealAnswerStatus(shiti, self) {
   let username = user.username;
   let doneAnswerArray = self.data.doneAnswerArray;
   let answer_nums_array = wx.getStorageSync(self.data.tiTypeStr + "modelReal" + id + username);
-  console.log(answer_nums_array)
 
   let flag = false;
 
@@ -676,6 +680,7 @@ function storeAnswerArray(shiti, self) {
 function changeSelectStatus(done_daan, shiti, ifSubmit) {
   let srcs = shiti.srcs; //选项前的图标对象
   let flag = 0; //初始化正确还是错误
+  console.log('ok')
 
   switch (shiti.tx) {
     case "单选题":
@@ -692,6 +697,7 @@ function changeSelectStatus(done_daan, shiti, ifSubmit) {
 
       if (!ifSubmit) shiti.done_daan = done_daan; //已经做的选择
       shiti.isAnswer = true;
+      shiti.flag = flag; //答案是否正确
       break;
     case "多选题":
       let answers = shiti.answer.split(""); //将“ABD” 这种字符串转为字符数组
@@ -717,9 +723,21 @@ function changeSelectStatus(done_daan, shiti, ifSubmit) {
         flag = 1;
       }
       shiti.isAnswer = true;
+      shiti.flag = flag; //答案是否正确
       break;
+    case "材料题":
+      console.log(shiti)
+      shiti.isAnswer = true;
+      if (done_daan.length <shiti.xiaoti.length){//没答完
+        flag = 1;
+      } 
+
+      for(let i=0;i<shiti.xiaoti.length;i++){
+        let xt = shiti.xiaoti[i];
+        changeSelectStatus(xt.done_daan, xt, ifSubmit) 
+      }
+    break;
   }
-  shiti.flag = flag; //答案是否正确
 }
 
 /**
@@ -745,8 +763,9 @@ function changeModelRealSelectStatus(done_daan, shiti, ifSubmit) {
       } else {
         flag = 0;
       }
-
+      console.log(ifSubmit)
       if (!ifSubmit) shiti.done_daan = done_daan; //已经做的选择
+      console.log(shiti.done_daan)
       break;
     case "多选题":
       //初始化多选的checked值
@@ -757,7 +776,7 @@ function changeModelRealSelectStatus(done_daan, shiti, ifSubmit) {
 
       let answers = shiti.answer.split(""); //将“ABD” 这种字符串转为字符数组
       if (!ifSubmit) shiti.done_daan = new_done_daan; //已经做的选择
-
+      console.log(shiti.done_daan)
       for (let i = 0; i < new_done_daan.length; i++) {
         shiti.srcs[new_done_daan[i]] = "/imgs/right_answer.png";
       }
@@ -772,55 +791,62 @@ function changeModelRealSelectStatus(done_daan, shiti, ifSubmit) {
       }
       break;
     case "材料题":
-      for (let i = 0; i < done_daan.length; i++) {
-        let daan = done_daan[i];
-        let xtflag = 0; //初始化正确还是错误
-
-        shiti.xiaoti[daan.px - 1].srcs = { //初始图片对象(多选)
-          "A": "/imgs/A.png",
-          "B": "/imgs/B.png",
-          "C": "/imgs/C.png",
-          "D": "/imgs/D.png",
-          "E": "/imgs/E.png",
-        };
-
-        if (typeof daan.done_daan == 'string') {
-          console.log('字符串')
-          shiti.xiaoti[daan.px - 1].srcs[daan.done_daan] = "/imgs/right_answer.png";
-          //先判断是否正确
-          if (daan.done_daan != shiti.xiaoti[daan.px - 1].answer) {
-            xtflag = 1;
-          } else {
-            xtflag = 0;
-          }
-
-          if (!ifSubmit) shiti.xiaoti[daan.px - 1].done_daan = daan.done_daan; //已经做的选择
-        } else if (typeof daan.done_daan == 'object') {
-          console.log('数组')
-          //初始化多选的checked值
-          initMultiSelectChecked(shiti.xiaoti[daan.px - 1]);
-          //遍历这个答案，根据答案设置shiti的checked属性
-          let new_done_daan = changeShitiChecked(daan.done_daan, shiti.xiaoti[daan.px - 1]);
-          changeMultiShiti(new_done_daan, shiti.xiaoti[daan.px - 1]);
-
-          let answers = shiti.xiaoti[daan.px - 1].answer.split(""); //将“ABD” 这种字符串转为字符数组
-          if (!ifSubmit) shiti.xiaoti[daan.px - 1].done_daan = new_done_daan; //已经做的选择
-
-          for (let i = 0; i < new_done_daan.length; i++) {
-            shiti.xiaoti[daan.px - 1].srcs[new_done_daan[i]] = "/imgs/right_answer.png";
-          }
-
-          /**
-           * 比较正确答案和已经选择选项，因为都是数组，数组比较内容需要转到字符串，因为数组也是对象，对象的比较默认为变量地址
-           */
-          if (answers.toString() == new_done_daan.toString()) {
-            xtflag = 0;
-          } else {
-            xtflag = 1;
-          }
+      if (done_daan == "" && ifSubmit){
+        for(let i = 0;i<shiti.xiaoti.length;i++){
+          let xt = shiti.xiaoti[i];
+          changeModelRealSelectStatus(xt.answer, xt, ifSubmit)
         }
-        shiti.xiaoti[daan.px - 1].flag = xtflag;
+      }else{
+        for (let i = 0; i < done_daan.length; i++) {
+          shiti.isAnswer = true;
+          let daan = done_daan[i];
+          let xtflag = 0; //初始化正确还是错误
+
+          shiti.xiaoti[daan.px - 1].srcs = { //初始图片对象(多选)
+            "A": "/imgs/A.png",
+            "B": "/imgs/B.png",
+            "C": "/imgs/C.png",
+            "D": "/imgs/D.png",
+            "E": "/imgs/E.png",
+          };
+
+          if (typeof daan.done_daan == 'string') {
+            shiti.xiaoti[daan.px - 1].srcs[daan.done_daan] = "/imgs/right_answer.png";
+            //先判断是否正确
+            if (daan.done_daan != shiti.xiaoti[daan.px - 1].answer) {
+              xtflag = 1;
+            } else {
+              xtflag = 0;
+            }
+
+            if (!ifSubmit) shiti.xiaoti[daan.px - 1].done_daan = daan.done_daan; //已经做的选择
+          } else if (typeof daan.done_daan == 'object') {
+            //初始化多选的checked值
+            initMultiSelectChecked(shiti.xiaoti[daan.px - 1]);
+            //遍历这个答案，根据答案设置shiti的checked属性
+            let new_done_daan = changeShitiChecked(daan.done_daan, shiti.xiaoti[daan.px - 1]);
+            changeMultiShiti(new_done_daan, shiti.xiaoti[daan.px - 1]);
+
+            let answers = shiti.xiaoti[daan.px - 1].answer.split(""); //将“ABD” 这种字符串转为字符数组
+            if (!ifSubmit) shiti.xiaoti[daan.px - 1].done_daan = new_done_daan; //已经做的选择
+
+            for (let i = 0; i < new_done_daan.length; i++) {
+              shiti.xiaoti[daan.px - 1].srcs[new_done_daan[i]] = "/imgs/right_answer.png";
+            }
+
+            /**
+             * 比较正确答案和已经选择选项，因为都是数组，数组比较内容需要转到字符串，因为数组也是对象，对象的比较默认为变量地址
+             */
+            if (answers.toString() == new_done_daan.toString()) {
+              xtflag = 0;
+            } else {
+              xtflag = 1;
+            }
+          }
+          shiti.xiaoti[daan.px - 1].flag = xtflag;
+        }
       }
+  
     break;
   }
   // shiti.isAnswer = true;
@@ -884,6 +910,7 @@ function processDoneAnswer(done_daan, shiti, self) {
  */
 function processModelRealDoneAnswer(done_daan, shiti, self) {
   if (self.data.isSubmit) { //提交了
+    console.log(typeof done_daan)
     if (done_daan == "") { //提交而且答案是空
       changeModelRealSelectStatus(shiti.answer, shiti, true) //根据得到的已答数组更新试题状态   
     } else {
@@ -949,7 +976,6 @@ function changeMultiShiti(done_daan, shiti) {
  */
 function postAnswerToServer(LoginRandom, zcode, id, flag, done_daan, app, API_URL) {
   //向服务器提交做题结果
-  console.log("action=saveShitiResult&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&tid=" + id + "&flag=" + flag + "&answer=" + done_daan)
   app.post(API_URL, "action=saveShitiResult&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&tid=" + id + "&flag=" + flag + "&answer=" + done_daan, false).then((res) => {
 
   })
@@ -1311,7 +1337,6 @@ function getDoneAnswers(shitiArray) {
         break;
       case 99:
         let xiaoti = myShiti.xiaoti;
-
         for (let k = 0; k < xiaoti.length; k++) {
           let ti = xiaoti[k]; //材料题的每个小题
 

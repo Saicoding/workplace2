@@ -79,6 +79,10 @@ Page({
 
   },
 
+  /**
+   * 点击查看错题
+   */
+
   viewWrong:function(){
     let pages = getCurrentPages();
     var prevPage = pages[pages.length - 2];  //上一个页面
@@ -90,6 +94,7 @@ Page({
     let sliderShitiArray = prevPage.data.sliderShitiArray;
     let shiti = sliderShitiArray[lastSliderIndex];
 
+    console.log(shiti.done_daan)
     common.processModelRealDoneAnswer(shiti.done_daan, shiti, prevPage);
 
     common.setModelRealMarkAnswerItems(doneAnswerArray, nums, isModelReal, true, prevPage); //更新答题板状态 
@@ -100,5 +105,26 @@ Page({
 
     wx.navigateBack({})
   },
+
+  onUnload:function(){
+    let pages = getCurrentPages();
+    var prevPage = pages[pages.length - 2];  //上一个页面
+    let doneAnswerArray = prevPage.data.doneAnswerArray;
+    let nums = prevPage.data.nums;
+    let isModelReal = prevPage.data.isModelReal;
+
+    let lastSliderIndex = prevPage.data.lastSliderIndex;
+    let sliderShitiArray = prevPage.data.sliderShitiArray;
+    let shiti = sliderShitiArray[lastSliderIndex];
+
+    console.log(shiti.done_daan)
+    common.processModelRealDoneAnswer(shiti.done_daan, shiti, prevPage);
+
+    common.setModelRealMarkAnswerItems(doneAnswerArray, nums, isModelReal, true, prevPage); //更新答题板状态 
+
+    prevPage.setData({
+      sliderShitiArray: sliderShitiArray
+    })
+  }
 
 })
