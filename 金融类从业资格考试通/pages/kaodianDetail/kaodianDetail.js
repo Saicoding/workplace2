@@ -38,9 +38,17 @@ Page({
 
     console.log("action=GetKaodianShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kdid=" + kdid)
     app.post(API_URL, "action=GetKaodianShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kdid=" + kdid, false, true, "").then((res) => {
+      console.log(res)
       let data = res.data.data[0];
-      console.log(data)
       let content = data.content;
+
+      if(content == ""){
+        self.setData({
+          isLoaded:true,
+          hasNoContent:true
+        })
+        return
+      }
       let nextId = data.nextId;
       let proId = data.proId;
       let nextTitle = data.nextTitle;

@@ -1,5 +1,5 @@
 <!--pages/kaodianDetail/kaodianDetail.wxml-->
-<scroll-view bindtap='scrollToBottom' wx:if="{{isLoaded}}" enable-back-to-top scroll-with-animation bindscrolltolower="scrollToBottom" scroll-y scroll-top ="{{scroll}}" class="mycontent" style = "font-size:{{fontSize}}rpx;background:{{day?'#ffffff':'#323232'}};color:{{day?'black':'#9b9b9b'}};  line-height:{{fontSize*1.8}}rpx;height:{{windowHeight-125}}rpx;">
+<scroll-view bindtap='scrollToBottom' wx:if="{{isLoaded && !hasNoContent}}" enable-back-to-top scroll-with-animation bindscrolltolower="scrollToBottom" scroll-y scroll-top ="{{scroll}}" class="mycontent" style = "font-size:{{fontSize}}rpx;background:{{day?'#ffffff':'#323232'}};color:{{day?'black':'#9b9b9b'}};  line-height:{{fontSize*1.8}}rpx;height:{{windowHeight-125}}rpx;">
   <rich-text nodes="{{content}}"></rich-text>
 </scroll-view>
 
@@ -39,4 +39,9 @@
       <image style="width:48rpx;height:48rpx;" src="{{day?'/imgs/next.png':'/imgs/next-night.png'}}" mode="aspectFit"></image>
     </view>
   </view>
+</view>
+
+<view wx:if = "{{hasNoContent}}">
+  <image src="/imgs/hasNoshiti.png" style = "width:200rpx;height:200rpx;display:block;margin:0 auto;margin-top:80rpx;"></image>
+  <view style = "color:#a7a5a5;font-size:25rpx;text-align:center;margin-top:30rpx;">当前没有考点信息</view>
 </view>

@@ -14,7 +14,7 @@
       <view class="line">
         <view wx:for="{{kdList}}" wx:for-item="kaodian" wx:key="k" wx:for-index="kidx">
           <!-- 章 -->
-          <view data-itemIdx="{{kidx}}" id='{{kaodian.id}}' class="block" bindtap="onTapZhangjie">
+          <view data-itemIdx="{{kidx}}" id='{{kaodian.id}}' class="block" data-title="{{kaodian.title}}" data-kdid="{{kaodian.id}}"  bindtap="onTapZhangjie">
             <view class="list">
               <view class="circle-out">
                 <view class="circle-in" style="background:{{kaodian.readed == 0?'#c9c9c9':'#00b22b'}}"></view>

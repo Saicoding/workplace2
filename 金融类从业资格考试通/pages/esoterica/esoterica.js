@@ -118,7 +118,6 @@ Page({
     let index = e.currentTarget.dataset.itemidx;
     let num = kdList[index].data.length;
     let windowWidth = self.data.windowWidth;
-
     let isFolder = kdList[index].isFolder; //取得现在是什么状态
     let folder_object = self.data.folder_object //取得展开章节的对象
 
@@ -128,6 +127,11 @@ Page({
       if (folder_object[i].index < index) { //如果在点击选项前面有展开字节
         jie_num += folder_object[i].num //有几个节点就加几个节点
       }
+    }
+
+    if (kdList[index].data.length == 0){
+      this.GOkaodianDetail(e);
+      return;
     }
 
     let height = 80 * num;

@@ -7,7 +7,7 @@
 }
 
 .loading-img{
-    display: block;
+  display: block;
   width: 120rpx;
   height: 120rpx;
   margin:400rpx auto;
